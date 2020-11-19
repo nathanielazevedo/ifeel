@@ -1,0 +1,67 @@
+{% extends 'inbase.html' %}
+{% block content %}
+
+
+<nav class="navbar navbar-light bg-light">
+<form action="/users" method='POST' id='inputform' class="form-inline" >
+          {{ form.hidden_tag() }}
+
+      {% for field in form if field.widget.input_type != 'hidden'%}
+
+
+        {% for error in field.errors %}
+          <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+        
+        {{ field(placeholder=field.label.text, class="form-control mr-sm-2") }}
+        
+      {% endfor %}
+      <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+    </form>
+</nav>
+        
+
+
+
+{% endblock %}
+
+
+
+{% block data %}
+
+      <div id="table" class="table">
+
+        <table class="table table-striped table-dark">
+
+          <thead>
+
+            <tr>
+              <th scope="col">Username</th>
+              <th scope="col">Contributions</th>
+              <th scope="col">Profile Link</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            {% for user in user %}
+
+            <tr class="tr">
+              <td>{{user.username}}</td>
+              <td>100</td>
+              <td>
+
+
+              </td>
+              <td>
+
+              </td>
+            </tr>
+
+            {% endfor %}
+            
+          </tbody>
+        </table>
+      </div>
+
+{% endblock %}
