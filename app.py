@@ -1,9 +1,9 @@
 from flask import Flask, request, render_template, url_for,redirect, flash, session, jsonify, request
 import os
-from form import UserAddForm, LoginForm, FoodForm, SearchForm
+from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, UsersForm
 from models import db, connect_db, User, Food
 from sqlalchemy.exc import IntegrityError
-
+import requests
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "verysecret"
@@ -112,7 +112,7 @@ def post_info():
 
 
 
-@app.route('/profile', methods=['GET'])
+@app.route('/profile', methods=['GET', 'POST'])
 
 
 def display_profile():
@@ -123,8 +123,21 @@ def display_profile():
 
     currUser = 1
     user = User.query.get(currUser)
+    form = UpdateProfileForm(obj=user)
 
-    return render_template('/users/profile.html', user=user)
+    if form.validate_on_submit():
+        
+            
+
+        user.username = form.username.data
+        user.email = form.email.data
+        
+
+        db.session.add(user)
+        db.session.commit()
+        return redirect('/')
+
+    return render_template('/users/profile.html', user=user, form=form)
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -143,8 +156,40 @@ def search():
         foodname = form.food_name.data
         foods = Food.query.filter(Food.food_name == foodname).all()
 
-        return render_template('search.html', foods = foods, form = form)
+        return render_template('search.html', foods = foods, form=form)
 
     else:
 
         return render_template('search.html', form=form)
+
+
+
+@app.route('/graph', methods=['GET'])
+def graph():
+
+    graph = requests.get("https://quickchart.io/chart?c={type:'bar',data:{labels:[2012,2013,2014,2015,2016],datasets:[{label:'Users',data:[120,60,50,180,120]}]}}")
+    
+
+    return render_template('graph.html', graph=graph)
+
+
+
+@app.route('/users', methods=['GET', 'POST'])
+def users():
+    form = UsersForm()
+
+
+    if form.validate_on_submit():
+        username = form.user_name.data
+        user = User.query.filter(User.username == username).all()
+
+        return render_template('users.html', user = user, form=form)
+
+    else:
+
+        return render_template('users.html', form=form)
+
+
+
+
+
