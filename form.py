@@ -25,5 +25,17 @@ class FoodForm(FlaskForm):
 
 
 class SearchForm(FlaskForm):
-    food_name = StringField('Search for a food?', validators = [InputRequired()])
+    food_name = StringField('Search for a food?', validators=[InputRequired()])
+    
+
+class UpdateProfileForm(FlaskForm):
+    """UpdateForm form."""
+
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('E-mail', validators=[DataRequired(), Email()])
+
+
+class UsersForm(FlaskForm):
+    user_name = StringField('Search for a user?', validators=[InputRequired()])
+
     
