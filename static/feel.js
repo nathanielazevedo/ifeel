@@ -40,10 +40,18 @@ function handleResponse(response) {
 
 
 
-$("#lucky-form").on("submit", processForm);
 
-// let firstFeel = $('#feeling-0')
-// let secondFeel = $('#feeling-1')
 
-// firstFeel.attr('display', 'inline')
-// secondFeel.attr('display', 'inline')
+let quotespot = $('.footercenter')
+
+async function getquotes() {
+  
+    let response = await $.getJSON("https://type.fit/api/quotes");
+    let spot = Math.floor(Math.random() * 100)
+    let quote = response[spot]
+
+    let insertedquote = `"${quote.text}" - ${quote.author}`
+    quotespot.text(insertedquote) 
+}
+
+getquotes()
