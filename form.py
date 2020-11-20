@@ -35,12 +35,21 @@ class UpdateProfileForm(FlaskForm):
     email = StringField('E-mail', validators=[DataRequired(), Email()])
 
 
-class UsersForm(FlaskForm):
+class UserSearchForm(FlaskForm):
     user_name = StringField('Search for a user?', validators=[InputRequired()])
+    
 
 
 class UpdateFoodForm(FlaskForm):
     food_name = StringField('What did you eat?', validators = [InputRequired()])
     amount = SelectField('How much did you eat?', choices=[('1', 'a little'), ('2', 'some'), ('3', 'a lot')])
     feeling = RadioField('choose one', choices=[('1', 'bad'), ('2', 'okay'), ('3', 'great')])
+
+
+class UserSearchForm(FlaskForm):
+    search_by = SelectField('Search By', choices=[('username', 'username'), ('disease', 'disease')])
+    username = StringField('Search for a user by name or disease', validators=[InputRequired()])
+    
+
+
     
