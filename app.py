@@ -1,9 +1,12 @@
-from flask import Flask, request, render_template, url_for,redirect, flash, session, jsonify, request
+from flask import Flask, request, render_template, url_for,redirect, flash, session, jsonify, request, g, abort
 import os
 from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, UserSearchForm, UpdateFoodForm
 from models import db, connect_db, User, Food
 from sqlalchemy.exc import IntegrityError
 import requests
+
+
+CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "verysecret"
@@ -26,6 +29,38 @@ db.create_all()
 
 
 #############################################
+
+
+
+
+@app.before_request
+def add_user_to_g():
+    """If we're logged in, add curr user to Flask global."""
+
+    if CURR_USER_KEY in session:
+        g.user = User.query.get(session[CURR_USER_KEY])
+
+    else:
+        g.user = None
+
+
+def do_login(user):
+    """Log in user."""
+
+    session[CURR_USER_KEY] = user.id
+
+
+def do_logout():
+    """Logout user."""
+
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
+
+
+
+
+
+#####################################################
 
 
 
@@ -88,12 +123,13 @@ def signup():
                 email=form.email.data,
             )
             db.session.commit()
-            user = username=form.username.data
+            # user = username=form.username.data
 
         except IntegrityError:
             flash("Username and/or email already taken", 'danger')
             return render_template('signup.html', form=form)
 
+        do_login(user)
 
         return redirect("/homepage")
 
@@ -116,6 +152,11 @@ def login():
         user = User.authenticate(form.username.data,
                                  form.password.data)
 
+        if user:
+            do_login(user)
+            flash(f"Hello, {user.username}!", "success")
+            return redirect("/")
+
 
         flash("Invalid credentials.", 'danger')
 
@@ -123,7 +164,15 @@ def login():
 
 
 
-
+@app.route('/logout')
+def logout():
+    """Handle logout of user."""
+    # print(f'Heres the session info{session[curr_user]}')
+    # IMPLEMENT THIS
+    do_logout()
+    # g.user = None
+    flash("You've been signed out", 'success')
+    return redirect("/login")
 
 
 
@@ -160,7 +209,7 @@ def post_info():
 
     if form.validate_on_submit():
         food_name = form.food_name.data
-        user = 1
+        user = 2
         amount = form.amount.data
         new_food = Food(food_name=food_name, user_id=user, amount=amount)
         db.session.add(new_food)
@@ -247,7 +296,7 @@ def display_profile():
     #     flash('Please login first!')
     #     return redirect('/login')
 
-    currUser = 1
+    currUser = 2
     user = User.query.get(currUser)
     form = UpdateProfileForm(obj=user)
 
@@ -290,7 +339,7 @@ def user():
 
     foods = (Food
             .query
-            .filter(Food.user_id == 1)
+            .filter(Food.user_id == 2)
             .all())
 
     return render_template('/user/user.html', foods=foods)

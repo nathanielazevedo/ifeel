@@ -16,6 +16,7 @@ def connect_db(app):
     db.init_app(app)
 
 
+
 class User(db.Model):
     """User in the system."""
 
@@ -51,10 +52,7 @@ class User(db.Model):
 
     @classmethod
     def signup(cls, username, email, password):
-        """Sign up user.
-
-        Hashes password and adds user to system.
-        """
+        """Sign up user."""
 
         hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
 
