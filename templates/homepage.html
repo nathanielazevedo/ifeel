@@ -1,0 +1,82 @@
+{% extends 'inbase.html' %}
+
+
+<!-- =============================================================== -->
+
+
+{% block content %}
+<form action="/food/add" method='POST' id='inputform'>
+  {{ form.hidden_tag() }}
+
+  {% for field in form if field.widget.input_type != 'hidden'%}
+
+
+  {% for error in field.errors %}
+  <span class="text-danger">{{ error }}</span>
+  {% endfor %}
+
+  {{ field(placeholder=field.label.text, class="form-control") }}
+
+  {% endfor %}
+  <button type="submit" class="btn btn-secondary btn-lg btn-block">Add to Pending</button>
+</form>
+
+{% endblock %}
+
+
+
+
+<!-- =============================================================== -->
+
+
+
+
+{% block data %}
+
+<div id="table" class="table">
+  <h5 id="tabletitle">Pending</h5>
+  <table class="table table-striped table-dark">
+
+    <thead>
+
+      <tr>
+        <th scope="col">Food</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Update</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if foods != None %}
+      {% for food in foods %}
+
+      <tr class="tr">
+        <td>{{food.food_name}}</td>
+        <td>{{food.amount}}</td>
+        <td>
+          <form method="GET" action="/food/{{food.id}}/update" class="form-inline">
+            <button class="btn btn-success bad" id="delete"></button>
+          </form>
+
+        </td>
+        <td>
+
+          <form method="POST" action="/food/{{food.id}}/delete" class="form-inline">
+            <button class="btn btn-danger bad" id="delete"></button>
+          </form>
+        </td>
+      </tr>
+
+</div>
+{% endfor %}
+{% endif %}
+</tbody>
+</table>
+</div>
+
+{% endblock %}
+
+
+
+
+<!-- =============================================================== -->

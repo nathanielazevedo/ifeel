@@ -1,0 +1,43 @@
+{% extends 'inbase.html' %}
+
+
+<!-- =============================================================== -->
+
+
+
+
+{% block data %}
+<form action="/food/{{food.id}}/update" method='POST' id='inputform'>
+    {{ form.hidden_tag() }}
+
+    {% for field in form if field.widget.input_type != 'hidden'%}
+
+
+    {% for error in field.errors %}
+    <span class="text-danger">{{ error }}</span>
+    {% endfor %}
+
+    {% if field.type != 'RadioField' %}
+    {{ field(placeholder=field.label.text, class="form-control") }}
+    {% else %}
+
+    {% for subfield in field %}
+
+
+    {{subfield.label (class="btn btn-secondary active")}}
+    {{subfield}}
+
+  
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+    <button type="submit" class="btn btn-secondary btn-lg btn-block">Contribute</button>
+</form>
+
+{% endblock %}
+
+
+
+
+
+<!-- =============================================================== -->

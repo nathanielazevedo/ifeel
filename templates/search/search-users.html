@@ -1,9 +1,16 @@
 {% extends 'inbase.html' %}
+
+
+
+<!-- =============================================================== -->
+
+
+
 {% block content %}
 
 
-<nav class="navbar navbar-light bg-light">
-<form action="/users" method='POST' id='inputform' class="form-inline" >
+
+<form action="/user/search" method='POST' id='inputform'  >
           {{ form.hidden_tag() }}
 
       {% for field in form if field.widget.input_type != 'hidden'%}
@@ -13,17 +20,22 @@
           <span class="text-danger">{{ error }}</span>
         {% endfor %}
         
-        {{ field(placeholder=field.label.text, class="form-control mr-sm-2") }}
+        {{ field(placeholder=field.label.text, class="form-control") }}
         
       {% endfor %}
       <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
     </form>
-</nav>
+
         
 
 
 
 {% endblock %}
+
+
+
+
+<!-- =============================================================== -->
 
 
 
@@ -50,7 +62,7 @@
               <td>{{user.username}}</td>
               <td>100</td>
               <td>
-
+                <a href="/user/{{user.id}}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Profile</a>
 
               </td>
               <td>
@@ -65,3 +77,10 @@
       </div>
 
 {% endblock %}
+
+
+
+
+
+
+<!-- =============================================================== -->

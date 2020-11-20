@@ -1,4 +1,9 @@
-html, body, .grid-container { height: 100%; margin: 0; }
+html,
+body,
+.grid-container {
+  height: 100%;
+  margin: 0;
+}
 
 .grid-container {
   display: grid;
@@ -14,46 +19,58 @@ html, body, .grid-container { height: 100%; margin: 0; }
     "footerleft footercenter";
 }
 
-.input{
+.input {
   grid-area: input;
   padding: 30px 20px;
-  
+
   border-left: 2px solid black;
   border-top: 2px solid black;
 }
 
-.data { 
+.data {
   grid-area: data;
   padding: 10px 0px;
   border-left: 2px solid black;
   padding-left: 0px;
   padding-top: 40px;
-   }
+}
 
 /* .title { grid-area: title; } */
 
-.icon1 { 
-  grid-area: icon1; 
-
+.icon1 {
+  grid-area: icon1;
 }
 
-.icon2 { grid-area: icon2; }
+.icon2 {
+  grid-area: icon2;
+}
 
-.icon3 { grid-area: icon3; }
+.icon3 {
+  grid-area: icon3;
+}
 
-.icon4 { grid-area: icon4; }
+.icon4 {
+  grid-area: icon4;
+}
 
-.logo { grid-area: logo; }
+.logo {
+  grid-area: logo;
+}
 
-.footercenter { grid-area: footercenter; border-left: 2px solid black; border-top: 2px solid black;}
+.footercenter {
+  grid-area: footercenter;
+  border-left: 2px solid black;
+  border-top: 2px solid black;
+}
 
-.footerleft { grid-area: footerleft; }
+.footerleft {
+  grid-area: footerleft;
+}
 
-.header { 
-  grid-area: header; 
+.header {
+  grid-area: header;
   border-left: 2px solid black;
 }
-
 
 /* For presentation only, no need to copy the code below */
 .grid-container * {
@@ -61,58 +78,54 @@ html, body, .grid-container { height: 100%; margin: 0; }
   position: relative;
 }
 
-.grid-area{
+.grid-area {
   top: 50px;
 }
 
-
 .grid-container i {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid black;
-    top: 30%;
-    font-size: 50px;
-    border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  top: 30%;
+  font-size: 50px;
+  border: none;
 }
 
-.header{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.footercenter{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.footercenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-
-
-li{
+li {
   display: inline;
   background-color: red;
   padding: 5px;
 }
 
-
-li label{
+li label {
   display: none;
 }
 
-#feeling-0{
+#feeling-0 {
   color: red;
 }
 
-#tabletitle{
+#tabletitle {
   text-align: center;
   border-top: 1px solid black;
   padding-top: 3px;
-  
 }
 
-th, td{
+th,
+td {
   text-align: center;
 }
 
@@ -120,23 +133,30 @@ th, td{
   justify-content: flex-end;
 }
 
-#profileimage{
+#profileimage {
   border-radius: 50%;
   margin-right: 20px;
   height: 50px;
 }
 
-
-#inputform > :last-child{
+#inputform > :last-child {
   margin-top: 10px;
 }
 
-.fas{
+.fas {
   text-decoration: none;
   color: darkolivegreen;
 }
 
-.fas:hover{
+.fas:hover {
   text-decoration: none;
   color: black;
+}
+
+form {
+  justify-content: center;
+}
+
+#delete {
+  margin-top: 5px;
 }
