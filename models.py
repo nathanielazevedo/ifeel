@@ -99,7 +99,7 @@ class Food(db.Model):
 
     amount = db.Column(db.Text, nullable=True)
 
-    feeling = db.Column(db.Text, nullable = True)
+    feeling = db.Column(db.Text, nullable = True, default = 'Null')
 
     timestamp = db.Column(
         db.DateTime,
