@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, url_for,redirect, flash, session, jsonify, request
 import os
-from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, UsersForm
+from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, UsersForm, UpdateFoodForm
 from models import db, connect_db, User, Food
 from sqlalchemy.exc import IntegrityError
 import requests
@@ -12,7 +12,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///feel'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 
-\
+
 # debug = DebugToolbarExtension(app)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 
@@ -24,9 +24,34 @@ db.create_all()
 def homepage():
     """Show homepage."""
     form = FoodForm()
-    foods = Food.query.all()
-    return render_template('home-anon.html', form=form, foods = foods)
+    foods = (Food
+            .query
+            .filter(Food.feeling == 'Null')
+            .all())
 
+    formslist = []
+    count = 0
+    for food in foods:
+        
+        
+        formslist.append(UpdateFoodForm(obj=food))
+
+
+    return render_template('home-anon.html', form=form, foods=foods, formslist = formslist)
+    
+
+# @app.route('/users')
+# def user_show(user_id):
+#     """Show user profile."""
+
+#     user = 2
+    
+#     foods = (Food
+#                 .query
+#                 .filter(Food.feeling == ' ')
+#                 .all())
+    
+#     return render_template('users/show.html', user=user, messages=messages)
 
 
 
@@ -88,7 +113,6 @@ def login():
 
 
 @app.route('/add', methods=['POST'])
-
 def post_info():
 
     # if 'user_id' not in session:
@@ -99,7 +123,7 @@ def post_info():
 
     if form.validate_on_submit():
         food_name = form.food_name.data
-        user = 1
+        user = 5
         amount = form.amount.data
         new_food = Food(food_name=food_name, user_id=user, amount=amount)
         db.session.add(new_food)
@@ -110,18 +134,37 @@ def post_info():
         return redirect('/')
 
 
+@app.route('/foods/<food_id>/update', methods=['POST', 'GET'])
+def update_info(food_id):
+    food = Food.query.get(food_id)
+    form = UpdateFoodForm(obj=food)
+    
+
+
+    if form.validate_on_submit():
+        
+        food.food_name = form.food_name.data
+        food.amount = form.amount.data
+        food.feeling = form.feeling.data
+        
+        db.session.add(food)
+        db.session.commit()
+        return redirect('/')
+
+    else:
+        return render_template('update.html', form = form, food = food)
+
+
 
 
 @app.route('/profile', methods=['GET', 'POST'])
-
-
 def display_profile():
 
     # if 'user_id' not in session:
     #     flash('Please login first!')
     #     return redirect('/login')
 
-    currUser = 1
+    currUser = 5
     user = User.query.get(currUser)
     form = UpdateProfileForm(obj=user)
 
@@ -177,7 +220,7 @@ def graph():
 @app.route('/users', methods=['GET', 'POST'])
 def users():
     form = UsersForm()
-
+    
 
     if form.validate_on_submit():
         username = form.user_name.data
@@ -188,6 +231,24 @@ def users():
     else:
 
         return render_template('users.html', form=form)
+
+
+@app.route('/foods/<int:food_id>/delete', methods=["POST"])
+def food_destroy(food_id):
+    """Delete a message."""
+
+    # if not g.user:
+    #     flash("Access unauthorized.", "danger")
+    #     return redirect("/")
+
+    food = Food.query.get_or_404(food_id)
+    # if msg.user_id != g.user.id:
+    #     flash("Access unauthorized.", "danger")
+    #     return redirect("/")
+    db.session.delete(food)
+    db.session.commit()
+
+    return redirect(f"/")
 
 
 
