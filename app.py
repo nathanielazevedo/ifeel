@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, url_for,redirect, flash, session, jsonify, request
 import os
-from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, UsersForm, UpdateFoodForm
+from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, UserSearchForm, UpdateFoodForm
 from models import db, connect_db, User, Food
 from sqlalchemy.exc import IntegrityError
 import requests
@@ -11,8 +11,6 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///feel'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
-
-
 # debug = DebugToolbarExtension(app)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 
@@ -20,52 +18,65 @@ connect_db(app)
 db.create_all()
 
 
+
+
+
+
+
+
+
+#############################################
+
+
+
+
+
+
+
+
+
 @app.route("/")
+def main():
+    """Redirect to homepage."""
+
+    return redirect('/homepage')
+
+
+
+
+@app.route("/homepage")
 def homepage():
     """Show homepage."""
+
+
     form = FoodForm()
     foods = (Food
             .query
             .filter(Food.feeling == 'Null')
             .all())
 
-    formslist = []
-    count = 0
-    for food in foods:
-        
-        
-        formslist.append(UpdateFoodForm(obj=food))
-
-
-    return render_template('home-anon.html', form=form, foods=foods, formslist = formslist)
+    return render_template('homepage.html', form=form, foods=foods)
     
 
-# @app.route('/users')
-# def user_show(user_id):
-#     """Show user profile."""
 
-#     user = 2
-    
-#     foods = (Food
-#                 .query
-#                 .filter(Food.feeling == ' ')
-#                 .all())
-    
-#     return render_template('users/show.html', user=user, messages=messages)
 
+
+
+
+##########################################
+
+
+
+
+
+
+
+#Sigup Route
 
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
-    """Handle user signup.
-
-    Create new user and add to DB. Redirect to home page.
-
-    If form not valid, present form.
-
-    If the there already is a user with that username: flash message
-    and re-present form.
-    """
+    #Sign a user up.
 
     form = UserAddForm()
 
@@ -83,12 +94,16 @@ def signup():
             flash("Username and/or email already taken", 'danger')
             return render_template('signup.html', form=form)
 
-        # do_login(user)
 
-        return redirect("/")
+        return redirect("/homepage")
 
     else:
         return render_template('signup.html', form=form)
+
+
+
+
+#Login Route
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -101,10 +116,6 @@ def login():
         user = User.authenticate(form.username.data,
                                  form.password.data)
 
-        if user:
-            do_login(user)
-            flash(f"Hello, {user.username}!", "success")
-            return redirect("/")
 
         flash("Invalid credentials.", 'danger')
 
@@ -112,7 +123,33 @@ def login():
 
 
 
-@app.route('/add', methods=['POST'])
+
+
+
+
+
+
+
+
+
+######################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Food Routes
+
+
+@app.route('/food/add', methods=['POST'])
 def post_info():
 
     # if 'user_id' not in session:
@@ -123,23 +160,28 @@ def post_info():
 
     if form.validate_on_submit():
         food_name = form.food_name.data
-        user = 5
+        user = 1
         amount = form.amount.data
         new_food = Food(food_name=food_name, user_id=user, amount=amount)
         db.session.add(new_food)
         db.session.commit()
-        return redirect('/')
+        return redirect('/homepage')
 
     else:
-        return redirect('/')
+        return redirect('/homepage')
 
 
-@app.route('/foods/<food_id>/update', methods=['POST', 'GET'])
+
+
+
+
+@app.route('/food/<food_id>/update', methods=['POST', 'GET'])
 def update_info(food_id):
+    #Update a food 
+
     food = Food.query.get(food_id)
     form = UpdateFoodForm(obj=food)
     
-
 
     if form.validate_on_submit():
         
@@ -149,22 +191,63 @@ def update_info(food_id):
         
         db.session.add(food)
         db.session.commit()
-        return redirect('/')
+        return redirect('/homepage')
 
     else:
-        return render_template('update.html', form = form, food = food)
+        return render_template('/food/food-update.html', form=form, food=food)
 
 
 
 
-@app.route('/profile', methods=['GET', 'POST'])
+
+
+@app.route('/food/<int:food_id>/delete', methods=["POST"])
+def food_destroy(food_id):
+    """Delete a message."""
+
+    # if not g.user:
+    #     flash("Access unauthorized.", "danger")
+    #     return redirect("/")
+
+    food = Food.query.get_or_404(food_id)
+
+    db.session.delete(food)
+    db.session.commit()
+
+    return redirect(f"/homepage")
+
+
+
+
+
+
+
+
+
+
+
+#########################################
+
+
+
+
+
+
+
+
+
+
+#User Routes
+
+
+@app.route('/user/profile', methods=['GET', 'POST'])
 def display_profile():
 
     # if 'user_id' not in session:
     #     flash('Please login first!')
     #     return redirect('/login')
 
-    currUser = 5
+    currUser = 1
     user = User.query.get(currUser)
     form = UpdateProfileForm(obj=user)
 
@@ -178,77 +261,153 @@ def display_profile():
 
         db.session.add(user)
         db.session.commit()
-        return redirect('/')
+        return redirect('/homepage')
 
-    return render_template('/users/profile.html', user=user, form=form)
+    return render_template('/user/profile.html', user=user, form=form)
 
 
-@app.route('/search', methods=['GET', 'POST'])
-def search():
-    form = SearchForm()
+
+
+
+@app.route('/user/<user_id>', methods=['GET', 'POST'])
+def display_specific_profile(user_id):
+
     # if 'user_id' not in session:
     #     flash('Please login first!')
     #     return redirect('/login')
 
-    # currUser = 1
-    # user = User.query.get(currUser)
+    
+    user = User.query.get(user_id)
 
+    return render_template('/user/user-profile.html', user=user)  
+
+
+
+
+
+@app.route('/user', methods=['GET'])
+def user():
+
+    foods = (Food
+            .query
+            .filter(Food.user_id == 1)
+            .all())
+
+    return render_template('/user/user.html', foods=foods)
+    
+
+
+
+
+
+
+
+
+
+
+
+
+###########################################################
+
+
+
+
+
+
+
+
+
+
+
+#Searching Routes
+
+@app.route('/food/search', methods=['GET', 'POST'])
+def search():
+    #Search for a food by name. Return all matches
+
+
+    form = SearchForm()
+    # if 'user_id' not in session:
+    #     flash('Please login first!')
+    #     return redirect('/login')
 
 
     if form.validate_on_submit():
         foodname = form.food_name.data
         foods = Food.query.filter(Food.food_name == foodname).all()
 
-        return render_template('search.html', foods = foods, form=form)
+        return render_template('/search/search-food.html', foods = foods, form=form)
 
     else:
 
-        return render_template('search.html', form=form)
+        return render_template('/search/search-food.html', form=form)
 
 
+
+
+
+@app.route('/user/search', methods=['GET', 'POST'])
+def usersearch():
+    # Search for a user by name or condition
+
+
+    # if 'user_id' not in session:
+    #     flash('Please login first!')
+    #     return redirect('/login')
+
+    form = UserSearchForm()
+
+    if form.validate_on_submit():
+        username = form.username.data
+        search_by = form.search_by.data
+        
+        if search_by == 'username':
+            users = User.query.filter(User.username == username).all()
+        
+        else:
+            users = User.query.filter(User.username == usernamename).all()
+
+        return render_template('/search/search-users.html', users = users, form=form)
+
+    else:
+        return render_template('/search/search-users.html', form=form)
+
+
+
+
+
+
+
+
+
+
+##############################################
+
+
+
+
+
+
+
+
+
+#Graph API route
 
 @app.route('/graph', methods=['GET'])
 def graph():
+    #Route for generating graphs. Needs developing
 
     graph = requests.get("https://quickchart.io/chart?c={type:'bar',data:{labels:[2012,2013,2014,2015,2016],datasets:[{label:'Users',data:[120,60,50,180,120]}]}}")
     
-
     return render_template('graph.html', graph=graph)
 
 
 
-@app.route('/users', methods=['GET', 'POST'])
-def users():
-    form = UsersForm()
-    
-
-    if form.validate_on_submit():
-        username = form.user_name.data
-        user = User.query.filter(User.username == username).all()
-
-        return render_template('users.html', user = user, form=form)
-
-    else:
-
-        return render_template('users.html', form=form)
 
 
-@app.route('/foods/<int:food_id>/delete', methods=["POST"])
-def food_destroy(food_id):
-    """Delete a message."""
 
-    # if not g.user:
-    #     flash("Access unauthorized.", "danger")
-    #     return redirect("/")
 
-    food = Food.query.get_or_404(food_id)
-    # if msg.user_id != g.user.id:
-    #     flash("Access unauthorized.", "danger")
-    #     return redirect("/")
-    db.session.delete(food)
-    db.session.commit()
 
-    return redirect(f"/")
 
 
 
