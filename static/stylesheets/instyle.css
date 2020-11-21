@@ -21,7 +21,7 @@ body,
 
 .input {
   grid-area: input;
-  padding: 30px 20px;
+  /* padding: 30px 20px; */
 
   border-left: 2px solid black;
   border-top: 2px solid black;
@@ -32,7 +32,7 @@ body,
   padding: 10px 0px;
   border-left: 2px solid black;
   padding-left: 0px;
-  padding-top: 40px;
+  /* padding-top: 40px; */
 }
 
 /* .title { grid-area: title; } */
@@ -70,6 +70,7 @@ body,
 .header {
   grid-area: header;
   border-left: 2px solid black;
+
 }
 
 /* For presentation only, no need to copy the code below */
@@ -86,7 +87,16 @@ body,
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid black;
+  top: 30%;
+  font-size: 50px;
+  border: none;
+}
+
+
+.grid-container a{
+    display: flex;
+  align-items: center;
+  justify-content: center;
   top: 30%;
   font-size: 50px;
   border: none;
@@ -121,7 +131,7 @@ li label {
 #tabletitle {
   text-align: center;
   border-top: 1px solid black;
-  padding-top: 3px;
+  
 }
 
 th,
@@ -137,6 +147,7 @@ td {
   border-radius: 50%;
   margin-right: 20px;
   height: 50px;
+  margin-bottom: 30px;
 }
 
 #inputform > :last-child {
@@ -159,4 +170,13 @@ form {
 
 #delete {
   margin-top: 5px;
+}
+
+
+
+
+
+.scrollable {
+    height: 100%; /* or any value */
+    overflow-y: auto;
 }
