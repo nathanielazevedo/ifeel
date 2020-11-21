@@ -42,14 +42,14 @@
         <td>{{food.food_name}}</td>
         <td>{{food.amount}}</td>
         <td>
-          <form method="GET" action="/foods/{{food.id}}/update" class="form-inline">
+          <form method="GET" action="/food/{{food.id}}/update" class="form-inline">
             <button class="btn btn-success bad" id="delete"></button>
           </form>
 
         </td>
         <td>
 
-          <form method="POST" action="/foods/{{food.id}}/delete" class="form-inline">
+          <form method="POST" action="/food/{{food.id}}/delete" class="form-inline">
             <button class="btn btn-danger bad" id="delete"></button>
           </form>
         </td>
