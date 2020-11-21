@@ -58,6 +58,18 @@ def do_logout():
 
 
 
+@app.after_request
+def add_header(req):
+    """Add non-caching headers on every request."""
+
+    req.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    req.headers["Pragma"] = "no-cache"
+    req.headers["Expires"] = "0"
+    req.headers['Cache-Control'] = 'public, max-age=0'
+    return req
+
+
+
 
 
 #####################################################
@@ -70,11 +82,20 @@ def do_logout():
 
 
 
-@app.route("/")
+@app.route('/')
 def main():
-    """Redirect to homepage."""
+    """Show homepage:
 
-    return redirect('/homepage')
+    - anon users: no messages
+    - logged in: 100 most recent messages of followed_users
+    """
+
+    if g.user:
+        
+        return redirect('/homepage')
+
+    else:
+        return redirect('/signup')
 
 
 
@@ -82,6 +103,10 @@ def main():
 @app.route("/homepage")
 def homepage():
     """Show homepage."""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
 
 
     form = FoodForm()
@@ -169,10 +194,28 @@ def logout():
     """Handle logout of user."""
     # print(f'Heres the session info{session[curr_user]}')
     # IMPLEMENT THIS
+
+
     do_logout()
-    # g.user = None
     flash("You've been signed out", 'success')
     return redirect("/login")
+
+
+
+@app.route('/users/delete', methods=["POST"])
+def delete_user():
+    """Delete user."""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    do_logout()
+
+    db.session.delete(g.user)
+    db.session.commit()
+
+    return redirect("/signup")
 
 
 
@@ -205,11 +248,15 @@ def post_info():
     #     flash('Please login first!')
     #     return redirect('/login')
 
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
     form = FoodForm()
 
     if form.validate_on_submit():
         food_name = form.food_name.data
-        user = 2
+        user = g.user.id
         amount = form.amount.data
         new_food = Food(food_name=food_name, user_id=user, amount=amount)
         db.session.add(new_food)
@@ -228,9 +275,13 @@ def post_info():
 def update_info(food_id):
     #Update a food 
 
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
     food = Food.query.get(food_id)
     form = UpdateFoodForm(obj=food)
-    
 
     if form.validate_on_submit():
         
@@ -252,18 +303,18 @@ def update_info(food_id):
 
 @app.route('/food/<int:food_id>/delete', methods=["POST"])
 def food_destroy(food_id):
-    """Delete a message."""
+    """Delete a food."""
 
-    # if not g.user:
-    #     flash("Access unauthorized.", "danger")
-    #     return redirect("/")
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
 
     food = Food.query.get_or_404(food_id)
 
     db.session.delete(food)
     db.session.commit()
 
-    return redirect(f"/homepage")
+    return redirect("/homepage")
 
 
 
@@ -292,22 +343,19 @@ def food_destroy(food_id):
 @app.route('/user/profile', methods=['GET', 'POST'])
 def display_profile():
 
-    # if 'user_id' not in session:
-    #     flash('Please login first!')
-    #     return redirect('/login')
+    if not g.user:
+        flash('Please login first!')
+        return redirect('/login')
 
-    currUser = 2
+    currUser = g.user.id
     user = User.query.get(currUser)
     form = UpdateProfileForm(obj=user)
 
     if form.validate_on_submit():
         
-            
-
         user.username = form.username.data
         user.email = form.email.data
         
-
         db.session.add(user)
         db.session.commit()
         return redirect('/homepage')
@@ -321,9 +369,9 @@ def display_profile():
 @app.route('/user/<user_id>', methods=['GET', 'POST'])
 def display_specific_profile(user_id):
 
-    # if 'user_id' not in session:
-    #     flash('Please login first!')
-    #     return redirect('/login')
+    if not g.user:
+        flash('Please login first!')
+        return redirect('/login')
 
     
     user = User.query.get(user_id)
@@ -337,9 +385,13 @@ def display_specific_profile(user_id):
 @app.route('/user', methods=['GET'])
 def user():
 
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
     foods = (Food
             .query
-            .filter(Food.user_id == 2)
+            .filter(Food.user_id == g.user.id, Food.feeling != 'Null')
             .all())
 
     return render_template('/user/user.html', foods=foods)
@@ -376,7 +428,7 @@ def search():
 
 
     form = SearchForm()
-    # if 'user_id' not in session:
+    # if not g.user:
     #     flash('Please login first!')
     #     return redirect('/login')
 
@@ -400,9 +452,9 @@ def usersearch():
     # Search for a user by name or condition
 
 
-    # if 'user_id' not in session:
-    #     flash('Please login first!')
-    #     return redirect('/login')
+    if not g.user:
+        flash('Please login first!')
+        return redirect('/login')
 
     form = UserSearchForm()
 
