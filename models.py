@@ -45,6 +45,9 @@ class User(db.Model):
     )
 
 
+    foods = db.relationship('Food', cascade='all, delete')
+
+
     def __repr__(self):
         return f"<User #{self.id}: {self.username}, {self.email}>"
 
@@ -107,4 +110,4 @@ class Food(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    user = db.relationship('User', backref='posts',  cascade="all,delete")
+    user = db.relationship('User')
