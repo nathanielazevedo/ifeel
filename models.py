@@ -44,8 +44,22 @@ class User(db.Model):
         nullable=False,
     )
 
+    image_url = db.Column(
+        db.Text,
+        default="/static/images/feellogo.png",
+    )
+
+    bio = db.Column(
+        db.Text,
+    )
+
+
 
     foods = db.relationship('Food', cascade='all, delete')
+
+    conditions = db.relationship('Condition',
+                               secondary='users_conditions',
+                               backref='users')
 
 
     def __repr__(self):
@@ -111,3 +125,77 @@ class Food(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     user = db.relationship('User')
+
+    symptoms = db.relationship('Symptom',
+                               secondary='foods_symptoms',
+                               backref='foods')
+
+
+
+class UserConditions(db.Model):
+    """Connection of a follower <-> followed_user."""
+
+    __tablename__ = 'users_conditions'
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id', ondelete="cascade"),
+        primary_key=True,
+    )
+
+    condition_id = db.Column(
+        db.Integer,
+        db.ForeignKey('conditions.id', ondelete="cascade"),
+        primary_key=True,
+    )
+
+
+
+class Condition(db.Model):
+
+
+    __tablename__ = 'conditions'
+
+    id = db.Column(db.Integer, 
+                primary_key=True, 
+                autoincrement=True)
+
+    condition_name = db.Column(db.Text)
+
+
+    # user = db.relationship('User',
+    #                            secondary='users_conditions',
+    #                            backref='conditions')
+
+
+
+
+
+class FoodSymptoms(db.Model):
+    """Connection of a follower <-> followed_user."""
+
+    __tablename__ = 'foods_symptoms'
+
+    food_id = db.Column(
+        db.Integer,
+        db.ForeignKey('foods.id', ondelete="cascade"),
+        primary_key=True,
+    )
+
+    symptom_id = db.Column(
+        db.Integer,
+        db.ForeignKey('symptoms.id', ondelete="cascade"),
+        primary_key=True,
+    )
+
+
+class Symptom(db.Model):
+
+
+    __tablename__ = 'symptoms'
+
+    id = db.Column(db.Integer, 
+                primary_key=True, 
+                autoincrement=True)
+
+    symptom_name = db.Column(db.Text)
