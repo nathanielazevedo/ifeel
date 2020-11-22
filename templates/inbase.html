@@ -38,7 +38,7 @@
     <div class="footerleft"></div>
     <div class="header">  {% for message in get_flashed_messages() %}
   <div class="alert alert-{{ category }}">{{ message }}</div>
-  {% endfor %}<a href="/user/profile"><img id="profileimage" width='50px' src="/static/images/natesheadshot.png" alt="profileimage"></a></div>
+  {% endfor %}<a href="/user/profile"><img id="profileimage" width='50px' src="{{g.user.image_url}}"></a></div>
   </div>
 
 
