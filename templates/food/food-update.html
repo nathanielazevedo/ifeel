@@ -10,7 +10,7 @@
 <form action="/food/{{food.id}}/update" method='POST' id='inputform'>
     {{ form.hidden_tag() }}
 
-    {% for field in form if field.widget.input_type != 'hidden'%}
+    {% for field in form if field.widget.input_type != 'hidden' and field.name != 'symptoms' %}
 
 
     {% for error in field.errors %}
@@ -31,6 +31,19 @@
     {% endfor %}
     {% endif %}
     {% endfor %}
+
+            {% for field in form.symptoms %}
+        
+          {% if field.label.text in symptomslist %}
+          
+          {{field(checked=True)}}
+          {{field.label}}
+          {% elif field.label not in symptomslist %}
+          {{field}}
+          {{field.label}}
+          {% endif %}
+        {% endfor %}
+
     <button type="submit" class="btn btn-secondary btn-lg btn-block">Contribute</button>
 </form>
 
