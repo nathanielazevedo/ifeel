@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, url_for,redirect, flash, session, jsonify, request, g, abort
 import os
-from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, UserSearchForm, UpdateFoodForm
-from models import db, connect_db, User, Food
+from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, UserSearchForm, UpdateFoodForm, ExampleForm, SelectMany
+from models import db, connect_db, User, Food, Condition, UserConditions, Symptom, FoodSymptoms
 from sqlalchemy.exc import IntegrityError
 import requests
 
@@ -282,19 +282,31 @@ def update_info(food_id):
 
     food = Food.query.get(food_id)
     form = UpdateFoodForm(obj=food)
+    symptomslist = []
+    for each in food.symptoms:
+        symptomslist.append(each.symptom_name)
+        print(f'%%%%%%%%%%%%{symptomslist}')
+    # form = ExampleForm()
+    symptoms = [(c.id, c.symptom_name) for c in Symptom.query.all()]
+    form.symptoms.choices = symptoms
 
     if form.validate_on_submit():
         
         food.food_name = form.food_name.data
         food.amount = form.amount.data
         food.feeling = form.feeling.data
+        symptoms = form.symptoms.data
+        food.symptoms.clear()
+        for each in symptoms:
+            symptom = Symptom.query.get(each)
+            food.symptoms.append(symptom)
         
         db.session.add(food)
         db.session.commit()
         return redirect('/homepage')
 
     else:
-        return render_template('/food/food-update.html', form=form, food=food)
+        return render_template('/food/food-update.html', form=form, food=food, symptomslist=symptomslist)
 
 
 
@@ -349,18 +361,32 @@ def display_profile():
 
     currUser = g.user.id
     user = User.query.get(currUser)
+    conditionslist = []
+    for each in user.conditions:
+        conditionslist.append(each.condition_name)
     form = UpdateProfileForm(obj=user)
+    # form = ExampleForm()
+    conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
+    form.conditions.choices = conditions
+
+     
 
     if form.validate_on_submit():
         
         user.username = form.username.data
         user.email = form.email.data
-        
+        user.bio = form.bio.data
+        user.image_url = form.image_url.data
+        conditions = form.conditions.data
+        user.conditions.clear()
+        for each in conditions:
+            condition = Condition.query.get(each)
+            user.conditions.append(condition)
         db.session.add(user)
         db.session.commit()
         return redirect('/homepage')
 
-    return render_template('/user/profile.html', user=user, form=form)
+    return render_template('/user/profile.html', user=user, form=form, conditionslist=conditionslist)
 
 
 
@@ -428,9 +454,6 @@ def search():
 
 
     form = SearchForm()
-    # if not g.user:
-    #     flash('Please login first!')
-    #     return redirect('/login')
 
 
     if form.validate_on_submit():
@@ -466,9 +489,10 @@ def usersearch():
             users = User.query.filter(User.username == username).all()
         
         else:
-            users = User.query.filter(User.username == usernamename).all()
+            condition = Condition.query.filter(Condition.condition_name == username).first()
+            users = condition.users
 
-        return render_template('/search/search-users.html', users = users, form=form)
+        return render_template('/search/search-users.html', users=users, form=form)
 
     else:
         return render_template('/search/search-users.html', form=form)
@@ -501,7 +525,6 @@ def graph():
     graph = requests.get("https://quickchart.io/chart?c={type:'bar',data:{labels:[2012,2013,2014,2015,2016],datasets:[{label:'Users',data:[120,60,50,180,120]}]}}")
     
     return render_template('graph.html', graph=graph)
-
 
 
 
