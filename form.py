@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, IntegerField, SelectField, RadioField
+from wtforms import StringField, PasswordField, IntegerField, SelectField, RadioField, TextAreaField, BooleanField, SelectMultipleField, widgets, SubmitField
 from wtforms.validators import InputRequired, DataRequired, Email, Length
 
 class UserAddForm(FlaskForm):
@@ -28,11 +28,21 @@ class SearchForm(FlaskForm):
     food_name = StringField('Search for a food?', validators=[InputRequired()])
     
 
+class MultiCheckboxField(SelectMultipleField):
+    widget = widgets.ListWidget(prefix_label=False)
+    option_widget = widgets.CheckboxInput()
+
 class UpdateProfileForm(FlaskForm):
     """UpdateForm form."""
 
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('E-mail', validators=[DataRequired(), Email()])
+    bio = TextAreaField('(Optional) Tell us about yourself')
+    image_url = StringField('(Optional) Image URL')
+    conditions = MultiCheckboxField('Condition', coerce=int)
+    
+
+    
 
 
 class UserSearchForm(FlaskForm):
@@ -44,6 +54,7 @@ class UpdateFoodForm(FlaskForm):
     food_name = StringField('What did you eat?', validators = [InputRequired()])
     amount = SelectField('How much did you eat?', choices=[('1', 'a little'), ('2', 'some'), ('3', 'a lot')])
     feeling = RadioField('choose one', choices=[('1', 'bad'), ('2', 'okay'), ('3', 'great')])
+    symptoms = MultiCheckboxField('Symptom', coerce=int)
 
 
 class UserSearchForm(FlaskForm):
@@ -52,4 +63,13 @@ class UserSearchForm(FlaskForm):
     
 
 
+
     
+class ExampleForm(FlaskForm):
+    Condition = MultiCheckboxField('Condition', coerce=int)
+    submit = SubmitField("Set User Choices")
+
+
+class SelectMany(FlaskForm):
+
+    Condition = SelectMultipleField("Condition", coerce=int)
