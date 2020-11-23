@@ -46,28 +46,29 @@
     <thead>
       <tr>
         <th scope="col">Food</th>
-        <th scope="col">General Feeling</th>
+        <th scope="col">Average Feeling</th>
         <th scope="col">View Data</th>
       </tr>
     </thead>
     <tbody>
-      {% if foods != None %} {% for food in foods %}
-
+      
+{% if food != undefined %}
       <tr class="tr">
         <td>{{food.food_name}}</td>
-        <td>{{food.amount}}</td>
+        <td>'hmmm</td>
         <td>
-          <a href="/graph" class="btn btn-primary btn-sm" role="button" aria-pressed="true">{{food.food_name}}</a>
+          <a href="/graph/{{food.id}}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">{{food.food_name}}</a>
         </td>
         <td></td>
       </tr>
-
-      {% endfor %} {% endif %}
+{% endif %}
+      
     </tbody>
   </table>
 </div>
 
 {% endblock %}
+
 
 
 
