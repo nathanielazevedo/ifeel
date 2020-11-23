@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, url_for,redirect, flash, session, jsonify, request, g, abort
 import os
 from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, UserSearchForm, UpdateFoodForm, ExampleForm, SelectMany
-from models import db, connect_db, User, Food, Condition, UserConditions, Symptom, FoodSymptoms
+from models import db, connect_db, User, Food, Condition, UserConditions, Symptom, FoodSymptoms, FoodList
 from sqlalchemy.exc import IntegrityError
 import requests
 
@@ -256,9 +256,11 @@ def post_info():
 
     if form.validate_on_submit():
         food_name = form.food_name.data
+        food_list_spot = FoodList.query.filter(FoodList.food_name == food_name).all()
+        food_id = food_list_spot[0].id
         user = g.user.id
         amount = form.amount.data
-        new_food = Food(food_name=food_name, user_id=user, amount=amount)
+        new_food = Food(food_id=food_id, user_id=user, amount=amount)
         db.session.add(new_food)
         db.session.commit()
         return redirect('/homepage')
@@ -285,14 +287,16 @@ def update_info(food_id):
     symptomslist = []
     for each in food.symptoms:
         symptomslist.append(each.symptom_name)
-        print(f'%%%%%%%%%%%%{symptomslist}')
+        
     # form = ExampleForm()
     symptoms = [(c.id, c.symptom_name) for c in Symptom.query.all()]
     form.symptoms.choices = symptoms
 
     if form.validate_on_submit():
         
-        food.food_name = form.food_name.data
+        food_name = form.food_name.data
+        food_list_spot = FoodList.query.filter(FoodList.food_name == food_name).all()
+        food.food_id = food_list_spot[0].id
         food.amount = form.amount.data
         food.feeling = form.feeling.data
         symptoms = form.symptoms.data
@@ -303,7 +307,7 @@ def update_info(food_id):
         
         db.session.add(food)
         db.session.commit()
-        return redirect('/homepage')
+        return redirect('/user')
 
     else:
         return render_template('/food/food-update.html', form=form, food=food, symptomslist=symptomslist)
@@ -352,6 +356,7 @@ def food_destroy(food_id):
 #User Routes
 
 
+
 @app.route('/user/profile', methods=['GET', 'POST'])
 def display_profile():
 
@@ -387,6 +392,48 @@ def display_profile():
         return redirect('/homepage')
 
     return render_template('/user/profile.html', user=user, form=form, conditionslist=conditionslist)
+
+
+
+
+
+
+
+@app.route('/user/profile/edit', methods=['GET', 'POST'])
+def display_edit_profile():
+
+    if not g.user:
+        flash('Please login first!')
+        return redirect('/login')
+
+    currUser = g.user.id
+    user = User.query.get(currUser)
+    conditionslist = []
+    for each in user.conditions:
+        conditionslist.append(each.condition_name)
+    form = UpdateProfileForm(obj=user)
+    # form = ExampleForm()
+    conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
+    form.conditions.choices = conditions
+
+     
+
+    if form.validate_on_submit():
+        
+        user.username = form.username.data
+        user.email = form.email.data
+        user.bio = form.bio.data
+        user.image_url = form.image_url.data
+        conditions = form.conditions.data
+        user.conditions.clear()
+        for each in conditions:
+            condition = Condition.query.get(each)
+            user.conditions.append(condition)
+        db.session.add(user)
+        db.session.commit()
+        return redirect('/homepage')
+
+    return render_template('/user/edit-profile.html', user=user, form=form, conditionslist=conditionslist)
 
 
 
@@ -458,12 +505,16 @@ def search():
 
     if form.validate_on_submit():
         foodname = form.food_name.data
-        foods = Food.query.filter(Food.food_name == foodname).all()
+        food_list_spot = FoodList.query.filter(FoodList.food_name == foodname).all()
+        food = food_list_spot[0]
+        print(f'&&&&&&&&&&&&&{food}')
+        # food_id = food_list_spot[0]
+        # food = Food.query.filter(Food.food_id == food_id).first()
 
-        return render_template('/search/search-food.html', foods = foods, form=form)
+        return render_template('/search/search-food.html', food = food, form=form)
 
     else:
-
+        
         return render_template('/search/search-food.html', form=form)
 
 
@@ -514,21 +565,68 @@ def usersearch():
 
 
 
-
+symptoms = ['acid reflux', 'diarrhea', 'constipation', 'heart burn', 'bloating', 'naseau', 'gas', 'upset stomach', 'abdominal pain', 'cramps', 'vomitting']
 
 #Graph API route
 
-@app.route('/graph', methods=['GET'])
-def graph():
+@app.route('/graph/<food_id>', methods=['GET'])
+def graph(food_id):
     #Route for generating graphs. Needs developing
+    alldata = Food.query.filter(Food.food_id == food_id).all()
 
-    graph = requests.get("https://quickchart.io/chart?c={type:'bar',data:{labels:[2012,2013,2014,2015,2016],datasets:[{label:'Users',data:[120,60,50,180,120]}]}}")
+    foodsymptomslists = []
+    foodsymptoms = []
+    fooddata = []
+    for each in alldata:
+        fooddata.append(each.feeling)
+        foodsymptomslists.append(each.symptoms)
+
+
+    for each in foodsymptomslists:
+            for each2 in each:
+                foodsymptoms.append(each2)
+
+    # symptoms = Symptom.query.all()
+
+    symptomslists = []
+    # for each in symptoms:
+    #     symptomslist.append(foodsymptoms.count(each))
+    length = len(fooddata)
+    bads = fooddata.count('1') 
+    goods = fooddata.count('2') 
+    greats = fooddata.count('3') 
+    fooddata.clear()
+    fooddata.append(bads)
+    fooddata.append(goods)
+    fooddata.append(greats)
+    strfoodsymptoms = []
+    for each in foodsymptoms:
+        strfoodsymptoms.append(str(each))
+    count = 0
     
-    return render_template('graph.html', graph=graph)
+    for each in symptoms:
+        
+        symptomslists.append(strfoodsymptoms.count(each))
+
+            
+    
+    graph = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:['Bad','Good','Great'],datasets:[{{label:'Chicken',data:{fooddata}}}]}}}}")
+
+
+    graph2 = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:{symptoms},datasets:[{{label:'Symptoms',data:{symptomslists}}}]}}}}")
+    
+    return render_template('graph.html', graph=graph, graph2=graph2)
 
 
 
 
+
+
+
+
+# conditions = ('Celiac Disease'),
+#     ('Irritable Bowel Syndrome'),
+#     ('Crohns Disease'), ('Gastrectomy'), ('Gastroesophageal Reflux Disease'), ('Ulcerative colitis'), ('Diverticulitis'), ('Lactose Intolerance');
 
 
 
