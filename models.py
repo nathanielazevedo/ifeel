@@ -108,9 +108,8 @@ class Food(db.Model):
                 primary_key=True, 
                 autoincrement=True)
 
-    food_name = db.Column(db.Text, 
-                        nullable=False, 
-                        unique=False)
+    food_id = db.Column(db.Integer, 
+                        db.ForeignKey('foodslist.id'))
 
     amount = db.Column(db.Text, nullable=True)
 
@@ -128,6 +127,9 @@ class Food(db.Model):
 
     symptoms = db.relationship('Symptom',
                                secondary='foods_symptoms',
+                               backref='foods')
+
+    food_name = db.relationship('FoodList',
                                backref='foods')
 
 
@@ -199,3 +201,23 @@ class Symptom(db.Model):
                 autoincrement=True)
 
     symptom_name = db.Column(db.Text)
+
+    def __repr__(self):
+        return f"{self.symptom_name}"
+
+
+class FoodList(db.Model):
+
+
+    __tablename__ = 'foodslist'
+
+    id = db.Column(db.Integer, 
+                primary_key=True, 
+                autoincrement=True)
+
+    food_name = db.Column(db.Text, unique=True)
+
+    def __repr__(self):
+        return f"{self.food_name}"
+
+
