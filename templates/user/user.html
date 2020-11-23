@@ -29,7 +29,7 @@
 
       <tr>
         <th scope="col">Food</th>
-        <th scope="col">Amount</th>
+        <th scope="col">Day</th>
         <th scope="col">Update</th>
         <th scope="col">Delete</th>
       </tr>
@@ -40,7 +40,7 @@
 
       <tr class="tr">
         <td>{{food.food_name}}</td>
-        <td>{{food.amount}}</td>
+        <td>{{food.timestamp.date()}}</td>
         <td>
           <form method="GET" action="/food/{{food.id}}/update" class="form-inline">
             <button class="btn btn-success bad" id="delete"></button>
