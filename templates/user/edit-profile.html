@@ -1,0 +1,62 @@
+{% extends 'inbase.html' %}
+
+
+<!-- =============================================================== -->
+
+
+
+
+{% block data %}
+
+
+  <div class="row justify-content-md-center">
+    <div class="col-md-9">
+      <h2 class="join-message">Edit Your Profile.</h2>
+      <form method="POST" id="user_form" action="/user/profile">
+        {{ form.hidden_tag() }}
+
+        {% for field in form if field.widget.input_type != 'hidden' and field.name != 'password' and field.name != 'conditions'%}
+          {% for error in field.errors %}
+            <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+          {{ field(placeholder=field.label.text, class="form-control") }}
+        {% endfor %}
+
+        {% for field in form.conditions %}
+        
+          {% if field.label.text in conditionslist %}
+          
+          {{field(checked=True)}}
+          {{field.label}}
+          {% elif field.label not in conditionslist %}
+          {{field}}
+          {{field.label}}
+          {% endif %}
+        {% endfor %}
+
+
+          
+            <button type="submit" class="btn btn-danger bad" id="delete">Edit User</button>
+      </form>
+
+
+      
+
+
+    </div>
+  </div>
+
+          <div class="edit-btn-area">
+          
+          <a href="/logout" class="btn btn-outline-secondary">Logout</a>
+          </div>
+        
+          <form method="POST" action="/users/delete" class="form-inline">
+            <button class="btn btn-danger bad" id="delete"></button>
+          </form>
+
+{% endblock %}
+
+
+
+<!-- =============================================================== -->
