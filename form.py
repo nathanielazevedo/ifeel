@@ -58,8 +58,8 @@ class UpdateFoodForm(FlaskForm):
 
 
 class UserSearchForm(FlaskForm):
-    search_by = SelectField('Search By', choices=[('username', 'username'), ('disease', 'disease')])
-    username = StringField('Search for a user by name or disease', validators=[InputRequired()])
+    search_by = SelectField('Search By', choices=[('username', 'username'), ('condition', 'condition')])
+    username = StringField('Search for a user by name or condition', validators=[InputRequired()])
     
 
 
