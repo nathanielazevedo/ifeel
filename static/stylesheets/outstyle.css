@@ -16,6 +16,7 @@ html, body, .grid-container {
     ". intronote ."
     ". loginform ."
     ". . .";
+    background-color: #2F5B81;
 }
 
 .intronote { 
@@ -41,3 +42,42 @@ html, body, .grid-container {
   left: 0;
 } 
 
+
+#loginheader{
+  color: white;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 30px;
+}
+
+
+#loginform{
+  width: 75%;
+  margin: 0 auto;
+}
+
+#tosignup{
+  width: 100%;
+  margin: 25px auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  
+}
+
+#loginbutton{
+  width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+
+#signupdiv{
+  width: 25%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.alert{
+  color: white;
+  text-align: center;
+  margin: 0 auto;
+}
