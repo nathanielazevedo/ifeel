@@ -34,11 +34,11 @@
     <div class="icon3"><a href="/user/search" class="fas fa-users"></a></div>
     <div class="icon4"><a href="/food/search"class="fas fa-search"></a></div>
     <div class="logo"></div>
-    <div class="footercenter">Lost? Learn more</div>
+    <div class="footercenter"></div>
     <div class="footerleft"></div>
     <div class="header">  {% for message in get_flashed_messages() %}
-  <div class="alert alert-{{ category }}">{{ message }}</div>
-  {% endfor %}<a href="/user/profile"><img id="profileimage" width='50px' src="{{g.user.image_url}}"></a></div>
+  <div id="flash" class="alert alert-{{ category }}">{{ message }}</div>
+  {% endfor %}<h5 id="username1">{{g.user.username}}</h5><a href="/user/profile"><img id="profileimage" width='50px' src="{{g.user.image_url}}"></a></div>
   </div>
 
 
