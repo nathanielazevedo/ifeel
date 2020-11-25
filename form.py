@@ -53,13 +53,14 @@ class UserSearchForm(FlaskForm):
 class UpdateFoodForm(FlaskForm):
     food_name = StringField('What did you eat?', validators = [InputRequired()])
     amount = SelectField('How much did you eat?', choices=[('1', 'a little'), ('2', 'some'), ('3', 'a lot')])
-    feeling = RadioField('choose one', choices=[('1', 'bad'), ('2', 'okay'), ('3', 'great')])
+    feeling = SelectField('choose one', choices=[('1', 'bad'), ('2', 'okay'), ('3', 'great')])
     symptoms = MultiCheckboxField('Symptom', coerce=int)
 
 
 class UserSearchForm(FlaskForm):
-    search_by = SelectField('Search By', choices=[('username', 'username'), ('condition', 'condition')])
     username = StringField('Search for a user by name or condition', validators=[InputRequired()])
+    search_by = SelectField('Search By', choices=[('username', 'username'), ('condition', 'condition')])
+    
     
 
 
