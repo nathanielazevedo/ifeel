@@ -1,9 +1,18 @@
 {% extends 'inbase.html' %}
+
+{% block content %}
+<h3 id="edityourprofile">Data Collected on {{foodname}}</h3>
+{% endblock %}
+
+
 {% block data %}
 
-
+<div id="graph1"> 
 <img src="{{graph.url}}" alt="" width="500px">
+</div>
+<div id="graph2">
 <img src="{{graph2.url}}" alt="" width="500px">
+</div>
 
 
 
