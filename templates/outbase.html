@@ -25,6 +25,9 @@
 
 <div class="grid-container">
   <div class="intronote" >
+     {% for message in get_flashed_messages() %}
+  <div class="alert alert-{{ category }}">{{ message }}</div>
+  {% endfor %}
     {% block header %}
     {% endblock %}
   
@@ -33,9 +36,7 @@
         {% block content %}
         {% endblock %}
     </div>
-  <div class="intrologo">  {% for message in get_flashed_messages() %}
-  <div class="alert alert-{{ category }}">{{ message }}</div>
-  {% endfor %}</div>
+  <div class="intrologo"> </div>
 </div>
 
 
