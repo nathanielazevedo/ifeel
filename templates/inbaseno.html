@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Feel</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+  <script src="https://unpkg.com/jquery"></script>
+
+  <script src="https://unpkg.com/bootstrap"></script>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+  <link rel="stylesheet" href="/static/stylesheets/instyle.css">
+  <link rel="shortcut icon" href="/static/favicon.ico">
+</head>
+
+<body>
+
+  <div class="grid-container">
+
+    <div class="input">
+      {% block content %}
+      {% endblock %}
+    </div>
+    <div class="data scrollable">
+      {% block data %}
+
+      {% endblock %}
+    </div>
+    <div class="icon1"><a href='/homepage' i class="fas fa-home"></a></div>
+    <div class="icon2"><a href="/user" class="fas fa-user"></a></div>
+    <div class="icon3"><a href="/user/search" class="fas fa-users"></a></div>
+    <div class="icon4"><a href="/food/search"class="fas fa-search"></a></div>
+    <div class="logo"></div>
+    <div class="footercenter">Lost? Learn more</div>
+    <div class="footerleft"></div>
+    <div class="header">  {% for message in get_flashed_messages() %}
+  <div class="alert alert-{{ category }}">{{ message }}</div>
+  {% endfor %}<h5 id="username1">{{g.user.username}}</h5><a href="/user/profile"><img id="profileimage" width='50px' src="{{g.user.image_url}}"></a></div>
+  </div>
+
+
+  <script src="{{url_for('static', filename='feel.js')}}"></script>
+
+  </div>
+</body>
+
+</html>

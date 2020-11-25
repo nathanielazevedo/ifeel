@@ -14,10 +14,12 @@
 
 
 {% block header %}
+<div id="loginheader">
 <h1 class="title"> Welcome to FEEL! </h1>
         <p>We work as a team to find out what foods humans should be eating.
         Open source project for data collection.
         </p>
+</div>
 {% endblock %}
 
 
@@ -47,11 +49,12 @@
         {{ field(placeholder=field.label.text, class="form-control") }}
       {% endfor %}
     </div>
-      <div class="dropdown-divider"></div>
-    <button type="submit" class="btn btn-primary">Sign Up</button>
+      
+    <button type="submit" class="btn btn-primary" id="loginbutton">Create Account</button>
+    <a id="tosignup" class="btn btn-info" href="/login">Already have an account? Login</a>
   </form>
-  <div class="dropdown-divider"></div>
-  <a class="dropdown-item" href="/login">Already have an account? Login</a>
+  
+  
   
 </div>
 

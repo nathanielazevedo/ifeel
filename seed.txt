@@ -1,0 +1,16 @@
+INSERT INTO conditions (condition_name)
+VALUES
+    ('Celiac Disease'),
+    ('Irritable Bowel Syndrome'),
+    ('Crohns Disease'), ('Gastrectomy'), ('Gastroesophageal Reflux Disease'), ('Ulcerative colitis'), ('Diverticulitis'), ('Lactose Intolerance');
+
+
+
+INSERT INTO symptoms (symptom_name)
+VALUES
+    ('acid reflux'), ('diarrhea'), ('constipation'), ('heart burn'), ('bloating'), ('naseau'), ('gas'), ('upset stomach'), ('abdominal pain'), ('cramps'), ('vomitting');
+
+
+INSERT INTO foodslist (food_name)
+VALUES
+    ('ham'), ('pickles'), ('broccoli'), ('legs');

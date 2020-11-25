@@ -23,7 +23,7 @@
         {{ field(placeholder=field.label.text, class="form-control") }}
         
       {% endfor %}
-      <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+      <button type="submit" class="btn btn-secondary btn-lg btn-block">Search</button>
     </form>
 
         
@@ -48,8 +48,8 @@
           <thead>
 
             <tr>
+              <th scope="col">Profile Image</th>
               <th scope="col">Username</th>
-              <th scope="col">Contributions</th>
               <th scope="col">Profile Link</th>
               <th scope="col"></th>
             </tr>
@@ -59,10 +59,11 @@
             {% for user in users %}
 
             <tr class="tr">
+              <td><img src="{{user.image_url}}" id="searchimage"></td>
               <td>{{user.username}}</td>
-              <td>100</td>
+              
               <td>
-                <a href="/user/{{user.id}}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Profile</a>
+                <a href="/user/{{user.id}}" id='touser' class="btn btn-info bad" role="button" aria-pressed="true"></a>
 
               </td>
               <td>
