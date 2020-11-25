@@ -2,9 +2,9 @@
 
 
 <!-- =============================================================== -->
-
-
-
+{% block content%}
+  <h3 id="edityourprofile">Result after consumption</h3>
+{% endblock %}
 
 {% block data %}
 <form action="/food/{{food.id}}/update" method='POST' id='inputform'>
@@ -21,6 +21,8 @@
     {{ field(placeholder=field.label.text, class="form-control") }}
     {% else %}
 
+
+    
     {% for subfield in field %}
 
 
@@ -32,17 +34,22 @@
     {% endif %}
     {% endfor %}
 
+      <div id="conditions">
             {% for field in form.symptoms %}
         
           {% if field.label.text in symptomslist %}
-          
+          <div class='conditionname'>
           {{field(checked=True)}}
           {{field.label}}
+          </div>
           {% elif field.label not in symptomslist %}
+          <div class="conditionname">
           {{field}}
           {{field.label}}
+          </div>
           {% endif %}
         {% endfor %}
+</div>
 
     <button type="submit" class="btn btn-secondary btn-lg btn-block">Contribute</button>
 </form>
