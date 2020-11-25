@@ -38,7 +38,7 @@ def add_user_to_g():
     """If we're logged in, add curr user to Flask global."""
 
     if CURR_USER_KEY in session:
-        g.user = User.query.get(session[CURR_USER_KEY])
+        g.user = User.query.get_or_404(session[CURR_USER_KEY])
 
     else:
         g.user = None
@@ -108,14 +108,15 @@ def homepage():
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
-
+    amounts = ['', 'a little', 'some', 'a lot']
     form = FoodForm()
     foods = (Food
             .query
-            .filter(Food.feeling == 'Null')
+            .filter(Food.feeling == 'Null', Food.user_id == g.user.id)
             .all())
 
-    return render_template('homepage.html', form=form, foods=foods)
+    
+    return render_template('homepage.html', form=form, foods=foods, amounts=amounts)
     
 
 
@@ -179,7 +180,7 @@ def login():
 
         if user:
             do_login(user)
-            flash(f"Hello, {user.username}!", "success")
+            flash(f"Welcome back, {user.username}!", "success")
             return redirect("/")
 
 
@@ -282,7 +283,7 @@ def update_info(food_id):
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
-    food = Food.query.get(food_id)
+    food = Food.query.get_or_404(food_id)
     form = UpdateFoodForm(obj=food)
     symptomslist = []
     for each in food.symptoms:
@@ -302,12 +303,12 @@ def update_info(food_id):
         symptoms = form.symptoms.data
         food.symptoms.clear()
         for each in symptoms:
-            symptom = Symptom.query.get(each)
+            symptom = Symptom.query.get_or_404(each)
             food.symptoms.append(symptom)
         
         db.session.add(food)
         db.session.commit()
-        return redirect('/user')
+        return redirect('/homepage')
 
     else:
         return render_template('/food/food-update.html', form=form, food=food, symptomslist=symptomslist)
@@ -365,7 +366,7 @@ def display_profile():
         return redirect('/login')
 
     currUser = g.user.id
-    user = User.query.get(currUser)
+    user = User.query.get_or_404(currUser)
     conditionslist = []
     for each in user.conditions:
         conditionslist.append(each.condition_name)
@@ -385,7 +386,7 @@ def display_profile():
         conditions = form.conditions.data
         user.conditions.clear()
         for each in conditions:
-            condition = Condition.query.get(each)
+            condition = Condition.query.get_or_404(each)
             user.conditions.append(condition)
         db.session.add(user)
         db.session.commit()
@@ -407,7 +408,7 @@ def display_edit_profile():
         return redirect('/login')
 
     currUser = g.user.id
-    user = User.query.get(currUser)
+    user = User.query.get_or_404(currUser)
     conditionslist = []
     for each in user.conditions:
         conditionslist.append(each.condition_name)
@@ -427,7 +428,7 @@ def display_edit_profile():
         conditions = form.conditions.data
         user.conditions.clear()
         for each in conditions:
-            condition = Condition.query.get(each)
+            condition = Condition.query.get_or_404(each)
             user.conditions.append(condition)
         db.session.add(user)
         db.session.commit()
@@ -447,7 +448,7 @@ def display_specific_profile(user_id):
         return redirect('/login')
 
     
-    user = User.query.get(user_id)
+    user = User.query.get_or_404(user_id)
 
     return render_template('/user/user-profile.html', user=user)  
 
@@ -507,11 +508,18 @@ def search():
         foodname = form.food_name.data
         food_list_spot = FoodList.query.filter(FoodList.food_name == foodname).all()
         food = food_list_spot[0]
-        print(f'&&&&&&&&&&&&&{food}')
+        paverage = Food.query.filter(Food.food_id == food_list_spot[0].id).all()
+        averagelist = []
+        for each in paverage:
+            if each.feeling != 'Null':
+                averagelist.append(int(each.feeling))
+        print(f'%%%%%%%%%%%{averagelist}')
+        average = sum(averagelist) / len(averagelist)
+
         # food_id = food_list_spot[0]
         # food = Food.query.filter(Food.food_id == food_id).first()
 
-        return render_template('/search/search-food.html', food = food, form=form)
+        return render_template('/search/search-food.html', food = food, form=form, average=average)
 
     else:
         
@@ -573,7 +581,7 @@ symptoms = ['acid reflux', 'diarrhea', 'constipation', 'heart burn', 'bloating',
 def graph(food_id):
     #Route for generating graphs. Needs developing
     alldata = Food.query.filter(Food.food_id == food_id).all()
-
+    foodname = alldata[0].food_name
     foodsymptomslists = []
     foodsymptoms = []
     fooddata = []
@@ -610,28 +618,33 @@ def graph(food_id):
 
             
     
-    graph = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:['Bad','Good','Great'],datasets:[{{label:'Chicken',data:{fooddata}}}]}}}}")
+    graph = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:['Bad','Good','Great'],datasets:[{{label:'Number of reports per feeling (1-3) after eating {foodname}',data:{fooddata}}}]}}}}")
 
 
-    graph2 = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:{symptoms},datasets:[{{label:'Symptoms',data:{symptomslists}}}]}}}}")
+    graph2 = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:{symptoms},datasets:[{{label:'Number of reports per symptom after eating {foodname}',data:{symptomslists}}}]}}}}")
     
-    return render_template('graph.html', graph=graph, graph2=graph2)
+    return render_template('graph.html', graph=graph, graph2=graph2, foodname=foodname)
 
 
 
 
 
 
+@app.route('/foodlist', methods=['GET'])
+def foodlist():
+    foodlist = FoodList.query.all()
+    foodnamelist = []
+    for each in foodlist:
+        name = each.food_name
+        foodnamelist.append(name)
+    return jsonify(foodnamelist)
 
 
-# conditions = ('Celiac Disease'),
-#     ('Irritable Bowel Syndrome'),
-#     ('Crohns Disease'), ('Gastrectomy'), ('Gastroesophageal Reflux Disease'), ('Ulcerative colitis'), ('Diverticulitis'), ('Lactose Intolerance');
 
 
 
-
-
-
-
-
+@app.errorhandler(404)
+def page_not_found(e):
+    """404 NOT FOUND page."""
+    
+    return render_template('404.html'), 404
