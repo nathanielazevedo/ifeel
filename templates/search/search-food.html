@@ -13,18 +13,18 @@
 
 {% block content %}
 
-<nav class="navbar navbar-light bg-light">
+
   <form action="/food/search" method="POST" id="inputform" class="form-inline">
     {{ form.hidden_tag() }} {% for field in form if field.widget.input_type !=
     'hidden'%} {% for error in field.errors %}
     <span class="text-danger">{{ error }}</span>
     {% endfor %} {{ field(placeholder=field.label.text, class="form-control
-    mr-sm-2") }} {% endfor %}
-    <button type="submit" class="btn btn-outline-success my-2 my-sm-0">
+    mr-sm-2, wow") }} {% endfor %}
+    <button id="foodsearch" type="submit" class="btn btn-secondary btn-lg btn-block">
       Search
     </button>
   </form>
-</nav>
+
 
 {% endblock %} 
 
@@ -55,9 +55,9 @@
 {% if food != undefined %}
       <tr class="tr">
         <td>{{food.food_name}}</td>
-        <td>'hmmm</td>
+        <td>{{average}} / 3</td>
         <td>
-          <a href="/graph/{{food.id}}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">{{food.food_name}}</a>
+          <a href="/graph/{{food.id}}" id="tofood" class="btn btn-info bad" role="button" aria-pressed="true"></a>
         </td>
         <td></td>
       </tr>
