@@ -9,18 +9,21 @@
 
 
 
-<form action="/food/add" method='POST' id='inputform'>
+<form action="/food/add" method='POST' id='inputform' autocomplete='off'>
   {{ form.hidden_tag() }}
 
   {% for field in form if field.widget.input_type != 'hidden'%}
-
+  {% if field.type == 'StringField' %}
+    {{ field(placeholder=field.label.text, class="form-control", list='inputfood') }}
+    <datalist id='inputfood'></datalist>
+  {% endif %}
 
   {% for error in field.errors %}
   <span class="text-danger">{{ error }}</span>
   {% endfor %}
-
+{% if field.type != 'StringField' %}
   {{ field(placeholder=field.label.text, class="form-control") }}
-
+{% endif %}
   {% endfor %}
   <button type="submit" class="btn btn-secondary btn-lg btn-block">Add to Pending</button>
 </form>
@@ -38,10 +41,10 @@
 {% block data %}
 
 <div id="table" class="table">
-  <h5 id="tabletitle">Pending</h5>
+  <h5 id="tabletitle">Pending Inputs</h5>
   <table class="table table-striped table-dark">
 
-    <thead>
+    <thead id="tablehead">
 
       <tr>
         <th scope="col">Food</th>
@@ -56,7 +59,7 @@
 
       <tr class="tr">
         <td>{{food.food_name}}</td>
-        <td>{{food.amount}}</td>
+        <td>{{amounts[food.amount | int]}}</td>
         <td>
           <form method="GET" action="/food/{{food.id}}/update" class="form-inline">
             <button class="btn btn-success bad" id="delete"></button>
