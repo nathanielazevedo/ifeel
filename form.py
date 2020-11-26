@@ -20,7 +20,7 @@ class LoginForm(FlaskForm):
 
 class FoodForm(FlaskForm):
     food_name = StringField('What did you eat?', validators = [InputRequired()])
-    amount = SelectField('How much did you eat?', choices=[('1', 'a little'), ('2', 'some'), ('3', 'a lot')])
+    amount = SelectField('How much did you eat?', choices=[('', 'How much did you eat?'),('1', 'a little'), ('2', 'some'), ('3', 'a lot')])
     # feeling = RadioField('choose one', choices=[('1', ''), ('2', ''), ('3', '')])
 
 
