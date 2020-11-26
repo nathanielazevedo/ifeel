@@ -7,17 +7,21 @@ body,
 
 .grid-container {
   display: grid;
-  grid-template-columns: 20% 80%;
+  grid-template-columns: 19% 80% 1%;
   grid-template-rows: 10% 20% 20% 20% 20% 10%;
   gap: 0px 0px;
   grid-template-areas:
-    "logo header"
-    "icon1 input"
-    "icon2 data"
-    "icon3 data"
-    "icon4 data"
-    "footerleft footercenter";
+    "logo header footerright"
+    "icon1 input footerright"
+    "icon2 data footerright"
+    "icon3 data footerright"
+    "icon4 data footerright"
+    "footerleft footercenter footerright";
     background-color: #2F5B81;
+}
+
+.footerright{
+  grid-area: plus;
 }
 
 .input {
@@ -177,7 +181,7 @@ input, #username{
 .footercenter {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 li {
@@ -439,4 +443,33 @@ table{
   height: 50px;
   border: 1px solid black;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#plus{
+  margin-right: 20px;
+  margin-bottom: 55px;
+}
+
+#add_food_name{
+  width: 55%;
+  float: left;
+  margin-top: 17px;
+}
+#search_food_name{
+  width: 55%;
+  display: inline;
+  margin-top: 10px;
+}
+
+#addtodatabase{
+  float: right;
+}
+
+#searchdatabase{
+  float: right;
+  
+}
+
+#form1{
+  display: flexbox;
 }

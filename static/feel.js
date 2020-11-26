@@ -30,18 +30,18 @@
 //   }
 // }
 
-let quotespot = $(".footercenter");
+// let quotespot = $(".footercenter");
 
-async function getquotes() {
-  let response = await $.getJSON("https://type.fit/api/quotes");
-  let spot = Math.floor(Math.random() * 100);
-  let quote = response[spot];
+// async function getquotes() {
+//   let response = await $.getJSON("https://type.fit/api/quotes");
+//   let spot = Math.floor(Math.random() * 100);
+//   let quote = response[spot];
 
-  let insertedquote = `"${quote.text}" - ${quote.author}`;
-  quotespot.text(insertedquote);
-}
+//   let insertedquote = `"${quote.text}" - ${quote.author}`;
+//   quotespot.text(insertedquote);
+// }
 
-getquotes();
+// getquotes();
 
 var options = "";
 
@@ -59,7 +59,7 @@ foods = ''
 
 async function getFoodList() {
   
-  foods = await $.get("https://ifeelapp.herokuapp.com/foodlist");
+  foods = await $.get("http://127.0.0.1:5000/foodlist");
   for (var i = 0; i < foods.length; i++) {
     options += '<option value="' + foods[i] + '" />';
   }

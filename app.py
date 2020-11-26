@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, url_for,redirect, flash, session, jsonify, request, g, abort
 import os
-from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, UserSearchForm, UpdateFoodForm, ExampleForm, SelectMany
+from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, UserSearchForm, UpdateFoodForm, ExampleForm, SelectMany, SearchAddForm, AddSearchForm
 from models import db, connect_db, User, Food, Condition, UserConditions, Symptom, FoodSymptoms, FoodList
 from sqlalchemy.exc import IntegrityError
 import requests
@@ -245,26 +245,29 @@ def delete_user():
 @app.route('/food/add', methods=['POST'])
 def post_info():
 
-    # if 'user_id' not in session:
-    #     flash('Please login first!')
-    #     return redirect('/login')
 
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
+
+    
 
     form = FoodForm()
 
     if form.validate_on_submit():
         food_name = form.food_name.data
         food_list_spot = FoodList.query.filter(FoodList.food_name == food_name).all()
-        food_id = food_list_spot[0].id
-        user = g.user.id
-        amount = form.amount.data
-        new_food = Food(food_id=food_id, user_id=user, amount=amount)
-        db.session.add(new_food)
-        db.session.commit()
-        return redirect('/homepage')
+        if food_list_spot:
+            food_id = food_list_spot[0].id
+            user = g.user.id
+            amount = form.amount.data
+            new_food = Food(food_id=food_id, user_id=user, amount=amount)
+            db.session.add(new_food)
+            db.session.commit()
+            return redirect('/homepage')
+        else:
+            flash('Not in database. Add it! Bottom right.')
+            return redirect('/homepage')
 
     else:
         return redirect('/homepage')
@@ -633,6 +636,8 @@ def graph(food_id):
 @app.route('/foodlist', methods=['GET'])
 def foodlist():
     foodlist = FoodList.query.all()
+
+
     foodnamelist = []
     for each in foodlist:
         name = each.food_name
@@ -648,3 +653,28 @@ def page_not_found(e):
     """404 NOT FOUND page."""
     
     return render_template('404.html'), 404
+
+
+
+@app.route('/food/database/add', methods=['GET','POST'])
+def addtodatabase():
+    """"""
+    form = SearchAddForm()
+    form2 = AddSearchForm()
+    allfoods = FoodList.query.all()
+
+    if form.validate_on_submit():
+        foodname = form.search_food_name.data
+        allfoods = FoodList.query.filter(FoodList.food_name.like(f"%{foodname}%")).all()
+        return render_template('allfoods.html', allfoods=allfoods, form=form, form2=form2) 
+
+    elif form2.validate_on_submit():
+        foodname = form2.add_food_name.data
+        new_food = FoodList(food_name=foodname)
+        db.session.add(new_food)
+        db.session.commit()
+        flash(f'{foodname} added to database.')
+        return redirect('/homepage')
+
+
+    return render_template('allfoods.html', allfoods=allfoods, form=form, form2=form2)

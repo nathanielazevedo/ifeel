@@ -42,7 +42,12 @@ class UpdateProfileForm(FlaskForm):
     conditions = MultiCheckboxField('Condition', coerce=int)
     
 
+class SearchAddForm(FlaskForm):
+    search_food_name = StringField('Search For a food.', validators=[InputRequired()])
     
+
+class AddSearchForm(FlaskForm):
+    add_food_name = StringField('Add a food to database.', validators = [InputRequired()])
 
 
 class UserSearchForm(FlaskForm):
