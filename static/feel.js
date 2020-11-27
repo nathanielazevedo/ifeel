@@ -59,8 +59,7 @@ foods = ''
 
 async function getFoodList() {
   
-  foods = await $.get("https://ifeelapp.herokuapp.com/foodlist"
-  );
+  foods = await $.get("http://127.0.0.1:5000/foodlist");
   for (var i = 0; i < foods.length; i++) {
     options += '<option value="' + foods[i] + '" />';
   }
