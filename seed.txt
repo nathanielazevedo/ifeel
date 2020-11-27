@@ -14,3 +14,7 @@ VALUES
 INSERT INTO foodslist (food_name)
 VALUES
     ('ham'), ('pickles'), ('broccoli'), ('legs');
+
+INSERT INTO users (user_name)
+VALUES
+    ('ham');
