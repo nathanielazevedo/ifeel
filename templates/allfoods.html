@@ -8,30 +8,11 @@
 {% block content %}
 
 
-<div id="form1">
+
 <form action="/food/database/add" method='POST' id='inputform' autocomplete='off'>
   {{ form.hidden_tag() }}
 
-  {% for field in form if field.widget.input_type != 'hidden'%}
-  {% if field.type == 'StringField' %}
-    {{ field(placeholder=field.label.text, class="form-control", list='inputfood') }}
-    <datalist id='inputfood'></datalist>
-  {% endif %}
-
-  {% for error in field.errors %}
-  <span class="text-danger">{{ error }}</span>
-  {% endfor %}
-{% if field.type != 'StringField' %}
-  {{ field(placeholder=field.label.text, class="form-control") }}
-{% endif %}
-  {% endfor %}
-  <button id='searchdatabase' type="submit" class="btn btn-secondary btn-lg btn-block">Search Database</button>
-</form>
-</div>
-<form action="/food/database/add" method='POST' id='inputform' autocomplete='off'>
-  {{ form.hidden_tag() }}
-
-  {% for field in form2 if field.widget.input_type != 'hidden'%}
+  {% for field in form3 if field.widget.input_type != 'hidden'%}
   {% if field.type == 'StringField' %}
     {{ field(placeholder=field.label.text, class="form-control", list='inputfood') }}
     <datalist id='inputfood'></datalist>
@@ -66,7 +47,7 @@
     <thead id="tablehead">
 
       <tr>
-        <th scope="col">List of foods we're tracking --></th>
+        <th scope="col">Food Image</th>
         <th scope="col">Food Name</th>
         <th scope="col"></th>
         <th scope="col"></th>
@@ -88,10 +69,29 @@
           
         </td>
       </tr>
-
-</div>
 {% endfor %}
 {% endif %}
+      {% if apifoods != undefined %}
+      {% for food in apifoods %}
+
+      <tr class="tr">
+        <td><img src="https://spoonacular.com/cdn/ingredients_100x100/{{food['image']}}" id="searchimage"></td>
+        <td>{{food['name']}}</td>
+        <td>
+          <form method="GET" action="/food/{{food}}/add" class="form-inline">
+            <button class="btn btn-success bad" id="delete"></button>
+          </form>
+
+        </td>
+        <td>
+
+
+        </td>
+      </tr>
+{% endfor %}
+{% endif %}
+</div>
+
 </tbody>
 </table>
 </div>
