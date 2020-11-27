@@ -217,6 +217,10 @@ class FoodList(db.Model):
 
     food_name = db.Column(db.Text, unique=True)
 
+    spoonacular_id = db.Column(db.Integer, unique=True)
+    
+    spoonacular_image = db.Column(db.Text, nullable=True)
+
     def __repr__(self):
         return f"{self.food_name}"
 
