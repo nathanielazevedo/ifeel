@@ -79,3 +79,11 @@ class ExampleForm(FlaskForm):
 class SelectMany(FlaskForm):
 
     Condition = SelectMultipleField("Condition", coerce=int)
+
+
+class SearchSpoonacular(FlaskForm):
+    spoonacular_food_name = StringField('Search For a food to add', validators=[InputRequired()])
+
+
+class AddSpoonacular(FlaskForm):
+    spoonacular_food_name = StringField('', validators=[InputRequired()])
