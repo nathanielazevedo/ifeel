@@ -688,7 +688,7 @@ def addtodatabase():
         foodname = form3.spoonacular_food_name.data
         apifoods1 = requests.get(f'https://api.spoonacular.com/food/ingredients/search?query={foodname}&number=5&apiKey=b7e7c1efd70843b7a897ec8eb3717e34').json()
         apifoods = apifoods1['results']
-        print(f'$$$$$$$$$$$$$$$$${apifoods}')
+        
         
         return render_template('allfoods.html', apifoods=apifoods, form=form, form2=form2, form3=form3)
 
@@ -722,13 +722,8 @@ def addspoontodatabase(food):
     db.session.add(new_food)
     db.session.commit()
     flash(f'{foodname} added to database.')
-    print(f'###############{food}')
+    
     return redirect('/homepage')
 
 
 
-    https: // api.spoonacular.com / food / ingredients / {id} / information & apiKey = b7e7c1efd70843b7a897ec8eb3717e34
-    
-
-
-    https://api.spoonacular.com/food/ingredients/9266/information?amount=1&apiKey=b7e7c1efd70843b7a897ec8eb3717e34

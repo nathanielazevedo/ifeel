@@ -18,3 +18,10 @@ VALUES
 INSERT INTO users (user_name)
 VALUES
     ('ham');
+
+
+        https: // api.spoonacular.com / food / ingredients / {id} / information & apiKey = b7e7c1efd70843b7a897ec8eb3717e34
+    
+
+
+    https://api.spoonacular.com/food/ingredients/9266/information?amount=1&apiKey=b7e7c1efd70843b7a897ec8eb3717e34
