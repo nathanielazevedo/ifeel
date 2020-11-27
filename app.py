@@ -1,6 +1,7 @@
-from flask import Flask, request, render_template, url_for,redirect, flash, session, jsonify, request, g, abort
+from flask import Flask, request, render_template, url_for,redirect, flash, session, jsonify, request, g, abort, json
 import os
-from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, UserSearchForm, UpdateFoodForm, ExampleForm, SelectMany, SearchAddForm, AddSearchForm
+import json
+from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, UserSearchForm, UpdateFoodForm, ExampleForm, SelectMany, SearchAddForm, AddSearchForm, SearchSpoonacular, AddSpoonacular
 from models import db, connect_db, User, Food, Condition, UserConditions, Symptom, FoodSymptoms, FoodList
 from sqlalchemy.exc import IntegrityError
 import requests
@@ -505,7 +506,7 @@ def search():
 
 
     form = SearchForm()
-
+    allfoods = FoodList.query.all()
 
     if form.validate_on_submit():
         foodname = form.food_name.data
@@ -526,7 +527,7 @@ def search():
 
     else:
         
-        return render_template('/search/search-food.html', form=form)
+        return render_template('/search/search-food.html', form=form, allfoods=allfoods)
 
 
 
@@ -583,6 +584,12 @@ symptoms = ['acid reflux', 'diarrhea', 'constipation', 'heart burn', 'bloating',
 @app.route('/graph/<food_id>', methods=['GET'])
 def graph(food_id):
     #Route for generating graphs. Needs developing
+
+
+    if not g.user:
+        flash('Please login first!')
+        return redirect('/login')
+
     alldata = Food.query.filter(Food.food_id == food_id).all()
     foodname = alldata[0].food_name
     foodsymptomslists = []
@@ -637,6 +644,9 @@ def graph(food_id):
 def foodlist():
     foodlist = FoodList.query.all()
 
+    if not g.user:
+        flash('Please login first!')
+        return redirect('/login')
 
     foodnamelist = []
     for each in foodlist:
@@ -659,14 +669,28 @@ def page_not_found(e):
 @app.route('/food/database/add', methods=['GET','POST'])
 def addtodatabase():
     """"""
+
+    if not g.user:
+        flash('Please login first!')
+        return redirect('/login')
     form = SearchAddForm()
     form2 = AddSearchForm()
+    form3 = SearchSpoonacular()
+    form4 = AddSpoonacular()
     allfoods = FoodList.query.all()
 
-    if form.validate_on_submit():
-        foodname = form.search_food_name.data
-        allfoods = FoodList.query.filter(FoodList.food_name.like(f"%{foodname}%")).all()
-        return render_template('allfoods.html', allfoods=allfoods, form=form, form2=form2) 
+    # if form.validate_on_submit():
+    #     foodname = form.search_food_name.data
+    #     allfoods = FoodList.query.filter(FoodList.food_name.like(f"%{foodname}%")).all()
+    #     return render_template('allfoods.html', allfoods=allfoods, form=form, form2=form2)
+        
+    if form3.validate_on_submit():
+        foodname = form3.spoonacular_food_name.data
+        apifoods1 = requests.get(f'https://api.spoonacular.com/food/ingredients/search?query={foodname}&number=5&apiKey=b7e7c1efd70843b7a897ec8eb3717e34').json()
+        apifoods = apifoods1['results']
+        print(f'$$$$$$$$$$$$$$$$${apifoods}')
+        
+        return render_template('allfoods.html', apifoods=apifoods, form=form, form2=form2, form3=form3)
 
     elif form2.validate_on_submit():
         foodname = form2.add_food_name.data
@@ -677,4 +701,34 @@ def addtodatabase():
         return redirect('/homepage')
 
 
-    return render_template('allfoods.html', allfoods=allfoods, form=form, form2=form2)
+    return render_template('allfoods.html', allfoods=allfoods, form=form, form2=form2, form3=form3, form4=form4)
+
+
+
+
+
+@app.route("/food/<food>/add", methods=['GET','POST'])
+def addspoontodatabase(food):
+    """"""
+
+    if not g.user:
+        flash('Please login first!')
+        return redirect('/login')
+    food1 = eval(food)
+    foodid = int(food1['id'])
+    foodname = food1['name']
+    foodimage = food1['image']
+    new_food = FoodList(food_name=foodname, spoonacular_id=foodid, spoonacular_image=foodimage)
+    db.session.add(new_food)
+    db.session.commit()
+    flash(f'{foodname} added to database.')
+    print(f'###############{food}')
+    return redirect('/homepage')
+
+
+
+    https: // api.spoonacular.com / food / ingredients / {id} / information & apiKey = b7e7c1efd70843b7a897ec8eb3717e34
+    
+
+
+    https://api.spoonacular.com/food/ingredients/9266/information?amount=1&apiKey=b7e7c1efd70843b7a897ec8eb3717e34
