@@ -47,8 +47,7 @@
       <tr>
         <th scope="col">Food Image</th>
         <th scope="col">Food Name</th>
-
-        <th scope="col">Average Feeling</th>
+        <!-- <th scope="col">Average Feeling</th> -->
         <th scope="col">View Data</th>
       </tr>
     </thead>
@@ -56,10 +55,19 @@
       
 {% if food != undefined %}
       <tr class="tr">
+        {% if food.food_name == 'No data on this food' %}
+        <td><i class="fas fa-times-circle" style="color: darkred;"></i></td>
+        {% else %}
+        <td><img src="https://spoonacular.com/cdn/ingredients_100x100/{{food.spoonacular_image}}" id="searchimage"></td>
+        {% endif %}
         <td>{{food.food_name}}</td>
-        <td>{{average}} / 3</td>
-        <td>
-          <a href="/graph/{{food.id}}" id="tofood" class="btn btn-info bad" role="button" aria-pressed="true"></a>
+        <!-- <td>{{average}} / 3</td> -->
+        
+          {% if food.food_name == 'No data on this food' %}
+          <td><a>No</a></td>
+          {% else %}
+          <td><a href="/graph/{{food.id}}" id="tofood" class="btn btn-info bad" role="button" aria-pressed="true"></a></td>
+          {% endif %}
         </td>
         <td></td>
       </tr>
