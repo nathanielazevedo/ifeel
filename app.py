@@ -2,9 +2,10 @@ from flask import Flask, request, render_template, url_for,redirect, flash, sess
 import os
 import json
 from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, UserSearchForm, UpdateFoodForm, ExampleForm, SelectMany, SearchAddForm, AddSearchForm, SearchSpoonacular, AddSpoonacular
-from models import db, connect_db, User, Food, Condition, UserConditions, Symptom, FoodSymptoms, FoodList
+from models import db, connect_db, User, Food, Condition, UserConditions, Symptom, FoodSymptoms, FoodList, FoodConditions
 from sqlalchemy.exc import IntegrityError
 import requests
+import pdb
 
 
 CURR_USER_KEY = "curr_user"
@@ -108,16 +109,14 @@ def homepage():
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
+    
 
-    amounts = ['', 'a little', 'some', 'a lot']
     form = FoodForm()
-    foods = (Food
-            .query
-            .filter(Food.feeling == 'Null', Food.user_id == g.user.id)
-            .all())
+    symptoms = [(c.id, c.symptom_name) for c in Symptom.query.all()]
+    form.symptoms.choices = symptoms
 
     
-    return render_template('homepage.html', form=form, foods=foods, amounts=amounts)
+    return render_template('newhomepage.html', form=form)
     
 
 
@@ -243,8 +242,55 @@ def delete_user():
 #Food Routes
 
 
-@app.route('/food/add', methods=['POST'])
+@app.route('/new/food/add', methods=['POST'])
 def post_info():
+
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    form = FoodForm()
+    
+    symptoms = [(c.id, c.symptom_name) for c in Symptom.query.all()]
+    form.symptoms.choices = symptoms
+    if form.validate_on_submit():
+
+        food_data = form.food_name.data
+        food_data2 = food_data.replace("null", "55")
+        food_data3 = eval(food_data2)
+        name, image, input_food_id = food_data3['name'], food_data3['image'], food_data3['id']
+        user = g.user.id
+        amount = form.amount.data
+        feeling = form.feeling.data
+        symptoms = form.symptoms.data
+        try:
+            new_food_list = FoodList.query.filter(FoodList.spoonacular_id == input_food_id).one()
+        except:
+            new_food_list = FoodList(food_name=name, spoonacular_id=input_food_id, spoonacular_image= image)
+            db.session.add(new_food_list)
+            db.session.commit()
+
+        new_food = Food(food_id=new_food_list.id, user_id=user, amount=amount, feeling=feeling)
+        db.session.add(new_food)
+        db.session.commit()
+        for each in symptoms:
+            print('working')
+            symptom = Symptom.query.get_or_404(each)
+            new_food.symptoms.append(symptom)
+        for each in g.user.conditions:
+            new_food.conditions.append(each)
+        db.session.commit()
+
+    
+    return redirect('/homepage')
+        
+        
+
+
+
+@app.route('/food/add', methods=['POST'])
+def posst_info():
 
 
     if not g.user:
@@ -278,44 +324,44 @@ def post_info():
 
 
 
-@app.route('/food/<food_id>/update', methods=['POST', 'GET'])
-def update_info(food_id):
-    #Update a food 
+# @app.route('/food/<food_id>/update', methods=['POST', 'GET'])
+# def update_info(food_id):
+#     #Update a food 
 
 
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
+#     if not g.user:
+#         flash("Access unauthorized.", "danger")
+#         return redirect("/")
 
-    food = Food.query.get_or_404(food_id)
-    form = UpdateFoodForm(obj=food)
-    symptomslist = []
-    for each in food.symptoms:
-        symptomslist.append(each.symptom_name)
+#     food = Food.query.get_or_404(food_id)
+#     form = UpdateFoodForm(obj=food)
+#     symptomslist = []
+#     for each in food.symptoms:
+#         symptomslist.append(each.symptom_name)
         
-    # form = ExampleForm()
-    symptoms = [(c.id, c.symptom_name) for c in Symptom.query.all()]
-    form.symptoms.choices = symptoms
+#     # form = ExampleForm()
+#     symptoms = [(c.id, c.symptom_name) for c in Symptom.query.all()]
+#     form.symptoms.choices = symptoms
 
-    if form.validate_on_submit():
+#     if form.validate_on_submit():
         
-        food_name = form.food_name.data
-        food_list_spot = FoodList.query.filter(FoodList.food_name == food_name).all()
-        food.food_id = food_list_spot[0].id
-        food.amount = form.amount.data
-        food.feeling = form.feeling.data
-        symptoms = form.symptoms.data
-        food.symptoms.clear()
-        for each in symptoms:
-            symptom = Symptom.query.get_or_404(each)
-            food.symptoms.append(symptom)
+#         food_name = form.food_name.data
+#         food_list_spot = FoodList.query.filter(FoodList.food_name == food_name).all()
+#         food.food_id = food_list_spot[0].id
+#         food.amount = form.amount.data
+#         food.feeling = form.feeling.data
+#         symptoms = form.symptoms.data
+#         food.symptoms.clear()
+#         for each in symptoms:
+#             symptom = Symptom.query.get_or_404(each)
+#             food.symptoms.append(symptom)
         
-        db.session.add(food)
-        db.session.commit()
-        return redirect('/homepage')
+#         db.session.add(food)
+#         db.session.commit()
+#         return redirect('/homepage')
 
-    else:
-        return render_template('/food/food-update.html', form=form, food=food, symptomslist=symptomslist)
+#     else:
+#         return render_template('/food/food-update.html', form=form, food=food, symptomslist=symptomslist)
 
 
 
@@ -335,7 +381,7 @@ def food_destroy(food_id):
     db.session.delete(food)
     db.session.commit()
 
-    return redirect("/homepage")
+    return redirect("/user")
 
 
 
@@ -511,19 +557,24 @@ def search():
     if form.validate_on_submit():
         foodname = form.food_name.data
         food_list_spot = FoodList.query.filter(FoodList.food_name == foodname).all()
-        food = food_list_spot[0]
-        paverage = Food.query.filter(Food.food_id == food_list_spot[0].id).all()
-        averagelist = []
-        for each in paverage:
-            if each.feeling != 'Null':
-                averagelist.append(int(each.feeling))
-        print(f'%%%%%%%%%%%{averagelist}')
-        average = sum(averagelist) / len(averagelist)
+        try:
+            food = food_list_spot[0]
+        except:
+            food = {'food_name': 'No data on this food'}
+            
+            return render_template('/search/search-food.html', food = food, form=form)
+        # paverage = Food.query.filter(Food.food_id == food_list_spot[0].id).all()
+        # averagelist = []
+        # for each in paverage:
+        #     if each.feeling != 'Null':
+        #         averagelist.append(int(each.feeling))
+        # print(f'%%%%%%%%%%%{averagelist}')
+        # average = sum(averagelist) / len(averagelist)
 
         # food_id = food_list_spot[0]
         # food = Food.query.filter(Food.food_id == food_id).first()
 
-        return render_template('/search/search-food.html', food = food, form=form, average=average)
+        return render_template('/search/search-food.html', food = food, form=form)
 
     else:
         
@@ -543,19 +594,32 @@ def usersearch():
         return redirect('/login')
 
     form = UserSearchForm()
+    conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
+    form.search_by.choices = conditions
 
     if form.validate_on_submit():
-        username = form.username.data
+        foodname = form.food_name.data
         search_by = form.search_by.data
+        tablefood = FoodList.query.filter(FoodList.food_name == foodname).one()
+        # food = Food.query.filter(Food.food_name == foodname).one()
+        tablecondition = Condition.query.filter(Condition.id == search_by).one()
+        # if search_by == 'username':
+        #     users = User.query.filter(User.username == username).all()
         
-        if search_by == 'username':
-            users = User.query.filter(User.username == username).all()
+        # else:
+        # foods = FoodConditions.query.filter(FoodConditions.food_id == tablefood.id, FoodConditions.condition_id == tablecondition.id).all()
+        foods = Food.query.filter(Food.food_id == tablefood.id).all()
+        newfoods = []
+        for each in foods:
+            conditions = each.conditions
+            for each2 in conditions:
+                if each2.id == tablecondition.id:
+                        newfoods.append(each)
         
-        else:
-            condition = Condition.query.filter(Condition.condition_name == username).first()
-            users = condition.users
+        
+        
 
-        return render_template('/search/search-users.html', users=users, form=form)
+        return render_template('/search/search-users.html', form=form, newfoods=newfoods)
 
     else:
         return render_template('/search/search-users.html', form=form)
