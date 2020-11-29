@@ -129,8 +129,14 @@ class Food(db.Model):
                                secondary='foods_symptoms',
                                backref='foods')
 
+    conditions = db.relationship('Condition',
+                               secondary='foods_conditions',
+                               backref='foods')
+
     food_name = db.relationship('FoodList',
                                backref='foods')
+    
+    info = db.relationship('FoodList')
 
 
 
@@ -171,6 +177,21 @@ class Condition(db.Model):
 
 
 
+class FoodConditions(db.Model):
+
+    __tablename__ = 'foods_conditions'
+
+    food_id = db.Column(
+        db.Integer,
+        db.ForeignKey('foods.id', ondelete="cascade"),
+        primary_key=True,
+    )
+
+    condition_id = db.Column(
+        db.Integer,
+        db.ForeignKey('conditions.id', ondelete="cascade"),
+        primary_key=True,
+    )
 
 
 class FoodSymptoms(db.Model):
