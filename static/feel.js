@@ -45,31 +45,108 @@
 
 var options = "";
 
-
-
-
-
-
-
-
 foods = ''
 
-
-
-
-async function getFoodList() {
+async function getFoodList(letters) {
   
-  foods = await $.get("https://ifeelapp/heroku.com/foodlist");
+  foods = await $.getJSON(
+    `https://api.spoonacular.com/food/ingredients/autocomplete?query=${letters}&number=5&apiKey=b7e7c1efd70843b7a897ec8eb3717e34&metaInformation=true`
+  );
+  console.log(foods)
   for (var i = 0; i < foods.length; i++) {
-    options += '<option value="' + foods[i] + '" />';
+    options += `<option value="${foods[i].name}" />`;
   }
+  fulllist = [];
+  lastlist = [];
+  
+  for (var i = 0; i < foods.length; i++) {
+      lastlist.push(foods[i].name);
+  }
+
 
   
   document.getElementById("inputfood").innerHTML = options;
   
 }
 
-getFoodList();
+
+
+autoinput = $('#food_name')
+addbutton = $('#addbutton')
+errorfood = $('#error-food')
+
+
+addbutton.on('click', function () {
+  
+  if (lastlist.includes(autoinput.val())){
+    value = autoinput.val();
+    for (var i = 0; i < foods.length; i++) {
+      if (foods[i].name == value) {
+        finalvalue = foods[i]
+        break
+      }
+      
+    }
+    console.log(finalvalue)
+    autoinput.val(JSON.stringify(finalvalue))
+  }
+  else {
+    autoinput.val('');
+    errorfood.text("Food must be present in dropdown suggestions");
+}
+    
+})
+
+
+
+
+
+
+
+let firstTime = '';
+let secondTime = '';
+
+autoinput.keypress(function () {
+  if (firstTime == '') {
+    firstTime = Date.now()
+  }
+
+  else if (firstTime != '') {
+    secondTime = Date.now()
+    difference = secondTime - firstTime
+    if (difference > 1000 && autoinput.val().length >= 1) {
+      getFoodList(autoinput.val())
+    }
+    else {
+      secondTime = '';
+      firstTime = Date.now()
+    }
+  }
+})
+
+
+// autoinput.keypress(function () {
+//   if (firstTime == "" && secondTime == '') {
+//     firstTime = Date.now();
+//   }
+
+//   else if (firstTime != '') {
+//     clearTimeout(timeout);
+//     firstTime = '';
+//     secondTime = 'a';
+//   }
+
+//   timeout = setTimeout(function () {
+    
+//       console.log('get em')
+    
+//   }, 1700);
+    // if (difference > 1700 && autoinput.val().length >= 1) {
+    //   console.log("now we are talking");
+    // } else {
+    //   secondTime = "";
+    //   firstTime = Date.now();
+    // }
 
 
 
