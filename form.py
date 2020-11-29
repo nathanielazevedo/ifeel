@@ -16,21 +16,22 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[Length(min=6)])
 
-
+class MultiCheckboxField(SelectMultipleField):
+    widget = widgets.ListWidget(prefix_label=False)
+    option_widget = widgets.CheckboxInput()
 
 class FoodForm(FlaskForm):
     food_name = StringField('What did you eat?', validators = [InputRequired()])
     amount = SelectField('How much did you eat?', choices=[('', 'How much did you eat?'),('1', 'a little'), ('2', 'some'), ('3', 'a lot')])
-    # feeling = RadioField('choose one', choices=[('1', ''), ('2', ''), ('3', '')])
+    feeling = SelectField('choose one', choices=[('0', 'How do you feel?'),('1', 'bad'), ('2', 'okay'), ('3', 'great')])
+    symptoms = MultiCheckboxField('Symptom', coerce=int)
 
 
 class SearchForm(FlaskForm):
     food_name = StringField('Search for a food?', validators=[InputRequired()])
     
 
-class MultiCheckboxField(SelectMultipleField):
-    widget = widgets.ListWidget(prefix_label=False)
-    option_widget = widgets.CheckboxInput()
+
 
 class UpdateProfileForm(FlaskForm):
     """UpdateForm form."""
@@ -63,8 +64,8 @@ class UpdateFoodForm(FlaskForm):
 
 
 class UserSearchForm(FlaskForm):
-    username = StringField('Search for a user by name or condition', validators=[InputRequired()])
-    search_by = SelectField('Search By', choices=[('username', 'username'), ('condition', 'condition')])
+    food_name = StringField('Search for a food by condition', validators=[InputRequired()])
+    search_by = SelectField('Search By', coerce=int)
     
     
 
