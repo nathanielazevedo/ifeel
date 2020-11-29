@@ -29,6 +29,7 @@
     <thead>
 
       <tr>
+        <th scope="col">Image</th>
         <th scope="col">Food</th>
         <th scope="col">Day</th>
         <th scope="col">Update</th>
@@ -40,7 +41,10 @@
       {% for food in foods %}
 
       <tr class="tr">
+
+        <td><img src="https://spoonacular.com/cdn/ingredients_100x100/{{food.info.spoonacular_image}}" id="searchimage"></td>
         <td>{{food.food_name}}</td>
+        
         <td>{{food.timestamp.date()}}</td>
         <td>
           <form method="GET" action="/food/{{food.id}}/update" class="form-inline">
