@@ -48,22 +48,22 @@
           <thead>
 
             <tr>
-              <th scope="col">Profile Image</th>
-              <th scope="col">Username</th>
-              <th scope="col">Profile Link</th>
+              <th scope="col">Food Image</th>
+              <th scope="col">Food Name</th>
+              <th scope="col">Feeling</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
             
-            {% for user in users %}
+            {% for food in newfoods %}
 
             <tr class="tr">
-              <td><img src="{{user.image_url}}" id="searchimage"></td>
-              <td>{{user.username}}</td>
+              <td><img src="https://spoonacular.com/cdn/ingredients_100x100/{{food.info.spoonacular_image}}" id="searchimage"></td>
+              <td>{{food.food_name}}</td>
               
               <td>
-                <a href="/user/{{user.id}}" id='touser' class="btn btn-info bad" role="button" aria-pressed="true"></a>
+                {{food.feeling}}
 
               </td>
               <td>
