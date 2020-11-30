@@ -50,7 +50,7 @@ foods = ''
 async function getFoodList(letters) {
   
   foods = await $.getJSON(
-    `https://api.spoonacular.com/food/ingredients/autocomplete?query=${letters}&number=5&apiKey=b7e7c1efd70843b7a897ec8eb3717e34&metaInformation=true`
+    `https://api.spoonacular.com/food/ingredients/autocomplete?query=${letters}&number=15&apiKey=b7e7c1efd70843b7a897ec8eb3717e34&metaInformation=true`
   );
   console.log(foods)
   for (var i = 0; i < foods.length; i++) {
@@ -103,24 +103,33 @@ addbutton.on('click', function () {
 
 
 
-let firstTime = '';
-let secondTime = '';
+// let firstTime = '';
+// let secondTime = '';
+
+// autoinput.keypress(function () {
+//   if (firstTime == '') {
+//     firstTime = Date.now()
+//   }
+
+//   else if (firstTime != '') {
+//     secondTime = Date.now()
+//     difference = secondTime - firstTime
+//     if (difference > 1000 && autoinput.val().length >= 1) {
+//       getFoodList(autoinput.val())
+//     }
+//     else {
+//       secondTime = '';
+//       firstTime = Date.now()
+//     }
+//   }
+// })
 
 autoinput.keypress(function () {
-  if (firstTime == '') {
-    firstTime = Date.now()
+  if (autoinput.val().length >= 1) {
+    getFoodList(autoinput.val());
   }
-
-  else if (firstTime != '') {
-    secondTime = Date.now()
-    difference = secondTime - firstTime
-    if (difference > 1000 && autoinput.val().length >= 1) {
-      getFoodList(autoinput.val())
-    }
-    else {
-      secondTime = '';
-      firstTime = Date.now()
-    }
+  else {
+    return
   }
 })
 
