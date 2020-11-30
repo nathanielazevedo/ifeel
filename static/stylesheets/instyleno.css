@@ -363,7 +363,8 @@ table{
   color: white;
   text-align: left;
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 30px;
+  margin-left: 15px;
   
 }
 
@@ -476,4 +477,18 @@ table{
 
 #error-food{
     color: red;
+}
+
+#mainform{
+  background-color: rgba(56, 56, 56, 0.774);
+  padding: 5%;
+  margin-top: 5%;
+  margin-left: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  
+}
+
+#addbutton{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  
 }
