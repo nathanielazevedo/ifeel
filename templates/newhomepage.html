@@ -2,11 +2,10 @@
 
 
 <!-- =============================================================== -->
-{% block content%}
-  <h3 id="edityourprofile">What did you eat and how do you feel?</h3>
-{% endblock %}
+
 
 {% block data %}
+<div id="mainform">
 <form action="/new/food/add" method='POST' id='inputform' autocomplete="off">
     {{ form.hidden_tag() }}
 
@@ -52,7 +51,8 @@
         {% endfor %}
 </div>
 
-    <button id="addbutton" type="submit" class="btn btn-secondary btn-lg btn-block">Submit</button>
+    <button id="addbutton" type="submit" class="btn btn-secondary btn-lg btn-block">Add Food</button>
 </form>
-
+</div>
 {% endblock %}
+

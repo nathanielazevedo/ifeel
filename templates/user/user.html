@@ -8,7 +8,16 @@
 
 {% block content %}
 
-    <h3 id="yourcontributions">Your contributions.</h3>
+    <form action="/user" method="POST" id="inputform" class="form-inline">
+    {{ form.hidden_tag() }} {% for field in form if field.widget.input_type !=
+    'hidden'%} {% for error in field.errors %}
+    <span class="text-danger">{{ error }}</span>
+    {% endfor %} {{ field(placeholder=field.label.text, class="form-control
+    mr-sm-2, wow") }} {% endfor %}
+    <button id="foodsearch" type="submit" class="btn btn-secondary btn-lg btn-block">
+      Search
+    </button>
+  </form>
     
 
 {% endblock %}
@@ -45,7 +54,7 @@
         <td><img src="https://spoonacular.com/cdn/ingredients_100x100/{{food.info.spoonacular_image}}" id="searchimage"></td>
         <td>{{food.food_name}}</td>
         
-        <td>{{food.timestamp.date()}}</td>
+        <td>{{food.timestamp.month}}-{{food.timestamp.day}}-{{food.timestamp.year}}</td>
         <td>
           <form method="GET" action="/food/{{food.id}}/update" class="form-inline">
             <button class="btn btn-success bad" id="delete"></button>
