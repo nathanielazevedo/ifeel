@@ -35,6 +35,8 @@ db.create_all()
 
 
 
+
+
 @app.before_request
 def add_user_to_g():
     """If we're logged in, add curr user to Flask global."""
@@ -217,8 +219,6 @@ def delete_user():
     db.session.commit()
 
     return redirect("/signup")
-
-
 
 
 
