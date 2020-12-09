@@ -53,8 +53,6 @@ class User(db.Model):
         db.Text,
     )
 
-
-
     foods = db.relationship('Food', cascade='all, delete')
 
     conditions = db.relationship('Condition',
