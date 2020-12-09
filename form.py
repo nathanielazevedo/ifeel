@@ -27,6 +27,14 @@ class FoodForm(FlaskForm):
     symptoms = MultiCheckboxField('Symptom', coerce=int)
 
 
+
+
+
+
+
+
+
+
 class SearchForm(FlaskForm):
     food_name = StringField('Search for a food?', validators=[InputRequired()])
     
