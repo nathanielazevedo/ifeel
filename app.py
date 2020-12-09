@@ -6,9 +6,11 @@ from models import db, connect_db, User, Food, Condition, UserConditions, Sympto
 from sqlalchemy.exc import IntegrityError
 import requests
 import pdb
+from flask_debugtoolbar import DebugToolbarExtension
+from functions import cleanNutrition, symptoms
 
 
-CURR_USER_KEY = "curr_user"
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "verysecret"
@@ -16,13 +18,17 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///feel')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
-# debug = DebugToolbarExtension(app)
+debug = DebugToolbarExtension(app)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
+
+
 
 connect_db(app)
 db.create_all()
 
 
+
+CURR_USER_KEY = "curr_user"
 
 
 
@@ -81,18 +87,9 @@ def add_header(req):
 
 
 
-
-
-
-
-
 @app.route('/')
 def main():
-    """Show homepage:
-
-    - anon users: no messages
-    - logged in: 100 most recent messages of followed_users
-    """
+    """Show """
 
     if g.user:
         
@@ -100,27 +97,6 @@ def main():
 
     else:
         return redirect('/signup')
-
-
-
-
-@app.route("/homepage")
-def homepage():
-    """Show homepage."""
-
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
-    
-
-    form = FoodForm()
-    symptoms = [(c.id, c.symptom_name) for c in Symptom.query.all()]
-    form.symptoms.choices = symptoms
-
-    
-    return render_template('newhomepage.html', form=form)
-    
-
 
 
 
@@ -151,7 +127,7 @@ def signup():
                 email=form.email.data,
             )
             db.session.commit()
-            # user = username=form.username.data
+            
 
         except IntegrityError:
             flash("Username and/or email already taken", 'danger')
@@ -192,6 +168,10 @@ def login():
 
 
 
+
+
+
+
 @app.route('/logout')
 def logout():
     """Handle logout of user."""
@@ -202,6 +182,9 @@ def logout():
     do_logout()
     flash("You've been signed out", 'success')
     return redirect("/login")
+
+
+
 
 
 
@@ -233,7 +216,21 @@ def delete_user():
 
 
 
+@app.route("/homepage")
+def homepage():
+    """Show homepage."""
 
+    if not g.user:
+        flash("Login or signup", "danger")
+        return redirect("/")
+    
+
+    form = FoodForm()
+    symptoms = [(c.id, c.symptom_name) for c in Symptom.query.all()]
+    form.symptoms.choices = symptoms
+
+    
+    return render_template('newhomepage.html', form=form)
 
 
 
@@ -244,126 +241,64 @@ def delete_user():
 
 @app.route('/new/food/add', methods=['POST'])
 def post_info():
-
+    '''Add a food '''
 
     if not g.user:
-        flash("Access unauthorized.", "danger")
+        flash("Please login or signup.", "danger")
         return redirect("/")
 
     form = FoodForm()
     
+    # Filling in form checkbox choices with database info.
     symptoms = [(c.id, c.symptom_name) for c in Symptom.query.all()]
     form.symptoms.choices = symptoms
-    if form.validate_on_submit():
 
+    if form.validate_on_submit():
+        
+        # Getting food information 
         food_data = form.food_name.data
         food_data2 = food_data.replace("null", "55")
         food_data3 = eval(food_data2)
         name, image, input_food_id = food_data3['name'], food_data3['image'], food_data3['id']
+
+        # Getting the rest of the info
         user = g.user.id
         amount = form.amount.data
         feeling = form.feeling.data
-        symptoms = form.symptoms.data
+        
         try:
-            new_food_list = FoodList.query.filter(FoodList.spoonacular_id == input_food_id).one()
+            # Does this food already exist in our database?
+            existing_food = FoodList.query.filter(FoodList.spoonacular_id == input_food_id).one()
+
         except:
-            new_food_list = FoodList(food_name=name, spoonacular_id=input_food_id, spoonacular_image= image)
+            # If no, add it to the database.
+            existing_food = FoodList(food_name=name, spoonacular_id=input_food_id, spoonacular_image= image)
             db.session.add(new_food_list)
             db.session.commit()
 
-        new_food = Food(food_id=new_food_list.id, user_id=user, amount=amount, feeling=feeling)
+        new_food = Food(food_id=existing_food.id, user_id=user, amount=amount, feeling=feeling)
         db.session.add(new_food)
         db.session.commit()
+
+
+        # Appending symptoms to this consumption instance.
+        symptoms = form.symptoms.data
+
         for each in symptoms:
-            print('working')
             symptom = Symptom.query.get_or_404(each)
             new_food.symptoms.append(symptom)
+
+        # Appending users conditions to this consumption instance.
         for each in g.user.conditions:
             new_food.conditions.append(each)
+
         db.session.commit()
+        flash(f'{name} has been added to your foods.')
+        return redirect('/user')
 
     
     return redirect('/homepage')
         
-        
-
-
-
-@app.route('/food/add', methods=['POST'])
-def posst_info():
-
-
-    if not g.user:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
-
-    
-
-    form = FoodForm()
-
-    if form.validate_on_submit():
-        food_name = form.food_name.data
-        food_list_spot = FoodList.query.filter(FoodList.food_name == food_name).all()
-        if food_list_spot:
-            food_id = food_list_spot[0].id
-            user = g.user.id
-            amount = form.amount.data
-            new_food = Food(food_id=food_id, user_id=user, amount=amount)
-            db.session.add(new_food)
-            db.session.commit()
-            return redirect('/homepage')
-        else:
-            flash('Not in database. Add it! Bottom right.')
-            return redirect('/homepage')
-
-    else:
-        return redirect('/homepage')
-
-
-
-
-
-
-# @app.route('/food/<food_id>/update', methods=['POST', 'GET'])
-# def update_info(food_id):
-#     #Update a food 
-
-
-#     if not g.user:
-#         flash("Access unauthorized.", "danger")
-#         return redirect("/")
-
-#     food = Food.query.get_or_404(food_id)
-#     form = UpdateFoodForm(obj=food)
-#     symptomslist = []
-#     for each in food.symptoms:
-#         symptomslist.append(each.symptom_name)
-        
-#     # form = ExampleForm()
-#     symptoms = [(c.id, c.symptom_name) for c in Symptom.query.all()]
-#     form.symptoms.choices = symptoms
-
-#     if form.validate_on_submit():
-        
-#         food_name = form.food_name.data
-#         food_list_spot = FoodList.query.filter(FoodList.food_name == food_name).all()
-#         food.food_id = food_list_spot[0].id
-#         food.amount = form.amount.data
-#         food.feeling = form.feeling.data
-#         symptoms = form.symptoms.data
-#         food.symptoms.clear()
-#         for each in symptoms:
-#             symptom = Symptom.query.get_or_404(each)
-#             food.symptoms.append(symptom)
-        
-#         db.session.add(food)
-#         db.session.commit()
-#         return redirect('/homepage')
-
-#     else:
-#         return render_template('/food/food-update.html', form=form, food=food, symptomslist=symptomslist)
-
-
 
 
 
@@ -373,7 +308,7 @@ def food_destroy(food_id):
     """Delete a food."""
 
     if not g.user:
-        flash("Access unauthorized.", "danger")
+        flash("Sign up or login.", "danger")
         return redirect("/")
 
     food = Food.query.get_or_404(food_id)
@@ -390,14 +325,7 @@ def food_destroy(food_id):
 
 
 
-
-
-
 #########################################
-
-
-
-
 
 
 
@@ -415,17 +343,21 @@ def display_profile():
         flash('Please login first!')
         return redirect('/login')
 
-    currUser = g.user.id
-    user = User.query.get_or_404(currUser)
+    
+    user = User.query.get_or_404(g.user.id)
+
+
+    # Making a list of all conditions the user currently has inorder to check them in the form.
     conditionslist = []
     for each in user.conditions:
         conditionslist.append(each.condition_name)
-    form = UpdateProfileForm(obj=user)
-    # form = ExampleForm()
+
+    form = UpdateProfileForm()
+    
     conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
     form.conditions.choices = conditions
 
-     
+    
 
     if form.validate_on_submit():
         
@@ -448,8 +380,6 @@ def display_profile():
 
 
 
-
-
 @app.route('/user/profile/edit', methods=['GET', 'POST'])
 def display_edit_profile():
 
@@ -457,13 +387,16 @@ def display_edit_profile():
         flash('Please login first!')
         return redirect('/login')
 
-    currUser = g.user.id
-    user = User.query.get_or_404(currUser)
+    
+    user = User.query.get_or_404(g.user.id)
+
+    # Making a list of all conditions the user currently has inorder to check them in the form.
     conditionslist = []
     for each in user.conditions:
         conditionslist.append(each.condition_name)
     form = UpdateProfileForm(obj=user)
-    # form = ExampleForm()
+    
+    # Populating conditions options for form.
     conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
     form.conditions.choices = conditions
 
@@ -477,9 +410,11 @@ def display_edit_profile():
         user.image_url = form.image_url.data
         conditions = form.conditions.data
         user.conditions.clear()
+
         for each in conditions:
             condition = Condition.query.get_or_404(each)
             user.conditions.append(condition)
+
         db.session.add(user)
         db.session.commit()
         return redirect('/homepage')
@@ -487,20 +422,6 @@ def display_edit_profile():
     return render_template('/user/edit-profile.html', user=user, form=form, conditionslist=conditionslist)
 
 
-
-
-
-@app.route('/user/<user_id>', methods=['GET', 'POST'])
-def display_specific_profile(user_id):
-
-    if not g.user:
-        flash('Please login first!')
-        return redirect('/login')
-
-    
-    user = User.query.get_or_404(user_id)
-
-    return render_template('/user/user-profile.html', user=user)  
 
 
 
@@ -537,15 +458,7 @@ def user():
 
 
 
-
-
-
-
-
 ###########################################################
-
-
-
 
 
 
@@ -573,22 +486,14 @@ def search():
             food = {'food_name': 'No data on this food'}
             
             return render_template('/search/search-food.html', food = food, form=form)
-        # paverage = Food.query.filter(Food.food_id == food_list_spot[0].id).all()
-        # averagelist = []
-        # for each in paverage:
-        #     if each.feeling != 'Null':
-        #         averagelist.append(int(each.feeling))
-        # print(f'%%%%%%%%%%%{averagelist}')
-        # average = sum(averagelist) / len(averagelist)
-
-        # food_id = food_list_spot[0]
-        # food = Food.query.filter(Food.food_id == food_id).first()
 
         return render_template('/search/search-food.html', food = food, form=form)
 
     else:
         
         return render_template('/search/search-food.html', form=form, allfoods=allfoods)
+
+
 
 
 
@@ -611,14 +516,14 @@ def usersearch():
         foodname = form.food_name.data
         search_by = form.search_by.data
         tablefood = FoodList.query.filter(FoodList.food_name == foodname).one()
-        # food = Food.query.filter(Food.food_name == foodname).one()
+
         tablecondition = Condition.query.filter(Condition.id == search_by).one()
-        # if search_by == 'username':
-        #     users = User.query.filter(User.username == username).all()
-        
-        # else:
-        # foods = FoodConditions.query.filter(FoodConditions.food_id == tablefood.id, FoodConditions.condition_id == tablecondition.id).all()
+
         foods = Food.query.filter(Food.food_id == tablefood.id).all()
+
+
+
+
         newfoods = []
         for each in foods:
             conditions = each.conditions
@@ -626,10 +531,15 @@ def usersearch():
                 if each2.id == tablecondition.id:
                         newfoods.append(each)
         
+        averagelist = []
+        for each in newfoods:
+            if each.feeling != 'Null':
+                averagelist.append(int(each.feeling))
         
+        average = round(sum(averagelist) / len(averagelist), 1)
         
 
-        return render_template('/search/search-users.html', form=form, newfoods=newfoods)
+        return render_template('/search/search-users.html', form=form, tablefood=tablefood, average=average)
 
     else:
         return render_template('/search/search-users.html', form=form)
@@ -639,9 +549,7 @@ def usersearch():
 
 
 
-
-
-
+    
 
 ##############################################
 
@@ -651,13 +559,13 @@ def usersearch():
 
 
 
-symptoms = ['acid reflux', 'diarrhea', 'constipation', 'heart burn', 'bloating', 'naseau', 'gas', 'upset stomach', 'abdominal pain', 'cramps', 'vomitting']
+
 
 #Graph API route
 
 @app.route('/graph/<food_id>', methods=['GET'])
 def graph(food_id):
-    #Route for generating graphs. Needs developing
+    #Route for generating graphs. 
 
 
     if not g.user:
@@ -718,32 +626,13 @@ def graph(food_id):
 
     
     nutritional_info = requests.get(f"https://api.spoonacular.com/food/ingredients/{alldata[0].info.spoonacular_id}/information?amount=1&apiKey=b7e7c1efd70843b7a897ec8eb3717e34&unit=serving").json()
-    # pdb.set_trace()
-    # try:
-    #     nutritional_info['nutrition']['nutrients'][11]
-    # except:
-    #     nutritional_info = 'none'
+
     nutrition = cleanNutrition(nutritional_info)
     return render_template('graph.html', graph=graph, graph2=graph2, foodname=foodname, nutrition=nutrition)
 
 
 
 
-
-
-@app.route('/foodlist', methods=['GET'])
-def foodlist():
-    foodlist = FoodList.query.all()
-
-    if not g.user:
-        flash('Please login first!')
-        return redirect('/login')
-
-    foodnamelist = []
-    for each in foodlist:
-        name = each.food_name
-        foodnamelist.append(name)
-    return jsonify(foodnamelist)
 
 
 
@@ -757,206 +646,12 @@ def page_not_found(e):
 
 
 
-@app.route('/food/database/add', methods=['GET','POST'])
-def addtodatabase():
-    """"""
-
-    if not g.user:
-        flash('Please login first!')
-        return redirect('/login')
-    form = SearchAddForm()
-    form2 = AddSearchForm()
-    form3 = SearchSpoonacular()
-    form4 = AddSpoonacular()
-    allfoods = FoodList.query.all()
-
-    # if form.validate_on_submit():
-    #     foodname = form.search_food_name.data
-    #     allfoods = FoodList.query.filter(FoodList.food_name.like(f"%{foodname}%")).all()
-    #     return render_template('allfoods.html', allfoods=allfoods, form=form, form2=form2)
-        
-    if form3.validate_on_submit():
-        foodname = form3.spoonacular_food_name.data
-        apifoods1 = requests.get(f'https://api.spoonacular.com/food/ingredients/search?query={foodname}&number=5&apiKey=b7e7c1efd70843b7a897ec8eb3717e34').json()
-        apifoods = apifoods1['results']
-        
-        
-        return render_template('allfoods.html', apifoods=apifoods, form=form, form2=form2, form3=form3)
-
-    elif form2.validate_on_submit():
-        foodname = form2.add_food_name.data
-        new_food = FoodList(food_name=foodname)
-        db.session.add(new_food)
-        db.session.commit()
-        flash(f'{foodname} added to database.')
-        return redirect('/homepage')
-
-
-    return render_template('allfoods.html', allfoods=allfoods, form=form, form2=form2, form3=form3, form4=form4)
 
 
 
 
 
-@app.route("/food/<food>/add", methods=['GET','POST'])
-def addspoontodatabase(food):
-    """"""
-
-    if not g.user:
-        flash('Please login first!')
-        return redirect('/login')
-    food1 = eval(food)
-    foodid = int(food1['id'])
-    foodname = food1['name']
-    foodimage = food1['image']
-    new_food = FoodList(food_name=foodname, spoonacular_id=foodid, spoonacular_image=foodimage)
-    db.session.add(new_food)
-    db.session.commit()
-    flash(f'{foodname} added to database.')
-    
-    return redirect('/homepage')
 
 
 
-def cleanNutrition(nutritional_info):
-    nutrition = {}
-    try:
-        calories = nutritional_info['nutrition']['nutrients'][0]
-        nutrition['calories'] = calories
-    except:
-        nutrition['calories'] =  {
-                "title": "-",
-                "amount": "-",
-                "unit": "-",
-                "percentOfDailyNeeds": '-'
-            }
-    try:
-        fat = nutritional_info['nutrition']['nutrients'][1]
-        nutrition['fat'] = fat
-    except:
-        nutrition['fat'] =  {
-                "title": "-",
-                "amount": "-",
-                "unit": "-",
-                "percentOfDailyNeeds": '-'
-            }
 
-    try:
-        saturated_fat = nutritional_info['nutrition']['nutrients'][2]
-        nutrition['saturated_fat'] = saturated_fat
-    except:
-        nutrition['saturated_fat'] =  {
-                "title": "-",
-                "amount": "-",
-                "unit": "-",
-                "percentOfDailyNeeds": '-'
-            }
-
-    try:
-        carbohydrates = nutritional_info['nutrition']['nutrients'][3]
-        nutrition['carbohydrates'] = carbohydrates
-    except:
-        nutrition['carbohydrates'] =  {
-                "title": "-",
-                "amount": "-",
-                "unit": "-",
-                "percentOfDailyNeeds": '-'
-            }
-
-    try:
-        sugar = nutritional_info['nutrition']['nutrients'][5]
-        nutrition['sugar'] = sugar
-    except:
-        nutrition['sugar'] =  {
-                "title": "-",
-                "amount": "-",
-                "unit": "-",
-                "percentOfDailyNeeds": '-'
-            }
-
-    try:
-        cholesterol = nutritional_info['nutrition']['nutrients'][6]
-        nutrition['cholesterol'] = cholesterol
-    except:
-        nutrition['cholesterol'] =  {
-                "title": "-",
-                "amount": "-",
-                "unit": "-",
-                "percentOfDailyNeeds": '-'
-            }
-    try:   
-        sodium = nutritional_info['nutrition']['nutrients'][7]
-        nutrition['sodium'] = sodium
-    except:
-        nutrition['sodium'] =  {
-                "title": "-",
-                "amount": "-",
-                "unit": "-",
-                "percentOfDailyNeeds": '-'
-            }
-    try:
-        protein = nutritional_info['nutrition']['nutrients'][8]
-        nutrition['protein'] = protein
-    except:
-        nutrition['protein'] =  {
-                "title": "-",
-                "amount": "-",
-                "unit": "-",
-                "percentOfDailyNeeds": '-'
-            }
-    try:       
-        vitaminC = nutritional_info['nutrition']['nutrients'][9]
-        nutrition['vitaminC'] = vitaminC
-    except:
-        nutrition['vitaminC'] =  {
-                "title": "-",
-                "amount": "-",
-                "unit": "-",
-                "percentOfDailyNeeds": '-'
-            }
-    try:   
-        fiber = nutritional_info['nutrition']['nutrients'][11]
-        nutrition['fiber'] = fiber
-    except:
-        nutrition['fiber'] =  {
-                "title": "-",
-                "amount": "-",
-                "unit": "-",
-                "percentOfDailyNeeds": '-'
-            }
-
-    try:
-        iron = nutritional_info['nutrition']['nutrients'][21]
-        nutrition['iron'] = iron
-    except:
-        nutrition['iron'] =  {
-                "title": "-",
-                "amount": "-",
-                "unit": "-",
-                "percentOfDailyNeeds": '-'
-            }
-
-    try:
-        calcium = nutritional_info['nutrition']['nutrients'][22]
-        nutrition['calcium'] = calcium
-    except:
-        nutrition['calcium'] =  {
-                "title": "-",
-                "amount": "-",
-                "unit": "-",
-                "percentOfDailyNeeds": '-'
-            }
-
-    try:
-        vitaminA = nutritional_info['nutrition']['nutrients'][23]
-        nutrition['vitaminA'] = vitaminA
-    
-    except:
-        nutrition['vitaminA'] =  {
-                "title": "-",
-                "amount": "-",
-                "unit": "-",
-                "percentOfDailyNeeds": '-'
-            }   
-    
-    return nutrition
