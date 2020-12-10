@@ -163,3 +163,34 @@ autoinput.keypress(function () {
 
 
 
+condition_input = $('#food_name_condition')
+
+
+condition_input.keypress(function () {
+  if (condition_input.val().length >= 1) {
+    getFoodList2(autoinput.val());
+  } else {
+    return;
+  }
+});
+
+
+async function getFoodList2(letters) {
+  foodlist = await $.getJSON("http://127.0.0.1:5000/foodlist");
+  console.log(foodlist);
+  options = '';
+  for (var i = 0; i < foodlist.length; i++) {
+    options += `<option value="${foodlist[i]}" />`;
+    
+  }
+
+  
+  // fulllist = [];
+  // lastlist = [];
+
+  // for (var i = 0; i < foods.length; i++) {
+  //   lastlist.push(foods[i].name);
+  // }
+
+  document.getElementById("inputfood2").innerHTML = options;
+}
