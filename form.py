@@ -72,11 +72,14 @@ class UpdateFoodForm(FlaskForm):
 
 
 class UserSearchForm(FlaskForm):
-    food_name = StringField('Search for a food by condition', validators=[InputRequired()])
+    food_name_condition = StringField('Search for a food by condition', validators=[InputRequired()])
     search_by = SelectField('Search By', coerce=int)
     
     
+class InitialConditionsForm(FlaskForm):
+    """Add conditions when user signs up"""
 
+    conditions = MultiCheckboxField('Condition', coerce=int)
 
 
     
