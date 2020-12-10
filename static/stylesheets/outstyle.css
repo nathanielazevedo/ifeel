@@ -19,6 +19,20 @@ html, body, .grid-container {
     background-color: #2F5B81;
 }
 
+.conditionname{
+  
+  float: left;
+  width: 50%;
+}
+
+#conditions{
+  color: white;
+  text-align: left;
+  margin: 0 auto;
+  margin-top: 20px;
+  
+}
+
 .intronote { 
   grid-area: intronote; }
 
