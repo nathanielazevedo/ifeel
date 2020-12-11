@@ -392,7 +392,11 @@ def user():
     if form.validate_on_submit():
         food = form.search_food_name.data
         foodlistspot = FoodList.query.filter(FoodList.food_name == food).all()
-        food_id = foodlistspot[0].id
+        try:
+            food_id = foodlistspot[0].id
+        except:
+            flash("You haven't inputed that food")
+            return render_template('/food/userfoods.html', foods=foods, form=form)
         foods = (Food.query.filter(Food.user_id == g.user.id, Food.food_id == food_id).all())
         
         # return render_template('/user/user.html', foods=foods, form=form)
@@ -559,9 +563,8 @@ def search():
         try:
             food = food_list_spot[0]
         except:
-            food = {'food_name': 'No data on this food'}
-            
-            return render_template('/search/search-food.html', food = food, form=form)
+            flash('Nobody has eaten that yet, maybe you should')
+            return render_template('/search/search-food.html', form=form, allfoods=allfoods)
 
         return render_template('/search/search-food.html', food = food, form=form)
 
@@ -589,9 +592,14 @@ def usersearch():
     form.search_by.choices = conditions
 
     if form.validate_on_submit():
-        foodname = form.food_name_condiiton.data
+        try:
+            foodname = form.food_name_condiiton.data
+        except:
+            flash("There is no data on that food")
+            return render_template('/search/foodbycondition.html', form=form)
         search_by = form.search_by.data
         tablefood = FoodList.query.filter(FoodList.food_name == foodname).one()
+        
 
         tablecondition = Condition.query.filter(Condition.id == search_by).one()
 

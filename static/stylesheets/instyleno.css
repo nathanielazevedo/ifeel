@@ -7,7 +7,7 @@ body,
 
 .grid-container {
   display: grid;
-  grid-template-columns: 19% 80% 1%;
+  grid-template-columns: 12% 87.9% .1%;
   grid-template-rows: 10% 20% 20% 20% 20% 10%;
   gap: 0px 0px;
   grid-template-areas:
@@ -104,22 +104,27 @@ input, #username{
 
 .icon1 {
   grid-area: icon1;
+  
 }
 
 .icon2 {
   grid-area: icon2;
+  
 }
 
 .icon3 {
   grid-area: icon3;
+  
 }
 
 .icon4 {
   grid-area: icon4;
+  
 }
 
 .logo {
   grid-area: logo;
+  
 }
 
 .footercenter {
@@ -135,6 +140,7 @@ input, #username{
 
 .footerleft {
   grid-area: footerleft;
+  background-color: black;
 }
 
 .header {
@@ -192,6 +198,10 @@ li {
 
 li label {
   display: none;
+}
+
+#addfoodpage:focus{
+  color: purple;
 }
 
 #feeling-0 {
