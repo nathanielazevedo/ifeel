@@ -5,7 +5,7 @@ body,
   margin: 0;
 }
 
-.grid-container {
+.grid-contfiner {
   display: grid;
   grid-template-columns: 12% 87.9% .1%;
   grid-template-rows: 10% 20% 20% 20% 20% 10%;
