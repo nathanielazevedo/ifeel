@@ -268,10 +268,25 @@ def homepage():
 
 
 
+
+
 #Food Routes
 
 
-@app.route('/food/add', methods=['POST'])
+@app.route('/food/add/main', methods=['POST', 'GET'])
+def post_ino():
+    '''Add a food '''
+
+    if not g.user:
+        flash("Please login or signup.", "danger")
+        return redirect("/")
+
+
+    return render_template('/food/addfoodmain.html')
+
+
+
+@app.route('/food/add', methods=['POST', 'GET'])
 def post_info():
     '''Add a food '''
 
@@ -329,7 +344,7 @@ def post_info():
         return redirect('/userfoods')
 
     
-    return redirect('/home')
+    return render_template('/food/addfood.html', form=form)
 
 
 
@@ -564,13 +579,13 @@ def search():
             food = food_list_spot[0]
         except:
             flash('Nobody has eaten that yet, maybe you should')
-            return render_template('/search/search-food.html', form=form, allfoods=allfoods)
+            return render_template('/search/searchfood.html', form=form, allfoods=allfoods)
 
-        return render_template('/search/search-food.html', food = food, form=form)
+        return render_template('/search/searchfood.html', food = food, form=form)
 
     else:
         
-        return render_template('/search/search-food.html', form=form, allfoods=allfoods)
+        return render_template('/search/searchfood.html', form=form, allfoods=allfoods)
 
 
 
@@ -689,7 +704,7 @@ def graph(food_id):
 
 
         flash("Sorry, we don't have any data on that food yet")
-        return render_template('/search/search-food.html', form=form, allfoods=allfoods)
+        return render_template('/search/searchfood.html', form=form, allfoods=allfoods)
 
     fooddata = []
     foodsymptomslists = []
