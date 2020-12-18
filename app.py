@@ -220,7 +220,7 @@ def logout():
 
 
 
-@app.route('/users/delete', methods=["POST"])
+@app.route('/users/delete')
 def delete_user():
     """Delete user."""
 
@@ -282,7 +282,7 @@ def post_ino():
         return redirect("/")
 
 
-    return render_template('/food/addfoodmain.html')
+    return render_template('/food/addfood.html')
 
 
 
@@ -320,7 +320,7 @@ def post_info():
         except:
             # If no, add it to the database.
             existing_food = FoodList(food_name=name, spoonacular_id=input_food_id, spoonacular_image= image)
-            db.session.add(new_food_list)
+            db.session.add(existing_food)
             db.session.commit()
 
         new_food = Food(food_id=existing_food.id, user_id=user, amount=amount, feeling=feeling)
@@ -330,7 +330,7 @@ def post_info():
 
         # Appending symptoms to this consumption instance.
         symptoms = form.symptoms.data
-
+        
         for each in symptoms:
             symptom = Symptom.query.get_or_404(each)
             new_food.symptoms.append(symptom)
@@ -420,7 +420,7 @@ def user():
 
 
 
-@app.route('/food/<int:food_id>/delete', methods=["POST"])
+@app.route('/food/<int:food_id>/delete')
 def food_destroy(food_id):
     """Delete a food."""
 
@@ -564,6 +564,12 @@ def display_edit_profile():
 
 #Searching Routes
 
+
+@app.route('/search', methods=['GET', 'POST'])
+def searsch():
+
+    return render_template('/search/searchfood.html')
+
 @app.route('/food/search', methods=['GET', 'POST'])
 def search():
     #Search for a food by name. Return all matches
@@ -579,13 +585,13 @@ def search():
             food = food_list_spot[0]
         except:
             flash('Nobody has eaten that yet, maybe you should')
-            return render_template('/search/searchfood.html', form=form, allfoods=allfoods)
+            return render_template('/search/search-food.html', form=form, allfoods=allfoods)
 
-        return render_template('/search/searchfood.html', food = food, form=form)
+        return render_template('/search/search-food.html', food = food, form=form)
 
     else:
         
-        return render_template('/search/searchfood.html', form=form, allfoods=allfoods)
+        return render_template('/search/search-food.html', form=form, allfoods=allfoods)
 
 
 
@@ -607,11 +613,13 @@ def usersearch():
     form.search_by.choices = conditions
 
     if form.validate_on_submit():
+        
         try:
-            foodname = form.food_name_condiiton.data
+            foodname = form.food_name_condition.data
         except:
             flash("There is no data on that food")
             return render_template('/search/foodbycondition.html', form=form)
+
         search_by = form.search_by.data
         tablefood = FoodList.query.filter(FoodList.food_name == foodname).one()
         
@@ -660,6 +668,8 @@ def usersearch():
             symptomslists.append(strfoodsymptoms.count(each))
 
         graph2 = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:{symptoms},datasets:[{{label:'Number of reports per symptom after eating {foodname}',data:{symptomslists}}}]}}}}")
+
+        
 
         return render_template('/search/foodbycondition.html', form=form, tablefood=tablefood, average=average, graph2=graph2)
 
