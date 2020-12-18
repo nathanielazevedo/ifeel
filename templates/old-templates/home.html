@@ -1,0 +1,58 @@
+{% extends 'inbaseno.html' %}
+
+
+<!-- =============================================================== -->
+
+
+{% block data %}
+<div id="mainform">
+<form action="/food/add" method='POST' id='inputform' autocomplete="off">
+    {{ form.hidden_tag() }}
+
+    {% for field in form if field.widget.input_type != 'hidden' and field.name != 'symptoms' %}
+
+
+    {% for error in field.errors %}
+    <span class="text-danger">{{ error }}</span>
+    {% endfor %}
+   
+    {% if field.type == 'StringField' %}
+    {{ field(placeholder=field.label.text, class="form-control", list='inputfood') }}
+        <datalist id='inputfood'></datalist>
+        <span id="error-food"></span>
+
+
+    {% elif field.type != 'RadioField' %}
+    {{ field(placeholder=field.label.text, class="form-control") }}
+    {% else %}
+
+
+    
+    {% for subfield in field %}
+
+
+    {{subfield.label (class="btn btn-secondary active")}}
+    {{subfield}}
+
+  
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+
+      <div id="conditions">
+            {% for field in form.symptoms %}
+        
+
+          <div class="conditionname">
+          {{field}}
+          {{field.label}}
+          </div>
+          
+        {% endfor %}
+</div>
+
+    <button id="addbutton" type="submit" class="btn btn-secondary btn-lg btn-block">Add Food</button>
+</form>
+</div>
+{% endblock %}
+
