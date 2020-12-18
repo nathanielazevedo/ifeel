@@ -176,9 +176,7 @@ condition_input.keypress(function () {
 
 
 async function getFoodList2(letters) {
-  foodlist = await $.getJSON(
-    "http://127.0.0.1:5000/foodlist"
-  );
+  foodlist = await $.getJSON("https://ifeelapp.herokuapp.com/oodlist");
   console.log(foodlist);
   options = '';
   for (var i = 0; i < foodlist.length; i++) {
@@ -241,27 +239,27 @@ let linkProfile = $('.profile');
 // links.forEach((v) => console.log(v))
 console.log(links[0].baseURI)
 
-let firstLink = "http://127.0.0.1:5000/home";
+let firstLink = "https://ifeelapp.herokuapp.com/home";
 
 if (firstLink == window.location.href) {
   links.css('background-color', 'rgb(32, 56, 100')
 }
-let secondLink = "http://127.0.0.1:5000/food/add";
+let secondLink = "https://ifeelapp.herokuapp.com/food/add";
 
 if (secondLink == window.location.href) {
   links2.css('background-color', 'rgb(32, 56, 100')
 }
-let thirdlink = "http://127.0.0.1:5000/search";
+let thirdlink = "https://ifeelapp.herokuapp.com/search";
 
 if (thirdlink == window.location.href) {
   links3.css('background-color', 'rgb(32, 56, 100')
 }
-let fourthlink = "http://127.0.0.1:5000/userfoods";
+let fourthlink = "https://ifeelapp.herokuapp.com/userfoods";
 
 if (fourthlink == window.location.href) {
   links4.css('background-color', 'rgb(32, 56, 100')
 }
-let profilelink = "http://127.0.0.1:5000/user/profile";
+let profilelink = "https://ifeelapp.herokuapp.com/user/profile";
 
 if (profilelink == window.location.href) {
   linkProfile.css('background-color', 'rgb(32, 56, 100')
