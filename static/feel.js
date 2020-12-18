@@ -71,8 +71,8 @@ async function getFoodList(letters) {
 
 
 
-autoinput = $('#food_name')
-addbutton = $('#addbutton')
+autoinput = $('#fieldOne')
+addbutton = $('.addbutton')
 errorfood = $('#error-food')
 
 
@@ -163,7 +163,7 @@ autoinput.keypress(function () {
 
 
 
-condition_input = $('#food_name_condition')
+condition_input = $('#foodSearchInput')
 
 
 condition_input.keypress(function () {
@@ -176,7 +176,9 @@ condition_input.keypress(function () {
 
 
 async function getFoodList2(letters) {
-  foodlist = await $.getJSON("https://ifeelapp.herokuapp.com/foodlist");
+  foodlist = await $.getJSON(
+    "http://127.0.0.1:5000/foodlist"
+  );
   console.log(foodlist);
   options = '';
   for (var i = 0; i < foodlist.length; i++) {
@@ -193,4 +195,74 @@ async function getFoodList2(letters) {
   // }
 
   document.getElementById("inputfood2").innerHTML = options;
+}
+
+
+// toggle checkboxes
+
+
+
+let checkForm = $('#mainForm')
+
+
+
+checkForm.on('click', ".checkbox", function (evt) {
+
+  if ($(this).css("background-color") == 'rgb(0, 0, 0)') {
+    $(this).css("background-color", "rgb(32,56,100");
+    
+  } else {
+    $(this).css("background-color", "rgb(0,0,0)");
+  }
+  
+})
+
+
+
+function checkIt() {
+  var path = window.location.href;
+  console
+  // $(".Nav").each(function () {
+  //   if (this.href === path) {
+  //     $(this).addClass("active");
+  //     console.log('Done')
+  //   }
+  // });
+};
+
+  var path = window.location.href;
+console.log(path);
+  
+let links = $('.first');
+let links2 = $('.second');
+let links3 = $('.third');
+let links4 = $('.fourth');
+let linkProfile = $('.profile');
+// links.forEach((v) => console.log(v))
+console.log(links[0].baseURI)
+
+let firstLink = "http://127.0.0.1:5000/home";
+
+if (firstLink == window.location.href) {
+  links.css('background-color', 'rgb(32, 56, 100')
+}
+let secondLink = "http://127.0.0.1:5000/food/add";
+
+if (secondLink == window.location.href) {
+  links2.css('background-color', 'rgb(32, 56, 100')
+}
+let thirdlink = "http://127.0.0.1:5000/search";
+
+if (thirdlink == window.location.href) {
+  links3.css('background-color', 'rgb(32, 56, 100')
+}
+let fourthlink = "http://127.0.0.1:5000/userfoods";
+
+if (fourthlink == window.location.href) {
+  links4.css('background-color', 'rgb(32, 56, 100')
+}
+let profilelink = "http://127.0.0.1:5000/user/profile";
+
+if (profilelink == window.location.href) {
+  linkProfile.css('background-color', 'rgb(32, 56, 100')
 }
