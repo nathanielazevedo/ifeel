@@ -10,11 +10,23 @@
         </div>
         <div class="homeInfo" id="infoThree">
             <h3 class="infoTitle">Avoid This</h3>
-            <h2 class="infoData"><img src="https://spoonacular.com/cdn/ingredients_100x100/{{eatFood.info.spoonacular_image}}" id="searchimage"></i></h2>            
+            <h2 class="infoData">
+                {% if eatFood != '' %}
+                <img src="https://spoonacular.com/cdn/ingredients_100x100/{{eatFood.info.spoonacular_image}}" id="searchimage">
+                {% else %}
+                <div  id="searchimage"> - </div>
+                {% endif %}
+            </h2>            
         </div>
         <div class="homeInfo" id="infoFour">
             <h3 class="infoTitle">Eat This</h3>
-            <h2 class="infoData"><img src="https://spoonacular.com/cdn/ingredients_100x100/{{avoidFood.info.spoonacular_image}}" id="searchimage"></h2>            
+            <h2 class="infoData">
+                {% if avoidFood != '' %}
+                <img src="https://spoonacular.com/cdn/ingredients_100x100/{{avoidFood.info.spoonacular_image}}" id="searchimage">
+                {% else %}
+                <div  id="searchimage"> - </div>
+                {% endif %}
+            </h2>            
         </div>
 
 {% endblock %}

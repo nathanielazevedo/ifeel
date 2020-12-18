@@ -281,11 +281,20 @@ def homepage():
             eatlist.append(each)
         elif each.feeling == '1':
             avoidlist.append(each)
-            
-    eatFood = eatlist[randint(0, (len(eatlist) - 1) )]
-    avoidFood = avoidlist[randint(0, (len(avoidlist) - 1) )]
+    try:
+        eatFood = eatlist[randint(0, (len(eatlist) - 1))]
+    except:
+        eatFood = ''
 
-    average = round(sum(averagelist) / len(averagelist), 1)
+    try:
+        avoidFood = avoidlist[randint(0, (len(avoidlist) - 1))]
+    except:
+        avoidFood = ''
+
+    try:
+        average = round(sum(averagelist) / len(averagelist), 1)
+    except:
+        average = 0
 
     return render_template('home.html', total = total, average=average, eatFood=eatFood, avoidFood = avoidFood)
 
