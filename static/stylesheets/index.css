@@ -273,6 +273,9 @@ margin-left: -100px;
   left: 10%;
   width: 150px;
   height: 150px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border: black 1px solid;
+
 }
 #profileEmail{
   position: absolute;
@@ -286,15 +289,74 @@ margin-left: -100px;
   position: absolute;
   bottom: 30%;
   width:75%;
+  border: none;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
 }
-#profileLogout{
-  background-color: var(--blue);
+#editProfileButton:hover{
+  background-color:rgb(122, 141, 90);
+}
+
+#profileDelete{
+  margin-left: 5%;
   position: absolute;
-  bottom: 1%;
-  width: 85%;
+  bottom: 5%;
+  width: 75%;
   background-color: rgb(151, 57, 41);
   color: white;
-  font-size: 10px;
+  font-size: 20px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+#profileDelete:hover{
+  background-color: rgb(173, 74, 57);
+}
+
+#editProfileButton{
+  background-color: var(--blue);
+  border: solid black 1px;
+  color: white;
+  position: absolute;
+    position: absolute;
+  bottom: 15%;
+  width: 75%;
+  margin-left: 5%;
+  
+}
+
+#editProfileButton:hover{
+  background-color: var(--green);
+}
+#editProfileButton1{
+  background-color: var(--blue);
+  border: solid black 1px;
+  color: white;
+  position: absolute;
+    position: absolute;
+  bottom: 25%;
+  
+  width: 75%;
+}
+
+#editProfileButton1:hover{
+  background-color: var(--green);
+}
+
+#profileLogout{
+  
+  position: absolute;
+  bottom: 15%;
+  width: 75%;
+  background-color: rgb(151, 57, 41);
+  color: white;
+  font-size: 20px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+#profileLogout:hover{
+  background-color: rgb(173, 74, 57);
 }
 
 
@@ -326,6 +388,21 @@ margin-left: -100px;
   background-color: #1d2b44;
 }
 
+
+
+#mainFormEditProfile{
+  height: 80%;
+  width: 90%;
+  font-size: 10px;
+}
+
+#fieldOneProfile{
+  margin-top: 10px;
+}
+
+
+
+
 /* Adding food form */
 
 #mainForm{
@@ -338,7 +415,7 @@ margin-left: -100px;
   margin-top: 20px;
 }
 #fieldTwo{
-  margin-top: 20px;
+  margin-top: 10px;
   
 }
 
@@ -362,6 +439,11 @@ input[type=checkbox]:checked + label {
 
 .symptoms{
   margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+.conditions{
+  margin-top: 30px;
   margin-bottom: 50px;
   text-align: center;
 }
@@ -455,7 +537,10 @@ input[type=checkbox]:checked + label {
     right: 15%;
 }
 
-
+#searchimage{
+  width: 100%;
+  height: 100%;
+}
 
 #foodSearchInput{
   text-align: center;
@@ -492,7 +577,7 @@ table{
     font-family: monospace;
     position: absolute;
     /* background-color: rgb(169, 169, 180); */
-    
+    overflow: hidden;
     width: 90%;
     /* height: 45%;
     display: flex;
@@ -516,9 +601,14 @@ th {
   top: 0;
 }
 
+#tableScroll::-webkit-scrollbar {
+  display: none;
+}
+
 #tableScroll, #edityourprofile{
    overflow-y:scroll;
    height:350px;
+   
 }
 
 thead{
@@ -723,6 +813,25 @@ img{
 
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Mobile Styling */
 
 
@@ -851,13 +960,679 @@ img{
 }
 
 #content{
-    width: 90%;
-    height: 90%;
+    width: 99%;
+    height: 99%;
     margin: auto;
     display: flex;
     justify-content: center;
     align-items: center;
 
+}
+
+
+
+
+
+
+
+
+#flash{
+  position: absolute;
+  bottom: 5px; 
+left: 50%;
+margin-left: -100px;
+  color: white;
+}
+
+.spacer{
+  height: 50px;
+}
+
+
+.homeInfo{
+    font-family: monospace;
+    position: absolute;
+    /* background-color: rgb(169, 169, 180); */
+    border-radius: 7%;
+    width: 35%;
+    height: 25%;
+    /* border: black solid 1px; */
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* background-image: linear-gradient( #2F5597, #1b2c49); */
+    background-color: var(--blue);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+.addOne{
+    font-family: monospace;
+    position: absolute;
+    /* background-color: rgb(169, 169, 180); */
+    border-radius: 7%;
+    width: 70%;
+    height: 15%;
+    border: var(--green) solid 1px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* background-image: linear-gradient( #2F5597, #1b2c49); */
+    background-color: var(--blue);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+#infoOne{
+    top: 15%;
+    left: 12%;
+    
+}
+#infoTwo{
+    top: 15%;
+    right: 12%;
+}
+
+
+
+#infoThree{
+    bottom: 30%;
+    left: 12%;
+    
+}
+#infoFour{
+    bottom: 30%;
+    right: 12%;
+}
+
+.infoTitle{
+    color: white;
+    margin-bottom: 15%;
+    font-size: 50%;
+}
+
+.fa-arrow-up{
+  font-size: 25px;
+}
+
+.fa-trash-alt{
+  color: rgb(194, 47, 47);
+  font-size: 25px;
+}
+
+.infoData{
+    color: var(--green);
+    font-size: 1.3em;
+}
+
+.addTitle{
+    color: white;
+    margin-bottom: 15%;
+}
+
+
+.addData{
+    color: var(--green);
+    font-size: 1.3em;
+}
+
+/* Profile Page */
+
+#profileUsername{
+  position: absolute;
+  top: 27%;
+  right: 25%;
+  color: white;
+}
+#profileImage{
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  width: 150px;
+  height: 150px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border: black 1px solid;
+
+}
+#profileEmail{
+  position: absolute;
+  top: 45%;
+  right: 9%;
+  color: white;
+  font-size: 20px;
+}
+
+#editProfileButton{
+  background-color: var(--blue);
+  position: absolute;
+  bottom: 30%;
+  width:75%;
+  border: none;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+#editProfileButton:hover{
+  background-color:rgb(122, 141, 90);
+}
+
+#profileDelete{
+  margin-left: 5%;
+  position: absolute;
+  bottom: 17%;
+  width: 75%;
+  background-color: rgb(151, 57, 41);
+  color: white;
+  font-size: 20px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+#profileDelete:hover{
+  background-color: rgb(173, 74, 57);
+}
+
+#editProfileButton{
+  background-color: var(--blue);
+  border: solid black 1px;
+  color: white;
+  position: absolute;
+    position: absolute;
+  bottom: 25%;
+  width: 75%;
+  margin-left: 5%;
+  
+}
+
+#editProfileButton:hover{
+  background-color: var(--green);
+}
+#editProfileButton1{
+  background-color: var(--blue);
+  border: solid black 1px;
+  color: white;
+  position: absolute;
+    position: absolute;
+  bottom: 35%;
+  
+  width: 75%;
+}
+
+#editProfileButton1:hover{
+  background-color: var(--green);
+}
+
+#profileLogout{
+  
+  position: absolute;
+  bottom: 25%;
+  width: 75%;
+  background-color: rgb(151, 57, 41);
+  color: white;
+  font-size: 20px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+#profileLogout:hover{
+  background-color: rgb(173, 74, 57);
+}
+
+
+/* Initial Food Input Page */
+
+#addQuestion{
+    top: 20%;
+    font-family: monospace;
+    position: absolute;
+    border-radius: 5%;
+    font-size: 140%;
+    color: white;
+    /* width: 70%; */
+    /* height: 35%;  */
+}
+
+#addMeal{
+    bottom: 12%;
+    left: 15%;
+    
+}
+
+#addFood{
+    bottom: 12%;
+    right: 15%;
+}
+
+#addFood:hover{
+  background-color: #1d2b44;
+}
+
+
+
+#mainFormEditProfile{
+  height: 80%;
+  width: 90%;
+  font-size: 10px;
+}
+
+#fieldOneProfile{
+  margin-top: 10px;
+}
+
+
+
+
+/* Adding food form */
+
+#mainForm{
+  height: 80%;
+  width: 90%;
+  font-size: 10px;
+}
+
+#fieldOne{
+  margin-top: 20px;
+}
+#fieldTwo{
+  margin-top: 10px;
+  
+}
+
+
+input[type=checkbox]:checked + label {
+  color: #f00;
+  font-style: normal;
+}
+
+.checkbox{
+  background-color: rgb(32,56,100);
+  color: white;
+  border: black solid 1px;
+  
+}
+
+.checkbox:hover{
+  background-color: rgb(32,56,100);
+  border: black solid 1px;
+}
+
+.symptoms{
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+.conditions{
+  margin-top: 30px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+
+#addButton{
+  background-color: rgb(122, 141, 90);
+  border: solid black 1px;
+  color: black;
+}
+
+
+
+/* Search By Condition */
+
+#fcImage{
+  width: 80px;
+  position: absolute;
+  top: 35%;
+  left: 4%;
+  height: 80px;
+  border: black solid 1px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+#fcInfo{
+  position: absolute;
+  top: 35%;
+  left: 30%;
+  color: white;
+}
+
+#fcName{
+  font-size: 25px;
+}
+
+#fcAverage{
+  font-size: 15px;
+}
+
+#fcGraph{
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  background-color: rgb(223, 219, 219);
+      display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  margin-right: 4%;
+  margin-left: 4%;
+  border: 1px solid black;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+#fcGraph2{
+  width: 100%;
+  height: 230px;
+  text-align: center;
+  margin: 0 auto;
+  border-radius: 0%;
+  
+}
+
+
+/* Food Search */
+
+#foodSearchForm{
+  position: absolute;
+  top: 5%;
+  display: block;
+  width: 85%;
+  
+}
+
+.searchTitle{
+  font-size: 20px;
+  color: white;
+  text-align: center;
+}
+
+#searchFood{
+    bottom: 30%;
+    left: 15%;
+    font-size: 10px;
+}
+
+#searchCondition{
+    bottom: 50%;
+    right: 15%;
+}
+
+
+
+#foodSearchInput{
+  text-align: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+#foodSearch{
+  margin-top: 20px;
+  font-size: 17px;
+  background-color: var(--green);
+  border: none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: black;
+}
+
+#foodSearch:hover{
+  background-color: #B5CE85;
+  color: #1d2b44;
+}
+
+/* UserFoods Table */
+
+table{
+  border-collapse: collapse;
+  border-radius: 1em;
+  overflow: hidden;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+#table{
+    top: 30%;
+    font-family: monospace;
+    position: absolute;
+    /* background-color: rgb(169, 169, 180); */
+    overflow: hidden;
+    width: 90%;
+    /* height: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* flex-direction: column; */
+    font-size: 10px; 
+    
+   
+}
+
+td{
+  text-align: center;
+  
+}
+
+th {
+  position: sticky;
+  
+  z-index: 2;
+  top: 0;
+}
+
+#tableScroll::-webkit-scrollbar {
+  display: none;
+}
+
+#tableScroll, #edityourprofile{
+   overflow-y:scroll;
+   height:420px;
+   
+}
+
+#edityourprofile{
+     overflow-y:scroll;
+   height:520px;
+   margin-top: 50px;
+}
+
+thead{
+  font-size: 12px;
+  text-align: center;
+}
+
+#inputForm{
+      top: 20%;
+    font-family: monospace;
+    position: absolute;
+    /* background-color: rgb(169, 169, 180); */
+    border-radius: 7%;
+    width: 50%;
+    height: 35%;
+}
+
+#tofood, #delete{
+  margin: 0 auto;
+  
+}
+
+#delete{
+  background-color: none;
+  text-decoration: none;
+  border: none;
+  font-size: 25px;
+}
+
+img{
+  width: 45px;
+  border-radius: 30%;
+  height: 45px;
+  
+}
+
+
+
+
+
+.performance-facts table{
+  border-radius: 0;
+  box-shadow: none;
+  
+}
+
+.performance-facts {
+  border: 1px solid black;
+  margin: 20px;
+  width: 250px;
+  padding: 0.5rem;
+  text-align: center;
+  margin: 50px auto;
+  font-size: small;
+  line-height: 1;
+  position: relative;
+  left: 0;
+  
+}
+.performance-facts table {
+  border-collapse: collapse;
+}
+
+.performance-facts__title {
+  font-weight: bold;
+  font-size: 2rem;
+  margin: 0 0 0.25rem 0;
+}
+
+.performance-facts__header {
+  border-bottom: 10px solid black;
+  padding: 0 0 0.25rem 0;
+  margin: 0 0 0.5rem 0;
+}
+.performance-facts__header p {
+  margin: 0;
+}
+
+.performance-facts__table, .performance-facts__table--small, .performance-facts__table--grid {
+  width: 100%;
+}
+.performance-facts__table thead tr th, .performance-facts__table--small thead tr th, .performance-facts__table--grid thead tr th, .performance-facts__table thead tr td, .performance-facts__table--small thead tr td, .performance-facts__table--grid thead tr td {
+  border: 0;
+}
+.performance-facts__table th, .performance-facts__table--small th, .performance-facts__table--grid th, .performance-facts__table td, .performance-facts__table--small td, .performance-facts__table--grid td {
+  font-weight: normal;
+  text-align: left;
+  padding: 0.25rem 0;
+  border-top: 1px solid black;
+  white-space: nowrap;
+}
+.performance-facts__table td:last-child, .performance-facts__table--small td:last-child, .performance-facts__table--grid td:last-child {
+  text-align: right;
+}
+.performance-facts__table .blank-cell, .performance-facts__table--small .blank-cell, .performance-facts__table--grid .blank-cell {
+  width: 1rem;
+  border-top: 0;
+}
+.performance-facts__table .thick-row th, .performance-facts__table--small .thick-row th, .performance-facts__table--grid .thick-row th, .performance-facts__table .thick-row td, .performance-facts__table--small .thick-row td, .performance-facts__table--grid .thick-row td {
+  border-top-width: 5px;
+}
+
+.small-info {
+  font-size: 0.7rem;
+}
+
+.performance-facts__table--small {
+  border-bottom: 1px solid #999;
+  margin: 0 0 0.5rem 0;
+}
+.performance-facts__table--small thead tr {
+  border-bottom: 1px solid black;
+}
+.performance-facts__table--small td:last-child {
+  text-align: left;
+}
+.performance-facts__table--small th, .performance-facts__table--small td {
+  border: 0;
+  padding: 0;
+}
+
+.performance-facts__table--grid {
+  margin: 0 0 0.5rem 0;
+}
+.performance-facts__table--grid td:last-child {
+  text-align: left;
+}
+.performance-facts__table--grid td:last-child::before {
+  content: "•";
+  font-weight: bold;
+  margin: 0 0.25rem 0 0;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.thick-end {
+  border-bottom: 10px solid black;
+}
+
+.thin-end {
+  border-bottom: 1px solid black;
+}
+
+
+
+
+
+#graph1{
+  position: relative;
+
+  background-color: rgb(223, 219, 219);
+      display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  margin-right: 15%;
+  margin-left: 15%;
+  border: 1px solid black;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+#graph12{
+  width: 100%;
+  height: 230px;
+  text-align: center;
+  margin: 0 auto;
+  border-radius: 0%;
+  
+}
+
+#graphTitle{
+  position: absolute;
+  top: 5%;
+  font-size: 25px;
+  color: white;
+}
+#graph2{
+  position: relative;
+  top: 15%;
+  left: 0%;
+  background-color: rgb(223, 219, 219);
+      display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  margin-right: 15%;
+  margin-left: 15%;
+  border: 1px solid black;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  
+}
+#graph22{
+  width: 100%;
+  height: 230px;
+  text-align: center;
+  margin: 0 auto;
+  border-radius: 0%;
+  
 }
 
 }

@@ -4,7 +4,7 @@
 <!-- =============================================================== -->
 {% block content %}
 
-<div id="mainForm" class="container">
+<div id="mainFormEditProfile" class="container">
 <form action="/user/profile" method='POST' id='inputFoodForm' autocomplete="off">
     {{ form.hidden_tag() }}
 
@@ -15,7 +15,7 @@
     {% endfor %}
    
     {% if field.type == 'StringField' %}
-    {{ field(placeholder=field.label.text, class="form-control", list='inputfood', id='fieldOne') }}
+    {{ field(placeholder=field.label.text, class="form-control", list='inputfood', id='fieldOneProfile') }}
 
 
 
@@ -27,7 +27,7 @@
     {% endif %}
     {% endfor %}
 
-      <div class="symptoms">
+      <div class="conditions">
         
           {% for field in form.conditions %}
         {% if field.label.text in conditionslist %}
@@ -51,10 +51,10 @@
         </div>
       
 
-    <button id="addButton" type="submit" class="btn btn-secondary btn-lg btn-block addbutton">Edit Profile</button>
+    <button id="editProfileButton" type="submit" class="btn btn-secondary btn-lg btn-block ">Edit Profile</button>
 </form>
         <a href="/users/delete">
-        <div class="btn btn-secondary btn-lg btn-block addbutton" id="profileLogout">
+        <div class="btn btn-secondary btn-lg btn-block addbutton" id="profileDelete">
           Delete Profile
         </div>
         </a>
