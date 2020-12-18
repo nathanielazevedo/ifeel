@@ -8,7 +8,7 @@ import requests
 import pdb
 from flask_debugtoolbar import DebugToolbarExtension
 from functions import cleanNutrition, symptoms
-
+from random import randint
 
 
 
@@ -257,12 +257,37 @@ def homepage():
         return redirect("/")
     
 
-    form = FoodForm()
-    symptoms = [(c.id, c.symptom_name) for c in Symptom.query.all()]
-    form.symptoms.choices = symptoms
+    # form = FoodForm()
+    # symptoms = [(c.id, c.symptom_name) for c in Symptom.query.all()]
+    # form.symptoms.choices = symptoms
+    foods = (Food
+            .query
+            .filter(Food.user_id == g.user.id)
+            .all())
 
-    
-    return render_template('home.html', form=form)
+    total = len(foods)
+
+    averagelist = []
+    eatlist = []
+    avoidlist = []
+    for each in foods:
+        if each.feeling != 'Null':
+            averagelist.append(int(each.feeling))
+            
+
+    for each in foods:
+        if each.feeling == '2':
+            
+            eatlist.append(each)
+        elif each.feeling == '1':
+            avoidlist.append(each)
+            
+    eatFood = eatlist[randint(0, (len(eatlist) - 1) )]
+    avoidFood = avoidlist[randint(0, (len(avoidlist) - 1) )]
+
+    average = round(sum(averagelist) / len(averagelist), 1)
+
+    return render_template('home.html', total = total, average=average, eatFood=eatFood, avoidFood = avoidFood)
 
 
 
