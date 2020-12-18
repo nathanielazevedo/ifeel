@@ -1,13 +1,11 @@
-{% extends 'inbase.html' %}
+{% extends 'base.html' %}
 
 
 <!-- =============================================================== -->
 {% block content%}
-  <h3 id="edityourprofile">Result after consumption</h3>
-{% endblock %}
-
-{% block data %}
-<form action="/food/{{food.id}}/update" method='POST' id='inputform'>
+  
+<div id="mainForm" class="container">
+<form action="/food/{{food.id}}/update" method='POST' id='inputFoodForm' autocomplete="off">
     {{ form.hidden_tag() }}
 
     {% for field in form if field.widget.input_type != 'hidden' and field.name != 'symptoms' %}
@@ -17,7 +15,11 @@
     <span class="text-danger">{{ error }}</span>
     {% endfor %}
 
-    {% if field.type != 'RadioField' %}
+    {% if field.type == 'StringField' %}
+    {{ field(placeholder=field.label.text, class="form-control", id='fieldOne') }}
+
+
+    {% elif field.type != 'RadioField' %}
     {{ field(placeholder=field.label.text, class="form-control") }}
     {% else %}
 
@@ -26,7 +28,7 @@
     {% for subfield in field %}
 
 
-    {{subfield.label (class="btn btn-secondary active")}}
+    {{subfield.label (class="btn btn-secondary active", id='fieldTwo')}}
     {{subfield}}
 
   
@@ -34,26 +36,30 @@
     {% endif %}
     {% endfor %}
 
-      <div id="conditions">
+      <div class="symptoms">
             {% for field in form.symptoms %}
         
           {% if field.label.text in symptomslist %}
-          <div class='conditionname'>
-          {{field(checked=True)}}
-          {{field.label}}
+          
+          <div hidden>
+          {{field(checked=True, class='btn-check', autocomplete='off', type='checkbox')}}
           </div>
+          {{field.label (class="btn btn-outline-primary checkbox", style="background-color: black")}}
+          
           {% elif field.label not in symptomslist %}
-          <div class="conditionname">
-          {{field}}
-          {{field.label}}
+          
+          <div hidden>
+          {{field (class='btn-check', autocomplete='off', type='checkbox')}}
           </div>
+          {{field.label (class="btn btn-outline-primary checkbox")}}
+          
           {% endif %}
         {% endfor %}
 </div>
 
-    <button type="submit" class="btn btn-secondary btn-lg btn-block">Contribute</button>
+    <button id="addButton" type="submit" class="btn btn-secondary btn-lg btn-block">Submit</button>
 </form>
-
+</div>
 {% endblock %}
 
 

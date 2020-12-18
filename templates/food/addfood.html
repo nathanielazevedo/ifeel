@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+
+<!-- =============================================================== -->
+
+
+{% block content %}
+<div id="mainForm" class="container">
+<form action="/food/add" method='POST' id='inputFoodForm' autocomplete="off">
+    {{ form.hidden_tag() }}
+
+    {% for field in form if field.widget.input_type != 'hidden' and field.name != 'symptoms' %}
+
+    {% for error in field.errors %}
+    <span class="text-danger">{{ error }}</span>
+    {% endfor %}
+   
+    {% if field.type == 'StringField' %}
+    {{ field(placeholder=field.label.text, class="form-control", list='inputfood', id='fieldOne') }}
+        <datalist id='inputfood'></datalist>
+        <span id="error-food"></span>
+
+
+    {% elif field.type != 'RadioField' %}
+    {{ field(placeholder=field.label.text, class="form-control") }}
+    {% else %}
+
+
+    
+    {% for subfield in field %}
+
+
+    {{subfield.label (class="btn btn-secondary active", id='fieldTwo')}}
+    {{subfield}}
+
+  
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+
+      <div class="symptoms">
+        
+          {% for field in form.symptoms %}
+        
+          <div hidden>
+            {{field (class='btn-check', autocomplete='off', type='checkbox', )}}
+          </div>
+          
+            {{field.label (class="btn btn-outline-primary checkbox")}}
+          
+        
+        {% endfor %}
+        </div>
+      
+
+    <button id="addButton" type="submit" class="btn btn-secondary btn-lg btn-block">Add Food</button>
+</form>
+</div>
+{% endblock %}

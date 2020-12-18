@@ -1,4 +1,4 @@
-{% extends 'inbase.html' %}
+{% extends 'base.html' %}
 
 
 
@@ -8,31 +8,29 @@
 
 {% block content %}
 
-    <form action="/userfoods" method="POST" id="inputform" class="form-inline">
-    {{ form.hidden_tag() }} {% for field in form if field.widget.input_type !=
-    'hidden'%} {% for error in field.errors %}
+    <form action="/userfoods" method="POST" id="foodSearchForm" class="form">
+    {{ form.hidden_tag() }} 
+    
+    {% for field in form if field.widget.input_type != 'hidden'%} 
+    
+    {% for error in field.errors %}
     <span class="text-danger">{{ error }}</span>
-    {% endfor %} {{ field(placeholder=field.label.text, class="form-control
-    mr-sm-2, wow") }} {% endfor %}
-    <button id="foodsearch" type="submit" class="btn btn-secondary btn-lg btn-block">
+    {% endfor %} 
+    
+    {{ field(placeholder=field.label.text, class="form-control mr-sm-2", id="foodSearchInput") }} 
+    
+    {% endfor %}
+
+    <button id="foodSearch" type="submit" class="btn btn-secondary btn-lg btn-block">
       Search
     </button>
   </form>
     
 
-{% endblock %}
 
 
-
-<!-- =============================================================== -->
-
-
-
-
-{% block data %}
-
-<div id="table" class="table">
-  
+<div id="table">
+  <div id="tableScroll">
   <table class="table table-striped table-dark">
 
     <thead>
@@ -45,35 +43,35 @@
         <th scope="col">Delete</th>
       </tr>
     </thead>
-    <tbody>
-      {% if foods != None %}
-      {% for food in foods %}
+    
+      <tbody>
+        {% if foods != None %}
+        {% for food in foods %}
 
-      <tr class="tr">
+        <tr class="tr">
 
-        <td><img src="https://spoonacular.com/cdn/ingredients_100x100/{{food.info.spoonacular_image}}" id="searchimage"></td>
-        <td>{{food.food_name}}</td>
+          <td><img src="https://spoonacular.com/cdn/ingredients_100x100/{{food.info.spoonacular_image}}" id="searchimage"></td>
+          <td>{{food.food_name}}</td>
+          
+          <td>{{food.timestamp.month}}-{{food.timestamp.day}}-{{food.timestamp.year}}</td>
+          <td>
+
+            <a href="/food/{{food.id}}/update" id="tofood" class="fas fa-arrow-up" role="button" ></a>
+          </td>
+          <td>
+
+
+            <a href="/food/{{food.id}}/delete" id="tofood" class="fas fa-trash-alt" role="button" ></a>
+          </td>
+        </tr>
         
-        <td>{{food.timestamp.month}}-{{food.timestamp.day}}-{{food.timestamp.year}}</td>
-        <td>
-          <form method="GET" action="/food/{{food.id}}/update" class="form-inline">
-            <button class="btn btn-success bad" id="delete"></button>
-          </form>
-
-        </td>
-        <td>
-
-          <form method="POST" action="/food/{{food.id}}/delete" class="form-inline">
-            <button class="btn btn-danger bad" id="delete"></button>
-          </form>
-        </td>
-      </tr>
-
-</div>
-{% endfor %}
-{% endif %}
-</tbody>
-</table>
+        
+        {% endfor %}
+        {% endif %}
+        </tbody>
+    
+  </table>
+  </div>
 </div>
 
 {% endblock %}

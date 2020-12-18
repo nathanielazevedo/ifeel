@@ -1,4 +1,4 @@
-{% extends 'inbase.html' %}
+{% extends 'base.html' %}
 
 
 
@@ -10,7 +10,7 @@
 
 
 
-<form action="/foodbycondition/search" method='POST' id='inputform'  >
+<form action="/foodbycondition/search" method='POST' id="foodSearchForm"  >
           {{ form.hidden_tag() }}
 
       {% for field in form if field.widget.input_type != 'hidden'%}
@@ -20,41 +20,31 @@
           <span class="text-danger">{{ error }}</span>
         {% endfor %}
         
-        {{ field(placeholder=field.label.text, class="form-control", list='inputfood2') }}
+        {{ field(placeholder=field.label.text, class="form-control", list='inputfood2', id="foodSearchInput") }}
 
           {% if field.type == 'StringField' %}
       <datalist id='inputfood2'></datalist>
       {% endif %}
         
       {% endfor %}
-      <button type="submit" class="btn btn-secondary btn-lg btn-block">Search</button>
+      <button type="submit" id="foodSearch" class="btn btn-secondary btn-lg btn-block">Search</button>
     </form>
 
         
 
 
 
-{% endblock %}
 
-
-
-
-<!-- =============================================================== -->
-
-
-
-{% block data %}
 {% if tablefood %}
-<img src="https://spoonacular.com/cdn/ingredients_100x100/{{tablefood.spoonacular_image}}" id='profileimage2' alt="">
-<div id="profileinfo">
- <h3 id="profileusername">{{tablefood.food_name}}</h3>
- <h4 id="profileemail"> Average Feeling from people with this condition - {{average}}</h4>
- <h4 id="profilebio"></h4>
+<img src="https://spoonacular.com/cdn/ingredients_100x100/{{tablefood.spoonacular_image}}" id='fcImage' alt="">
+<div id="fcInfo">
+ <h3 id="fcName">{{tablefood.food_name}}</h3>
+ <h4 id="fcAverage"> Average Feeling from people with this condition - {{average}}</h4>
 
 </div>
 
-<div id="graph1"> 
-<img src="{{graph2.url}}" alt="" width="500px">
+<div id="fcGraph"> 
+<img id="fcGraph2" src="{{graph2.url}}" alt="" width="500px">
 </div>
 
 {% endif %}
