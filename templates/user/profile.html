@@ -1,26 +1,17 @@
-{% extends 'inbase.html' %}
+{% extends 'base.html' %}
 
 
 {% block content %}
 
-<img src="{{g.user.image_url}}"  id='profileimage2' alt="">
-
-{% endblock %}
-<!-- =============================================================== -->
+<img src="{{g.user.image_url}}"  id='profileImage' alt="">
 
 
 
+ <h3 id="profileUsername">{{g.user.username}}</h3>
+ <h4 id="profileEmail">{{g.user.email}}</h4>
+ <a id="editProfileButton" class="btn btn-secondary btn-lg btn-block" href='/user/profile/edit'>Edit Profile</a>
+ <a id="profileLogout" href="/logout" class="btn btn-outline-secondary">Logout</a>
 
-{% block data %}
-
-<div id="profileinfo">
- <h3 id="profileusername">{{g.user.username}}</h3>
- <h4 id="profileemail">{{g.user.email}}</h4>
- <h4 id="profilebio">{{g.user.bio}}</h4>
- <a id="editprofile" class="btn btn-secondary btn-lg btn-block" href='/user/profile/edit'>Edit Profile</a>
- <a id="profilelogout" href="/logout" class="btn btn-outline-secondary">Logout</a>
-</div>
- 
 
 
 {% endblock %}
