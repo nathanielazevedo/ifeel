@@ -72,7 +72,7 @@ async function getFoodList(letters) {
 
 
 autoinput = $('#fieldOne')
-addbutton = $('.addbutton')
+addbutton = $('#addButton')
 errorfood = $('#error-food')
 
 
