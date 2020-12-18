@@ -16,8 +16,8 @@
   <div class="Nav">
     <div class="links">
       <div class="first"><a href='/home' i class="fas fa-bullseye"></a></div>
-      <div class="second"><a href="/food/add/main" class="fas fa-utensils"></a></div>
-      <div class="third"><a href="/food/search"class="fas fa-binoculars"></a></div>
+      <div class="second"><a href="/food/add" class="fas fa-utensils"></a></div>
+      <div class="third"><a href="/search"class="fas fa-binoculars"></a></div>
       <div class="fourth"><a href="/userfoods"class="fas fa-bars"></a></div>
     </div>
     <div class="profile">
@@ -25,12 +25,20 @@
         </div>
   </div>
   <div class="body">
+
       <div id="content">
         {% block content %}
 
         {% endblock %}
 
+
       </div>
+
+              
+        {% for message in get_flashed_messages() %}
+  <div id="flash" class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+        
   </div>
 </div>
 <script src="/static/feel.js"></script>
