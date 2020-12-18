@@ -52,7 +52,7 @@ class UpdateProfileForm(FlaskForm):
     
 
 class SearchAddForm(FlaskForm):
-    search_food_name = StringField('Search For a food.', validators=[InputRequired()])
+    search_food_name = StringField('Search from your foods.', validators=[InputRequired()])
     
 
 class AddSearchForm(FlaskForm):
