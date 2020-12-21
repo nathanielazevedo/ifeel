@@ -12,7 +12,7 @@
             <h3 class="infoTitle">Avoid This</h3>
             <h2 class="infoData">
                 {% if eatFood != '' %}
-                <img src="https://spoonacular.com/cdn/ingredients_100x100/{{eatFood.info.spoonacular_image}}" id="searchimage">
+                <img src="https://spoonacular.com/cdn/ingredients_100x100/{{eatFood.info.spoonacular_image}}" id="homeImage">
                 {% else %}
                 <div  id="searchimage"> - </div>
                 {% endif %}
@@ -22,7 +22,7 @@
             <h3 class="infoTitle">Eat This</h3>
             <h2 class="infoData">
                 {% if avoidFood != '' %}
-                <img src="https://spoonacular.com/cdn/ingredients_100x100/{{avoidFood.info.spoonacular_image}}" id="searchimage">
+                <img src="https://spoonacular.com/cdn/ingredients_100x100/{{avoidFood.info.spoonacular_image}}" id="homeImage">
                 {% else %}
                 <div  id="searchimage"> - </div>
                 {% endif %}

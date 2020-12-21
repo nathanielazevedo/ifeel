@@ -80,7 +80,7 @@ html, body, .grid-container { height: 100%; margin: 0; }
     justify-content: center;
     align-items: center;
     
-    font-size: 2.3em;
+    font-size: 2em;
     
 }
 .second { 
@@ -90,7 +90,7 @@ html, body, .grid-container { height: 100%; margin: 0; }
     justify-content: center;
     align-items: center;
     
-    font-size: 2.3em;
+    font-size: 2em;
     
 }
 
@@ -101,7 +101,7 @@ html, body, .grid-container { height: 100%; margin: 0; }
     justify-content: center;
     align-items: center;
     
-    font-size: 2.3em;
+    font-size: 2em;
 }
 
 .fourth{ 
@@ -111,7 +111,7 @@ html, body, .grid-container { height: 100%; margin: 0; }
     justify-content: center;
     align-items: center;
     
-    font-size: 2.3em;
+    font-size: 2em;
 }
 
 .profile {
@@ -131,43 +131,46 @@ html, body, .grid-container { height: 100%; margin: 0; }
     justify-content: center;
     align-items: flex-end;
     
-    font-size: 3em;
+    font-size: 2.5em;
     padding-bottom: 15px;
     
 }
 
 .body { 
     grid-area: body; 
-    background-image: linear-gradient( var(--blue), #1d2b44);
-    display: grid;
+    /* background-image: linear-gradient( var(--blue), #384357); */
+    display: flex;
+    background-color: #839bac;
 }
 
 #content{
     /* background-image: linear-gradient( gray, rgba(77, 77, 77, 0.699)); */
-    background-color: rgb(134, 134, 134);
-    width: 80%;
-    height: 80%;
+    /* background-color: #7395AE; */
+    
+    width: 93%;
+    height: 93%;
     margin: auto;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-    position: relative;
-    font-size: 3em;
+    /* position: relative; */
+    
     border-radius: 7%;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+    flex-direction: column;
 }
 
 #flash{
   position: absolute;
-  bottom: 5px; 
+  bottom: 1px; 
 left: 50%;
 margin-left: -100px;
   color: white;
 }
 
-.spacer{
+/* .spacer{
   height: 50px;
-}
+} */
 
 
 .homeInfo{
@@ -178,14 +181,14 @@ margin-left: -100px;
     width: 30%;
     height: 35%;
     /* border: black solid 1px; */
-    margin: auto;
+    
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     /* background-image: linear-gradient( #2F5597, #1b2c49); */
-    background-color: var(--blue);
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-image: linear-gradient( #2F5597, #203864);
+        /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 
 }
 .addOne{
@@ -195,7 +198,8 @@ margin-left: -100px;
     border-radius: 7%;
     width: 30%;
     height: 45%;
-    border: var(--green) solid 1px;
+    left: 20%;
+    
     margin: auto;
     display: flex;
     justify-content: center;
@@ -209,30 +213,31 @@ margin-left: -100px;
 
 #infoOne{
     top: 12%;
-    left: 15%;
+    left: 21%;
     
 }
 #infoTwo{
     top: 12%;
-    right: 15%;
+    right: 11%;
 }
 
 
 
 #infoThree{
     bottom: 12%;
-    left: 15%;
+    left: 21%;
     
 }
 #infoFour{
     bottom: 12%;
-    right: 15%;
+    right: 11%;
 }
 
 .infoTitle{
     color: white;
-    margin-bottom: 15%;
-    font-size: 50%;
+    margin-bottom: 15px;
+    font-size: 3vw;
+    /* font-weight: bold; */
 }
 
 .fa-arrow-up{
@@ -244,9 +249,14 @@ margin-left: -100px;
   font-size: 25px;
 }
 
+#homeImage{
+  width: 10vw;
+  height: 10vw;
+}
+
 .infoData{
     color: var(--green);
-    font-size: 1.3em;
+    font-size: 4vw;
 }
 
 .addTitle{
@@ -265,12 +275,12 @@ margin-left: -100px;
 #profileUsername{
   position: absolute;
   top: 25%;
-  right: 54%;
+  left: 50%;
 }
 #profileImage{
   position: absolute;
   top: 20%;
-  left: 10%;
+  left: 20%;
   width: 150px;
   height: 150px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -280,15 +290,15 @@ margin-left: -100px;
 #profileEmail{
   position: absolute;
   top: 35%;
-  right: 10%
+  left: 50%
 
 }
 
 #editProfileButton{
   background-color: var(--blue);
-  position: absolute;
+  /* position: absolute;
   bottom: 30%;
-  width:75%;
+  width:75%; */
   border: none;
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
@@ -298,10 +308,10 @@ margin-left: -100px;
 }
 
 #profileDelete{
-  margin-left: 5%;
-  position: absolute;
-  bottom: 5%;
-  width: 75%;
+  /* margin-left: 5%; */
+  /* position: absolute; */
+  /* bottom: 5%; */
+  margin-top: 20px;
   background-color: rgb(151, 57, 41);
   color: white;
   font-size: 20px;
@@ -317,11 +327,11 @@ margin-left: -100px;
   background-color: var(--blue);
   border: solid black 1px;
   color: white;
-  position: absolute;
+  /* position: absolute;
     position: absolute;
   bottom: 15%;
-  width: 75%;
-  margin-left: 5%;
+  width: 75%; */
+  
   
 }
 
@@ -367,8 +377,9 @@ margin-left: -100px;
     font-family: monospace;
     position: absolute;
     border-radius: 5%;
-    font-size: 25px;
+    font-size: 3vw;
     color: white;
+    font-weight: bold;
     /* width: 70%;
     height: 35%; */
 }
@@ -391,9 +402,13 @@ margin-left: -100px;
 
 
 #mainFormEditProfile{
-  height: 80%;
-  width: 90%;
+  /* height: 80%;
+  width: 90%; */
   font-size: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
 }
 
 #fieldOneProfile{
@@ -408,15 +423,35 @@ margin-left: -100px;
 #mainForm{
   height: 80%;
   width: 90%;
-  font-size: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+
 }
 
 #fieldOne{
   margin-top: 20px;
+  background-image: linear-gradient( #2F5597, #203864);
+  color: white;
+  border: none;
+  text-align: center;
+  font-family: monospace;
 }
+
+#fieldOne::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+  font-family: monospace;
+}
+
 #fieldTwo{
   margin-top: 10px;
-  
+  background-image: linear-gradient( #2F5597, #203864);
+  color: white;
+  border: none;
+  text-align-last: center;
+  font-family: monospace;
 }
 
 
@@ -441,6 +476,7 @@ input[type=checkbox]:checked + label {
   margin-top: 50px;
   margin-bottom: 50px;
   text-align: center;
+  font-family: monospace;
 }
 .conditions{
   margin-top: 30px;
@@ -450,9 +486,17 @@ input[type=checkbox]:checked + label {
 
 
 #addButton{
-  background-color: rgb(122, 141, 90);
-  border: solid black 1px;
+  background-image: linear-gradient( #2F5597, #203864);
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: white;
+  font-family: monospace;
+}
+
+#addButton:hover{
+  background-image: linear-gradient( var(--green), var(--green));
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   color: black;
+  font-family: monospace;
 }
 
 
@@ -461,9 +505,9 @@ input[type=checkbox]:checked + label {
 
 #fcImage{
   width: 80px;
-  position: absolute;
+  /* position: absolute;
   top: 35%;
-  left: 10%;
+  left: 10%; */
   height: 80px;
   border: black solid 1px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -471,9 +515,9 @@ input[type=checkbox]:checked + label {
 }
 
 #fcInfo{
-  position: absolute;
+  /* position: absolute;
   top: 37%;
-  left: 30%;
+  left: 30%; */
   color: white;
 }
 
@@ -486,9 +530,9 @@ input[type=checkbox]:checked + label {
 }
 
 #fcGraph{
-  position: absolute;
+  /* position: absolute;
   top: 55%;
-  left: 0%;
+  left: 0%; */
   background-color: rgb(223, 219, 219);
       display: flex;
     justify-content: center;
@@ -513,33 +557,33 @@ input[type=checkbox]:checked + label {
 /* Food Search */
 
 #foodSearchForm{
-  position: absolute;
+  /* position: absolute;
   top: 5%;
-  display: block;
-  width: 55%;
+  display: block; */
+  width: 75%;
   
 }
 
 .searchTitle{
   font-size: 20px;
-  color: white;
+  color: var(--green);
   text-align: center;
 }
 
 #searchFood{
     bottom: 12%;
-    left: 15%;
+    left: 25%;
     font-size: 10px;
 }
 
-#searchCondition{
+ #searchCondition{
     bottom: 12%;
-    right: 15%;
+    left: 60%;
 }
 
 #searchimage{
-  width: 100%;
-  height: 100%;
+  width: 35px;
+  height: 35px;
 }
 
 #foodSearchInput{
@@ -567,7 +611,7 @@ input[type=checkbox]:checked + label {
 table{
   border-collapse: collapse;
   border-radius: 1em;
-  overflow: hidden;
+  /* overflow: hidden; */
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
 }
@@ -575,18 +619,17 @@ table{
 #table{
     top: 30%;
     font-family: monospace;
-    position: absolute;
+    /* position: absolute; */
     /* background-color: rgb(169, 169, 180); */
     overflow: hidden;
     width: 90%;
-    /* height: 45%;
-    display: flex;
+    height: 65%;
+    /*display: flex;
     justify-content: center;
     align-items: center;
     /* flex-direction: column; */
-    font-size: 15px; 
-    
-   
+    font-size: 12px; 
+    overflow-y: scroll;
 }
 
 td{
@@ -594,20 +637,25 @@ td{
   
 }
 
-th {
-  position: sticky;
-  
-  z-index: 2;
-  top: 0;
+#edityourprofile{
+     display: flex;
+   justify-content: space-between;
+   align-items: center;
+   flex-direction: column;
 }
 
-#tableScroll::-webkit-scrollbar {
+
+#table::-webkit-scrollbar {
+  display: none;
+}
+
+#edityourprofile::-webkit-scrollbar{
   display: none;
 }
 
 #tableScroll, #edityourprofile{
    overflow-y:scroll;
-   height:700px;
+   
    
 }
 
@@ -760,7 +808,7 @@ img{
 
 #graph1{
   position: relative;
-
+  
   background-color: rgb(223, 219, 219);
       display: flex;
     justify-content: center;
@@ -770,7 +818,7 @@ img{
   margin-left: 15%;
   border: 1px solid black;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
+  margin-bottom: 40px;
 }
 #graph12{
   width: 100%;
@@ -782,20 +830,15 @@ img{
 }
 
 #graphTitle{
-  position: absolute;
-  top: 5%;
+  margin: 40px 0;
   font-size: 25px;
-  color: white;
+  color: black;
+
 }
 #graph2{
-  position: relative;
-  top: 15%;
-  left: 0%;
+
   background-color: rgb(223, 219, 219);
-      display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+
   margin-right: 15%;
   margin-left: 15%;
   border: 1px solid black;
@@ -853,7 +896,8 @@ img{
   grid-template-areas: "body Nav";
 }
 
-.body { grid-area: body; }
+.body { grid-area: body; 
+background-color: #839bac;}
 
 .Nav {
   display: grid;
@@ -955,40 +999,40 @@ img{
 
 .body { 
     grid-area: body; 
-    background-color: #203864;
+    background-color: #839bac;
     display: grid;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 #content{
-    width: 99%;
-    height: 100%;
-    margin: auto;
+    /* background-image: linear-gradient( gray, rgba(77, 77, 77, 0.699)); */
+    /* background-color: #7395AE; */
+    
+
+   height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-       overflow-y:scroll;
-   height:70vh;
-
+    /* position: relative; */
+    
+   
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+    flex-direction: column;
 }
-
-
-
-
-
-
-
 
 #flash{
   position: absolute;
-  top: 0%; 
-left: 30%;
+  bottom: 1px; 
+left: 50%;
 margin-left: -100px;
   color: white;
 }
 
-.spacer{
+/* .spacer{
   height: 50px;
-}
+} */
 
 
 .homeInfo{
@@ -996,17 +1040,17 @@ margin-left: -100px;
     position: absolute;
     /* background-color: rgb(169, 169, 180); */
     border-radius: 7%;
-    width: 35%;
-    height: 25%;
+    width: 40%;
+    height: 30%;
     /* border: black solid 1px; */
-    margin: auto;
+    
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     /* background-image: linear-gradient( #2F5597, #1b2c49); */
-    background-color: var(--blue);
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    /* background-image: linear-gradient( #2F5597, #203864); */
+        /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 
 }
 .addOne{
@@ -1014,9 +1058,10 @@ margin-left: -100px;
     position: absolute;
     /* background-color: rgb(169, 169, 180); */
     border-radius: 7%;
-    width: 70%;
-    height: 15%;
-    border: var(--green) solid 1px;
+    width: 30%;
+    height: 45%;
+    left: 20%;
+    
     margin: auto;
     display: flex;
     justify-content: center;
@@ -1029,31 +1074,32 @@ margin-left: -100px;
 }
 
 #infoOne{
-    top: 15%;
-    left: 12%;
+    top: 12%;
+    left: 10%;
     
 }
 #infoTwo{
-    top: 15%;
-    right: 12%;
+    top: 12%;
+    left: 50%;
 }
 
 
 
 #infoThree{
-    bottom: 30%;
-    left: 12%;
+    top: 51%;
+    left: 10%;
     
 }
 #infoFour{
-    bottom: 30%;
-    right: 12%;
+    top: 50%;
+    left: 50%;
 }
 
 .infoTitle{
     color: white;
-    margin-bottom: 15%;
-    font-size: 50%;
+    margin-bottom: 15px;
+    font-size: 4vw;
+    font-weight: bold;
 }
 
 .fa-arrow-up{
@@ -1065,9 +1111,14 @@ margin-left: -100px;
   font-size: 25px;
 }
 
+#homeImage{
+  width: 12vw;
+  height: 12vw;
+}
+
 .infoData{
     color: var(--green);
-    font-size: 1.3em;
+    font-size: 12vw;
 }
 
 .addTitle{
@@ -1085,14 +1136,13 @@ margin-left: -100px;
 
 #profileUsername{
   position: absolute;
-  top: 27%;
-  left: 55%;
-  color: white;
+  top: 25%;
+  left: 50%;
 }
 #profileImage{
   position: absolute;
   top: 20%;
-  left: 10%;
+  left: 20%;
   width: 150px;
   height: 150px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -1101,17 +1151,16 @@ margin-left: -100px;
 }
 #profileEmail{
   position: absolute;
-  top: 45%;
-  left: 30%;
-  color: white;
-  font-size: 20px;
+  top: 35%;
+  left: 50%
+
 }
 
 #editProfileButton{
   background-color: var(--blue);
   /* position: absolute;
-  bottom: 30%; */
-  width:75%;
+  bottom: 30%;
+  width:75%; */
   border: none;
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
@@ -1121,10 +1170,10 @@ margin-left: -100px;
 }
 
 #profileDelete{
-  margin-left: 5%;
-  /* position: absolute;
-  bottom: 17%; */
-  width: 75%;
+  /* margin-left: 5%; */
+  /* position: absolute; */
+  /* bottom: 5%; */
+  
   background-color: rgb(151, 57, 41);
   color: white;
   font-size: 20px;
@@ -1142,9 +1191,9 @@ margin-left: -100px;
   color: white;
   /* position: absolute;
     position: absolute;
-  bottom: 25%; */
-  width: 75%;
-  margin-left: 5%;
+  bottom: 15%;
+  width: 75%; */
+  
   
 }
 
@@ -1157,7 +1206,7 @@ margin-left: -100px;
   color: white;
   position: absolute;
     position: absolute;
-  bottom: 35%;
+  bottom: 25%;
   
   width: 75%;
 }
@@ -1169,7 +1218,7 @@ margin-left: -100px;
 #profileLogout{
   
   position: absolute;
-  bottom: 25%;
+  bottom: 15%;
   width: 75%;
   background-color: rgb(151, 57, 41);
   color: white;
@@ -1190,10 +1239,11 @@ margin-left: -100px;
     font-family: monospace;
     position: absolute;
     border-radius: 5%;
-    font-size: 140%;
+    font-size: 3vw;
     color: white;
-    /* width: 70%; */
-    /* height: 35%;  */
+    font-weight: bold;
+    /* width: 70%;
+    height: 35%; */
 }
 
 #addMeal{
@@ -1214,13 +1264,19 @@ margin-left: -100px;
 
 
 #mainFormEditProfile{
-  height: 99%;
-  width: 90%;
+  /* height: 80%;
+  width: 90%; */
   font-size: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: scroll;
 }
 
 #fieldOneProfile{
-  margin-top: 10px;
+ 
 }
 
 
@@ -1229,17 +1285,36 @@ margin-left: -100px;
 /* Adding food form */
 
 #mainForm{
-  height: 95%;
-  width: 90%;
-  font-size: 10px;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+
 }
 
 #fieldOne{
-  margin-top: 20px;
+  /* margin-top: 20px; */
+  background-image: linear-gradient( #2F5597, #203864);
+  color: white;
+  border: none;
+  text-align: center;
+  font-family: monospace;
 }
+
+#fieldOne::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+  font-family: monospace;
+}
+
 #fieldTwo{
   margin-top: 10px;
-  
+  background-image: linear-gradient( #2F5597, #203864);
+  color: white;
+  border: none;
+  text-align-last: center;
+  font-family: monospace;
 }
 
 
@@ -1252,6 +1327,7 @@ input[type=checkbox]:checked + label {
   background-color: rgb(32,56,100);
   color: white;
   border: black solid 1px;
+  font-size: small;
   
 }
 
@@ -1261,21 +1337,30 @@ input[type=checkbox]:checked + label {
 }
 
 .symptoms{
-  margin-top: 50px;
-  margin-bottom: 50px;
+  /* margin-top: 50px;
+  margin-bottom: 50px; */
   text-align: center;
+  font-family: monospace;
+  
 }
 .conditions{
-  margin-top: 30px;
-  margin-bottom: 50px;
+
   text-align: center;
 }
 
 
 #addButton{
-  background-color: rgb(122, 141, 90);
-  border: solid black 1px;
+  background-image: linear-gradient( #2F5597, #203864);
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: white;
+  font-family: monospace;
+}
+
+#addButton:hover{
+  background-image: linear-gradient( var(--green), var(--green));
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   color: black;
+  font-family: monospace;
 }
 
 
@@ -1284,19 +1369,19 @@ input[type=checkbox]:checked + label {
 
 #fcImage{
   width: 80px;
-  position: absolute;
+  /* position: absolute;
   top: 35%;
-  left: 4%;
+  left: 10%; */
   height: 80px;
   border: black solid 1px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
 }
 
 #fcInfo{
-  position: absolute;
-  top: 35%;
-  left: 30%;
+  /* position: absolute;
+  top: 37%;
+  left: 30%; */
   color: white;
 }
 
@@ -1309,16 +1394,16 @@ input[type=checkbox]:checked + label {
 }
 
 #fcGraph{
-  position: absolute;
-  top: 50%;
-  left: 0%;
+  /* position: absolute;
+  top: 55%;
+  left: 0%; */
   background-color: rgb(223, 219, 219);
       display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-  margin-right: 4%;
-  margin-left: 4%;
+  margin-right: 15%;
+  margin-left: 15%;
   border: 1px solid black;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
@@ -1336,31 +1421,34 @@ input[type=checkbox]:checked + label {
 /* Food Search */
 
 #foodSearchForm{
-  position: absolute;
+  /* position: absolute;
   top: 5%;
-  display: block;
-  width: 85%;
+  display: block; */
+  width: 75%;
   
 }
 
 .searchTitle{
   font-size: 20px;
-  color: white;
+  color: var(--green);
   text-align: center;
 }
 
 #searchFood{
-    bottom: 30%;
-    left: 15%;
+    bottom: 12%;
+    left: 25%;
     font-size: 10px;
 }
 
-#searchCondition{
-    bottom: 50%;
-    right: 15%;
+ #searchCondition{
+    bottom: 12%;
+    left: 60%;
 }
 
-
+#searchimage{
+  width: 35px;
+  height: 35px;
+}
 
 #foodSearchInput{
   text-align: center;
@@ -1371,10 +1459,10 @@ input[type=checkbox]:checked + label {
 #foodSearch{
   margin-top: 20px;
   font-size: 17px;
-  background-color: var(--green);
+  background-color: var(--blue);
   border: none;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  color: black;
+
 }
 
 #foodSearch:hover{
@@ -1387,26 +1475,25 @@ input[type=checkbox]:checked + label {
 table{
   border-collapse: collapse;
   border-radius: 1em;
-  overflow: hidden;
+  /* overflow: hidden; */
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
 }
 
 #table{
-    top: 23%;
+    /* top: 30%; */
     font-family: monospace;
-    position: absolute;
+    /* position: absolute; */
     /* background-color: rgb(169, 169, 180); */
     overflow: hidden;
-    width: 90%;
-    /* height: 45%;
-    display: flex;
+    width: 99%;
+    height: 65%;
+    /*display: flex;
     justify-content: center;
     align-items: center;
     /* flex-direction: column; */
-    font-size: 10px; 
-    
-   
+    font-size: 12px; 
+    overflow-y: scroll;
 }
 
 td{
@@ -1414,41 +1501,40 @@ td{
   
 }
 
-th {
-  position: sticky;
-  
-  z-index: 2;
-  top: 0;
+#edityourprofile{
+     display: flex;
+   justify-content: space-between;
+   align-items: center;
+   flex-direction: column;
 }
 
-#tableScroll::-webkit-scrollbar {
+
+#table::-webkit-scrollbar {
+  display: none;
+}
+
+#edityourprofile::-webkit-scrollbar{
   display: none;
 }
 
 #tableScroll, #edityourprofile{
    overflow-y:scroll;
-   height:70vh;
+   
    
 }
 
-#edityourprofile{
-     overflow-y:scroll;
-   height:470px;
-   margin-top: 50px;
-}
-
 thead{
-  font-size: 8px;
+  font-size: 10px;
   text-align: center;
 }
 
-#inputFoodForm{
-
-}
-
-#inputFoodForm::-webkit-scrollbar {
-  display: none;
-}
+/* #inputFoodForm{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  
+} */
 
 #inputForm{
       top: 20%;
@@ -1594,7 +1680,7 @@ img{
 
 #graph1{
   position: relative;
-
+  
   background-color: rgb(223, 219, 219);
       display: flex;
     justify-content: center;
@@ -1604,7 +1690,7 @@ img{
   margin-left: 15%;
   border: 1px solid black;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
+  margin-bottom: 40px;
 }
 #graph12{
   width: 100%;
@@ -1616,20 +1702,15 @@ img{
 }
 
 #graphTitle{
-  position: absolute;
-  top: 5%;
+  margin: 40px 0;
   font-size: 25px;
-  color: white;
+  color: black;
+
 }
 #graph2{
-  position: relative;
-  top: 15%;
-  left: 0%;
+
   background-color: rgb(223, 219, 219);
-      display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+
   margin-right: 15%;
   margin-left: 15%;
   border: 1px solid black;
@@ -1644,5 +1725,4 @@ img{
   border-radius: 0%;
   
 }
-
-}
+} 

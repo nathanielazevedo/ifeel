@@ -36,7 +36,7 @@ class FoodForm(FlaskForm):
 
 
 class SearchForm(FlaskForm):
-    food_name = StringField('Search for a food?', validators=[InputRequired()])
+    food_name = StringField('Search for a food', validators=[InputRequired()])
     
 
 

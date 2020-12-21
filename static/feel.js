@@ -176,7 +176,7 @@ condition_input.keypress(function () {
 
 
 async function getFoodList2(letters) {
-  foodlist = await $.getJSON("https://ifeelapp.herokuapp.com/oodlist");
+  foodlist = await $.getJSON("https://ifeelapp.herokuapp.com/foodlist");
   console.log(foodlist);
   options = '';
   for (var i = 0; i < foodlist.length; i++) {

@@ -41,8 +41,6 @@ CURR_USER_KEY = "curr_user"
 
 
 
-
-
 @app.before_request
 def add_user_to_g():
     """If we're logged in, add curr user to Flask global."""
@@ -89,10 +87,9 @@ def add_header(req):
 
 @app.route('/')
 def main():
-    """Show """
+    """Show homepage or signup page"""
 
-    if g.user:
-        
+    if g.user:   
         return redirect('/home')
 
     else:
@@ -144,6 +141,8 @@ def signup():
 
 @app.route('/signup/conditions', methods=["GET", "POST"])
 def signupconditions():
+    """Show user conditions upon signup"""
+
 
     if not g.user:
         flash('Please login first!')
@@ -153,7 +152,6 @@ def signupconditions():
     user = User.query.get_or_404(g.user.id)
 
     # Making a list of all conditions the user currently has inorder to check them in the form.
-
 
     form = InitialConditionsForm()
     
@@ -178,6 +176,10 @@ def signupconditions():
 
     return render_template('/user/conditions.html', user=user, form=form)
 
+
+
+
+
 #Login Route
 
 
@@ -200,7 +202,6 @@ def login():
         flash("Invalid credentials.", 'danger')
 
     return render_template('login.html', form=form)
-
 
 
 
@@ -257,9 +258,6 @@ def homepage():
         return redirect("/")
     
 
-    # form = FoodForm()
-    # symptoms = [(c.id, c.symptom_name) for c in Symptom.query.all()]
-    # form.symptoms.choices = symptoms
     foods = (Food
             .query
             .filter(Food.user_id == g.user.id)
@@ -307,16 +305,6 @@ def homepage():
 #Food Routes
 
 
-@app.route('/food/add/main', methods=['POST', 'GET'])
-def post_ino():
-    '''Add a food '''
-
-    if not g.user:
-        flash("Please login or signup.", "danger")
-        return redirect("/")
-
-
-    return render_template('/food/addfood.html')
 
 
 
@@ -426,6 +414,8 @@ def update_info(food_id):
 
 @app.route('/userfoods', methods=['GET', 'POST'])
 def user():
+    """Show all food inputs from a user"""
+
 
     if not g.user:
         flash("Access unauthorized.", "danger")
@@ -532,7 +522,7 @@ def display_profile():
 
 
 @app.route('/user/profile/edit', methods=['GET', 'POST'])
-def display_edit_profile():
+def edit_profile():
 
     if not g.user:
         flash('Please login first!')
@@ -600,12 +590,15 @@ def display_edit_profile():
 
 
 @app.route('/search', methods=['GET', 'POST'])
-def searsch():
+def search_main():
 
     return render_template('/search/searchfood.html')
 
+
+
+
 @app.route('/food/search', methods=['GET', 'POST'])
-def search():
+def search_food():
     #Search for a food by name. Return all matches
 
 
@@ -703,9 +696,9 @@ def usersearch():
 
         graph2 = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:{symptoms},datasets:[{{label:'Number of reports per symptom after eating {foodname}',data:{symptomslists}}}]}}}}")
 
-        
-
+    
         return render_template('/search/foodbycondition.html', form=form, tablefood=tablefood, average=average, graph2=graph2)
+
 
     else:
         return render_template('/search/foodbycondition.html', form=form)
@@ -731,7 +724,7 @@ def usersearch():
 
 @app.route('/graph/<food_id>', methods=['GET'])
 def graph(food_id):
-    #Route for generating graphs. 
+    """Route for generating graphs. """
 
 
     if not g.user:
@@ -739,10 +732,12 @@ def graph(food_id):
         return redirect('/login')
 
     alldata = Food.query.filter(Food.food_id == food_id).all()
+
     try:
         foodname = alldata[0].food_name
-    except:
 
+
+    except:
         form = SearchForm()
         allfoods = FoodList.query.all()
 
@@ -758,12 +753,6 @@ def graph(food_id):
         foodsymptomslists.append(each.symptoms)
 
 
-
-    # symptoms = Symptom.query.all()
-
-    
-    # for each in symptoms:
-    #     symptomslist.append(foodsymptoms.count(each))
     length = len(fooddata)
     bads = fooddata.count('1') 
     goods = fooddata.count('2') 
@@ -774,10 +763,7 @@ def graph(food_id):
     fooddata.append(greats)
 
 
-
     foodsymptoms = []
-
-
 
 
     for each in foodsymptomslists:
@@ -811,19 +797,6 @@ def graph(food_id):
 
 
 
-
-
-
-
-@app.errorhandler(404)
-def page_not_found(e):
-    """404 NOT FOUND page."""
-    
-    return render_template('404.html'), 404
-
-
-
-
 @app.route('/foodlist', methods=['GET'])
 def foodlist():
     foodlist = FoodList.query.all()
@@ -843,4 +816,8 @@ def foodlist():
 
 
 
-
+@app.errorhandler(404)
+def page_not_found(e):
+    """404 NOT FOUND page."""
+    
+    return render_template('404.html'), 404
