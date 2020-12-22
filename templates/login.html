@@ -1,18 +1,16 @@
-{% extends 'outbase.html' %}
-
-{% block header %}
-<div id='loginheader'>
-<h1 class="title"> Welcome back!</h1>
-        <p>Keep contributing!</p>
-</div>
-{% endblock %}
-
+{% extends 'base.html' %}
 
 {% block content %}
 
 
 <div class="menu">
-  <form class="px-4 py-3" method="POST" id="loginform">
+
+<h1 class="title"> Welcome back!</h1>
+        
+
+
+
+  <form  method="POST" class="px-4 py-3">
     <div class="form-group">
 
       {{ form.hidden_tag() }}
@@ -23,7 +21,7 @@
         {% endfor %}
         {{ field(placeholder=field.label.text, class="form-control") }}
       {% endfor %}
-    </div>
+      </div>
       
     <button type="submit" class="btn btn-primary" id="loginbutton">Login</button>
     <a id="tosignup" class="btn btn-info" href="/signup" >New to FEEL? Sign Up!</a>

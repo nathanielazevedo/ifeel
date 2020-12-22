@@ -201,8 +201,15 @@ async function getFoodList2(letters) {
 
 
 let checkForm = $('#mainForm')
+let conditionsForm = $('.conditions')
 
-
+conditionsForm.on("click", ".checkbox", function (evt) {
+  if ($(this).css("background-color") == "rgb(0, 0, 0)") {
+    $(this).css("background-color", "rgb(32,56,100");
+  } else {
+    $(this).css("background-color", "rgb(0,0,0)");
+  }
+});
 
 checkForm.on('click', ".checkbox", function (evt) {
 
@@ -229,7 +236,7 @@ function checkIt() {
 };
 
   var path = window.location.href;
-console.log(path);
+
   
 let links = $('.first');
 let links2 = $('.second');
@@ -263,4 +270,15 @@ let profilelink = "https://ifeelapp.herokuapp.com/user/profile";
 
 if (profilelink == window.location.href) {
   linkProfile.css('background-color', 'rgb(32, 56, 100')
+}
+
+
+
+let navBar = $('.fas')
+
+if (
+  path == "http://127.0.0.1:5000/signup" ||
+  path == "http://127.0.0.1:5000/login"
+) {
+  navBar.hide();
 }
