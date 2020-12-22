@@ -136,6 +136,9 @@ class Food(db.Model):
     
     info = db.relationship('FoodList')
 
+    def __repr__(self):
+        return f"{self.food_name}"
+
 
 
 class UserConditions(db.Model):
