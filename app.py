@@ -456,6 +456,7 @@ def food_destroy(food_id):
 
     db.session.delete(food)
     db.session.commit()
+    flash('Successfully deleted')
 
     return redirect("/userfoods")
 
@@ -558,7 +559,7 @@ def edit_profile():
 
         db.session.add(user)
         db.session.commit()
-        return redirect('/home')
+        return render_template('/user/profile.html', user=user, form=form, conditionslist=conditionslist)
 
     return render_template('/user/edit-profile.html', user=user, form=form, conditionslist=conditionslist)
 
@@ -641,14 +642,18 @@ def usersearch():
 
     if form.validate_on_submit():
         
+        
+        foodname = form.food_name_condition.data
+
+
+        search_by = form.search_by.data
+
         try:
-            foodname = form.food_name_condition.data
+            tablefood = FoodList.query.filter(FoodList.food_name == foodname).one()
+
         except:
             flash("There is no data on that food")
             return render_template('/search/foodbycondition.html', form=form)
-
-        search_by = form.search_by.data
-        tablefood = FoodList.query.filter(FoodList.food_name == foodname).one()
         
 
         tablecondition = Condition.query.filter(Condition.id == search_by).one()

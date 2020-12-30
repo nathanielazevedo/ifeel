@@ -5,7 +5,7 @@
 {% block content %}
 
 <div id="mainFormEditProfile" class="container">
-<form action="/user/profile" method='POST' id='inputFoodForm' autocomplete="off">
+<form action="/user/profile/edit" method='POST' id='inputFoodForm' autocomplete="off">
     {{ form.hidden_tag() }}
 
     {% for field in form if field.widget.input_type != 'hidden' and field.name != 'symptoms' %}
