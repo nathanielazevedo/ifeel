@@ -45,63 +45,46 @@
 
 var options = "";
 
-foods = ''
+foods = "";
 
 async function getFoodList(letters) {
-  
   foods = await $.getJSON(
     `https://api.spoonacular.com/food/ingredients/autocomplete?query=${letters}&number=15&apiKey=b7e7c1efd70843b7a897ec8eb3717e34&metaInformation=true`
   );
-  console.log(foods)
+  console.log(foods);
   for (var i = 0; i < foods.length; i++) {
     options += `<option value="${foods[i].name}" />`;
   }
   fulllist = [];
   lastlist = [];
-  
+
   for (var i = 0; i < foods.length; i++) {
-      lastlist.push(foods[i].name);
+    lastlist.push(foods[i].name);
   }
 
-
-  
   document.getElementById("inputfood").innerHTML = options;
-  
 }
 
+autoinput = $("#fieldOne");
+addbutton = $("#addButton");
+errorfood = $("#error-food");
 
-
-autoinput = $('#fieldOne')
-addbutton = $('#addButton')
-errorfood = $('#error-food')
-
-
-addbutton.on('click', function () {
-  
-  if (lastlist.includes(autoinput.val())){
+addbutton.on("click", function () {
+  if (lastlist.includes(autoinput.val())) {
     value = autoinput.val();
     for (var i = 0; i < foods.length; i++) {
       if (foods[i].name == value) {
-        finalvalue = foods[i]
-        break
+        finalvalue = foods[i];
+        break;
       }
-      
     }
-    console.log(finalvalue)
-    autoinput.val(JSON.stringify(finalvalue))
-  }
-  else {
-    autoinput.val('');
+    console.log(finalvalue);
+    autoinput.val(JSON.stringify(finalvalue));
+  } else {
+    autoinput.val("");
     errorfood.text("Food must be present in dropdown suggestions");
-}
-    
-})
-
-
-
-
-
-
+  }
+});
 
 // let firstTime = '';
 // let secondTime = '';
@@ -127,12 +110,10 @@ addbutton.on('click', function () {
 autoinput.keypress(function () {
   if (autoinput.val().length >= 1) {
     getFoodList(autoinput.val());
+  } else {
+    return;
   }
-  else {
-    return
-  }
-})
-
+});
 
 // autoinput.keypress(function () {
 //   if (firstTime == "" && secondTime == '') {
@@ -146,25 +127,18 @@ autoinput.keypress(function () {
 //   }
 
 //   timeout = setTimeout(function () {
-    
+
 //       console.log('get em')
-    
+
 //   }, 1700);
-    // if (difference > 1700 && autoinput.val().length >= 1) {
-    //   console.log("now we are talking");
-    // } else {
-    //   secondTime = "";
-    //   firstTime = Date.now();
-    // }
+// if (difference > 1700 && autoinput.val().length >= 1) {
+//   console.log("now we are talking");
+// } else {
+//   secondTime = "";
+//   firstTime = Date.now();
+// }
 
-
-
-
-
-
-
-condition_input = $('#foodSearchInput')
-
+condition_input = $("#foodSearchInput");
 
 condition_input.keypress(function () {
   if (condition_input.val().length >= 1) {
@@ -174,17 +148,14 @@ condition_input.keypress(function () {
   }
 });
 
-
 async function getFoodList2(letters) {
   foodlist = await $.getJSON("https://ifeelapp.herokuapp.com/foodlist");
   console.log(foodlist);
-  options = '';
+  options = "";
   for (var i = 0; i < foodlist.length; i++) {
     options += `<option value="${foodlist[i]}" />`;
-    
   }
 
-  
   // fulllist = [];
   // lastlist = [];
 
@@ -195,13 +166,10 @@ async function getFoodList2(letters) {
   document.getElementById("inputfood2").innerHTML = options;
 }
 
-
 // toggle checkboxes
 
-
-
-let checkForm = $('#mainForm')
-let conditionsForm = $('.conditions')
+let checkForm = $("#mainForm");
+let conditionsForm = $(".conditions");
 
 conditionsForm.on("click", ".checkbox", function (evt) {
   if ($(this).css("background-color") == "rgb(0, 0, 0)") {
@@ -211,70 +179,62 @@ conditionsForm.on("click", ".checkbox", function (evt) {
   }
 });
 
-checkForm.on('click', ".checkbox", function (evt) {
-
-  if ($(this).css("background-color") == 'rgb(0, 0, 0)') {
+checkForm.on("click", ".checkbox", function (evt) {
+  if ($(this).css("background-color") == "rgb(0, 0, 0)") {
     $(this).css("background-color", "rgb(32,56,100");
-    
   } else {
     $(this).css("background-color", "rgb(0,0,0)");
   }
-  
-})
-
-
+});
 
 function checkIt() {
   var path = window.location.href;
-  console
+  console;
   // $(".Nav").each(function () {
   //   if (this.href === path) {
   //     $(this).addClass("active");
   //     console.log('Done')
   //   }
   // });
-};
+}
 
-  var path = window.location.href;
+var path = window.location.href;
 
-  
-let links = $('.first');
-let links2 = $('.second');
-let links3 = $('.third');
-let links4 = $('.fourth');
-let linkProfile = $('.profile');
+let links = $(".first");
+let links2 = $(".second");
+let links3 = $(".third");
+let links4 = $(".fourth");
+let linkProfile = $(".profile");
 // links.forEach((v) => console.log(v))
-console.log(links[0].baseURI)
+console.log(links[0].baseURI);
 
 let firstLink = "https://ifeelapp.herokuapp.com/home";
 
 if (firstLink == window.location.href) {
-  links.css('background-color', 'rgb(32, 56, 100')
+  links.css("background-color", "rgb(32, 56, 100");
 }
 let secondLink = "https://ifeelapp.herokuapp.com/food/add";
 
 if (secondLink == window.location.href) {
-  links2.css('background-color', 'rgb(32, 56, 100')
+  links2.css("background-color", "rgb(32, 56, 100");
 }
 let thirdlink = "https://ifeelapp.herokuapp.com/search";
 
 if (thirdlink == window.location.href) {
-  links3.css('background-color', 'rgb(32, 56, 100')
+  links3.css("background-color", "rgb(32, 56, 100");
 }
 let fourthlink = "https://ifeelapp.herokuapp.com/userfoods";
 
 if (fourthlink == window.location.href) {
-  links4.css('background-color', 'rgb(32, 56, 100')
+  links4.css("background-color", "rgb(32, 56, 100");
 }
 let profilelink = "https://ifeelapp.herokuapp.com/user/profile";
 
 if (profilelink == window.location.href) {
-  linkProfile.css('background-color', 'rgb(32, 56, 100')
+  linkProfile.css("background-color", "rgb(32, 56, 100");
 }
 
-
-
-let navBar = $('.fas')
+let navBar = $(".fas");
 
 if (
   path == "http://127.0.0.1:5000/signup" ||

@@ -386,7 +386,7 @@ def update_info(food_id):
     for each in food.symptoms:
         symptomslist.append(each.symptom_name)
         
-    # form = ExampleForm()
+    
     symptoms = [(c.id, c.symptom_name) for c in Symptom.query.all()]
     form.symptoms.choices = symptoms
 
@@ -405,7 +405,8 @@ def update_info(food_id):
         
         db.session.add(food)
         db.session.commit()
-        return redirect('/home')
+        flash('That input has been updated.')
+        return redirect('/userfoods')
 
     else:
         return render_template('/food/food-update.html', form=form, food=food, symptomslist=symptomslist)
@@ -818,7 +819,25 @@ def foodlist():
 
 
 
-
+@app.route('/manifest.json')
+def manifest():
+    manifest_python_object = {
+    "name": "Feel",
+    "short_name": "feel",
+    "lang": "en-US",
+    "start_url": "/login",
+    "display": "standalone",
+    "theme_color": "#2F5B81",
+    "background_color": "#2F5B81",
+    "icons": [
+        {
+            "src": "/statc/images/feellogo.png",
+            "sizes": "150/150",
+            "type": "png"
+        }
+        ]
+    }
+    return jsonify(manifest_python_object)
 
 
 @app.errorhandler(404)

@@ -1,8 +1,8 @@
 /* General Styling */
 
 :root {
-  --green: #b5ce85;
-  --blue: #203864;
+  --orange: #b88f38;
+  --blue: #1d344d;
   --lightblue: #839bac;
 }
 
@@ -234,8 +234,8 @@
   }
 
   .infoData {
-    color: var(--green);
-    font-size: 2vw;
+    color: #b88f38;
+    font-size: 3.0vw;
     transition: 1s;
     transition-delay: .1s
   }
@@ -246,7 +246,7 @@
   }
 
   .addData {
-    color: var(--green);
+    color: #b88f38;
     font-size: 1.3em;
   }
 
@@ -310,7 +310,7 @@
   }
 
   #editProfileButton:hover {
-    background-color: var(--green);
+    background-color: #b88f38;
   }
   #editProfileButton1 {
     background-color: var(--blue);
@@ -324,7 +324,7 @@
   }
 
   #editProfileButton1:hover {
-    background-color: var(--green);
+    background-color:  #b88f38;
   }
 
   #profileLogout {
@@ -361,12 +361,12 @@
     width: 100%;
     background-color: var(--blue);
     border: none;
-    color: var(--green);
+    color: var(--orange);
     margin-top: 20px;
   }
 
   #tosignup:hover {
-    background-color: rgb(130, 161, 75);
+    background-color: rgb(145, 112, 51);
   }
 
   .loginInputs {
@@ -375,20 +375,35 @@
 
   #tosignup {
     width: 100%;
-    background-color: var(--green);
+    background-color: var(--orange);
     margin-top: 20px;
     border: none;
     color: var(--blue);
   }
 
   #loginbutton:hover {
-    background-color: rgb(42, 42, 145);
+    background-color: rgb(25, 32, 63);
   }
 
   .title {
     color: white;
     margin-bottom: 70px;
   }
+
+#amount{
+  background-color: var(--blue);
+  border: none;
+  text-align: center;
+  color: white;
+  margin-top: 3px;
+}
+#feeling{
+  background-color: var(--blue);
+  border: none;
+  text-align: center;
+  color: white;
+  margin-top: 3px;
+}
 
   .menu {
     display: flex;
@@ -440,6 +455,10 @@
 
   #fieldOneProfile {
     margin-top: 10px;
+    background-color: #1d344d;
+    color: white;
+    text-align: center;
+    border: none;
   }
 
   /* Adding food form */
@@ -460,7 +479,7 @@
     border: none;
     text-align: center;
     font-family:inherit;
-    font-size: 2vw;
+    font-size: 1.5vw;
   }
 
   #fieldOne::placeholder {
@@ -477,7 +496,7 @@
     border: none;
     text-align-last: center;
     font-family:inherit;
-    font-size: 2vw;
+    font-size: 1.5vw;
   }
 
   input[type="checkbox"]:checked + label {
@@ -489,12 +508,12 @@
     background-color:#1d344d;
     color: white;
     border: black solid 1px;
-    font-size: 1.5vw;
+    font-size: 1.2vw;
     
   }
 
   .checkbox:hover {
-    background-color: rgb(32, 56, 100);
+    background-color: #b88f38;
     border: black solid 1px;
   }
 
@@ -520,10 +539,10 @@
   }
 
   #addButton:hover {
-    background-image: linear-gradient(var(--green), var(--green));
+    background-color: #b88f38;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     color: black;
-    font-family: monospace;
+    font-family:inherit;
   }
 
   /* Search By Condition */
@@ -592,6 +611,7 @@
     -webkit-text-stroke-color: black;
   }
 
+  
   #searchFood {
     bottom: 12%;
     left: 25%;
@@ -616,14 +636,14 @@
   #foodSearch {
     margin-top: 20px;
     font-size: 17px;
-    background-color: var(--blue);
+    background-color:#1d344d;
     border: none;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 
   #foodSearch:hover {
-    background-color: #b5ce85;
-    color: #1d2b44;
+    background-color:#b88f38;
+    color: white;
   }
 
   /* UserFoods Table */
@@ -879,6 +899,12 @@
     margin: 0 auto;
     border-radius: 0%;
   }
+
+
+
+
+
+
 }
 
 /* Mobile Styling */
@@ -901,7 +927,7 @@
 
   .body {
     grid-area: body;
-    background-color: #839bac;
+    background-color: rgb(148, 148, 148);
   }
 
   .Nav {
@@ -911,7 +937,7 @@
     gap: 0px 0px;
     grid-template-areas: "links profile";
     grid-area: 2 / 1 / 3 / 2;
-    background-image: linear-gradient(#b88f38, #b88f38);
+    background-image: linear-gradient(#3a3a3a, #4d4d4d);
   }
 
   .profile {
@@ -930,7 +956,7 @@
   .fas {
     font-size: 20px;
     text-decoration: none;
-    color: #b5ce85;
+    color: #b88f38;
   }
 
   .fas:hover {
@@ -998,7 +1024,7 @@
 
   .body {
     grid-area: body;
-    background-color: var(--blue);
+    
     display: grid;
     display: flex;
     justify-content: space-around;
@@ -1021,9 +1047,9 @@
 
   #flash {
     position: absolute;
-    bottom: 35px;
+    bottom: 50px;
     margin: 0 auto;
-    color:rgb(238, 50, 50);
+    color:white;
     width: 100%;
   }
 
@@ -1044,7 +1070,7 @@
     width: 40%;
     height: 30%;
     /* border: black solid 1px; */
-    
+    background-color:#1d344d;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1068,7 +1094,7 @@
     align-items: center;
     flex-direction: column;
     /* background-image: linear-gradient( #2F5597, #1b2c49); */
-    background-color: var(--blue);
+    background-color:#1d344d;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 
@@ -1112,7 +1138,7 @@
   }
 
   .infoData {
-    color: var(--green);
+    color: var(--orange);
     font-size: 12vw;
   }
 
@@ -1122,7 +1148,7 @@
   }
 
   .addData {
-    color: var(--green);
+    color: var(--orange);
     font-size: 1.3em;
   }
 
@@ -1188,7 +1214,7 @@
   }
 
   #editProfileButton:hover {
-    background-color: var(--green);
+    background-color: var(--orange);
   }
   #editProfileButton1 {
     background-color: var(--blue);
@@ -1202,7 +1228,7 @@
   }
 
   #editProfileButton1:hover {
-    background-color: var(--green);
+    background-color: var(--orange);
   }
 
   #profileLogout {
@@ -1228,11 +1254,11 @@
     position: absolute;
     border-radius: 5%;
     font-size: 5vw;
-    color: #b88f38;
-    font-weight: bold;
+    color: white;
+    /* font-weight: bold; */
     /* width: 70%;
     height: 35%; */
-    -webkit-text-stroke-width: 10px;
+    -webkit-text-stroke-width: 1%;
     -webkit-text-stroke-color: black;
   }
 
@@ -1263,7 +1289,7 @@
   }
 
   #fieldOneProfile {
-    background-color: gray;
+    background-color:#1d344d;
     border: black 1px solid;
     color: white;
     text-align: center;
@@ -1282,7 +1308,7 @@
 
   #fieldOne {
     /* margin-top: 20px; */
-    background-image: linear-gradient(#6b7586, #3e434d);
+    background-color:#1d344d;
     color: white;
     border: none;
     text-align: center;
@@ -1298,7 +1324,7 @@
 
   #fieldTwo {
     margin-top: 10px;
-    background-image: linear-gradient(#6b7586, #3e434d);
+    background-color:#1d344d;
     color: white;
     border: none;
     text-align-last: center;
@@ -1311,9 +1337,9 @@
   }
 
   .checkbox {
-    background-color: rgb(32, 56, 100);
+    background-color:#1d344d;
     color: white;
-    border: var(--green) solid 1px;
+    border: none;
     font-size: small;
     
   }
@@ -1337,14 +1363,14 @@
   }
 
   #addButton {
-    background-image: linear-gradient(#2f5597, #203864);
+    background-color:#1d344d;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     color: white;
     font-family: monospace;
   }
 
   #addButton:hover {
-    background-image: linear-gradient(var(--green), var(--green));
+    background-color: var(--orange);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     color: black;
     font-family: monospace;
@@ -1410,7 +1436,7 @@
 
   .searchTitle {
     font-size: 20px;
-    color: var(--green);
+    color: var(--orange);
     text-align: center;
   }
 
@@ -1438,7 +1464,7 @@
   #foodSearch {
     margin-top: 20px;
     font-size: 17px;
-    background-color: var(--blue);
+    background-color:#1d344d;
     border: none;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
@@ -1704,5 +1730,34 @@
     text-align: center;
     margin: 0 auto;
     border-radius: 0%;
+  }
+
+    .menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+  }
+
+    #loginbutton {
+    width: 100%;
+    background-color: var(--blue);
+    border: none;
+    color: var(--orange);
+    margin-top: 20px;
+  }
+
+  #tosignup {
+    width: 100%;
+    background-color: var(--orange);
+    margin-top: 20px;
+    border: none;
+    color: var(--blue);
+  }
+
+  .title {
+    color: white;
+    margin-bottom: 70px;
   }
 }

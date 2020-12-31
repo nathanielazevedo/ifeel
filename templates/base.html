@@ -1,46 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
-      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/stylesheets/index.css">
+  <head>
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="feel" />
+    <meta name="apple-mobile-web-app-title" content="feel" />
+    <meta name="theme-color" content="#2F5B81" />
+    <meta name="msapplication-navbutton-color" content="#2F5B81" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="msapplication-starturl" content="/login" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <link rel="icon" type="png" sizes="250/250" href="feel logo.png" />
+    <link rel="apple-touch-icon" href="feellogo.png" />
+
+    <link rel="manifest" href="/manifest.json" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/stylesheets/index.css" />
     <title>Feel</title>
-      <script src="https://unpkg.com/jquery"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-</head>
-<body>
-<div class="grid-container">
-  <div class="Nav">
-    <div class="links">
-      <div class="first"><a href='/home' i class="fas fa-bullseye"></a></div>
-      <div class="second"><a href="/food/add" class="fas fa-utensils"></a></div>
-      <div class="third"><a href="/search"class="fas fa-binoculars"></a></div>
-      <div class="fourth"><a href="/userfoods"class="fas fa-bars"></a></div>
-    </div>
-    <div class="profile">
-        <div class="profileimage"><a href="/user/profile"class="fas fa-user"></a></div>
+    <script src="https://unpkg.com/jquery"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
+    />
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="Nav">
+        <div class="links">
+          <div class="first">
+            <a href="/home" i class="fas fa-bullseye"></a>
+          </div>
+          <div class="second">
+            <a href="/food/add" class="fas fa-utensils"></a>
+          </div>
+          <div class="third">
+            <a href="/search" class="fas fa-binoculars"></a>
+          </div>
+          <div class="fourth">
+            <a href="/userfoods" class="fas fa-bars"></a>
+          </div>
         </div>
-  </div>
-  <div class="body">
-
-      <div id="content">
-        {% block content %}
-
-        {% endblock %}
-
-
+        <div class="profile">
+          <div class="profileimage">
+            <a href="/user/profile" class="fas fa-user"></a>
+          </div>
+        </div>
       </div>
+      <div class="body">
+        <div id="content">{% block content %} {% endblock %}</div>
 
-              
         {% for message in get_flashed_messages() %}
-  <div id="flash" class="alert alert-{{ category }}">{{ message }}</div>
+        <div id="flash" class="alert alert-{{ category }}">{{ message }}</div>
         {% endfor %}
-        
-  </div>
-</div>
-<script src="/static/feel.js"></script>
-</body>
+      </div>
+    </div>
+
+    <script src="/static/feel.js"></script>
+  </body>
 </html>

@@ -1,0 +1,16 @@
+{
+    "name": "Feel",
+    "short_name": "feel",
+    "lang": "en-US",
+    "start_url": "/login",
+    "display": "fullscreen",
+    "theme_color": "#2F5B81",
+    "background_color": "#2F5B81",
+    "icons": [
+      {
+        "src": "/statc/images/feellogo.png",
+        "sizes": "150/150",
+        "type": "png"
+      }
+    ]
+  }
