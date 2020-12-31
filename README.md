@@ -24,7 +24,7 @@ Track how food makes you feel. Discover how food makes others feel. This app tak
 
 
 ## Use
-[Click Here](https://nathanielazevedo.github.io/feelapp)
+[Click Here](https://ifeelapp.herokuapp.com/signup)
 
 
 ## Skills practiced
