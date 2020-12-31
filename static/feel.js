@@ -211,27 +211,27 @@ console.log(links[0].baseURI);
 let firstLink = "https://ifeelapp.herokuapp.com/home";
 
 if (firstLink == window.location.href) {
-  links.css("background-color", "rgb(32, 56, 100");
+  links.css("background-color", "rgb(58, 58, 58)");
 }
 let secondLink = "https://ifeelapp.herokuapp.com/food/add";
 
 if (secondLink == window.location.href) {
-  links2.css("background-color", "rgb(32, 56, 100");
+  links2.css("background-color", "rgb(58, 58, 58)");
 }
 let thirdlink = "https://ifeelapp.herokuapp.com/search";
 
 if (thirdlink == window.location.href) {
-  links3.css("background-color", "rgb(32, 56, 100");
+  links3.css("background-color", "rgb(58, 58, 58)");
 }
 let fourthlink = "https://ifeelapp.herokuapp.com/userfoods";
 
 if (fourthlink == window.location.href) {
-  links4.css("background-color", "rgb(32, 56, 100");
+  links4.css("background-color", "rgb(58, 58, 58)");
 }
 let profilelink = "https://ifeelapp.herokuapp.com/user/profile";
 
 if (profilelink == window.location.href) {
-  linkProfile.css("background-color", "rgb(32, 56, 100");
+  linkProfile.css("background-color", "rgb(58, 58, 58)");
 }
 
 let navBar = $(".fas");

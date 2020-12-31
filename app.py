@@ -827,8 +827,8 @@ def manifest():
     "lang": "en-US",
     "start_url": "/login",
     "display": "standalone",
-    "theme_color": "#2F5B81",
-    "background_color": "#2F5B81",
+    "theme_color": "#949494",
+    "background_color": "#949494",
     "icons": [
         {
             "src": "/statc/images/feellogo.png",
