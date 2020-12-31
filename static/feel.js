@@ -237,8 +237,8 @@ if (profilelink == window.location.href) {
 let navBar = $(".fas");
 
 if (
-  path == "http://127.0.0.1:5000/signup" ||
-  path == "http://127.0.0.1:5000/login"
+  path == "https://ifeelapp.herokuapp.com/signup" ||
+  path == "https://ifeelapp.herokuapp.com/login"
 ) {
   navBar.hide();
 }
