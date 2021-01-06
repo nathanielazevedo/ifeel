@@ -1,21 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div id="edityourprofile">
-<h5 id="graphTitle">Data collected on {{foodname}}</h5>
+<div id="generalFoodsGraphs">
+<h5 id="generalFoodsGraphsTitle">Data collected on {{foodname}}</h5>
 
 
-<div id="graph1"> 
-<img src="{{graph.url}}" alt="" width="500px" id="graph12">
+<div id="generalFoodsGraphOneDiv"> 
+<img src="{{graph.url}}" alt="" width="500px" id="generalFoodsGraphOne">
 </div>
-<div id="graph2">
-<img src="{{graph2.url}}" alt="" width="500px" id="graph22">
+<div id="generalFoodsGraphTwoDiv">
+<img src="{{graph2.url}}" alt="" width="500px" id="generalFoodsGraphTwo">
 </div>
 
-<div class="spacer"></div>
+
 
 {% if nutritional_info != 'none' %}
-<section class="performance-facts" style="background-color: white;">
+<section class="performance-facts" style="background-color: white;" hidden>
   <header class="performance-facts__header">
     <h1 class="performance-facts__title">Nutrition Facts</h1>
     

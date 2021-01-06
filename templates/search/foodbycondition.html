@@ -8,9 +8,9 @@
 
 {% block content %}
 
+<div id="fcDiv">
 
-
-<form action="/foodbycondition/search" method='POST' id="foodSearchForm"  >
+<form action="/foodbycondition/result" method='POST' id="foodSearchForm"  >
           {{ form.hidden_tag() }}
 
       {% for field in form if field.widget.input_type != 'hidden'%}
@@ -30,7 +30,7 @@
       <button type="submit" id="foodSearch" class="btn btn-secondary btn-lg btn-block">Search</button>
     </form>
 
-        
+</div>
 
 
 
@@ -43,8 +43,8 @@
 
 </div>
 
-<div id="fcGraph"> 
-<img id="fcGraph2" src="{{graph2.url}}" alt="" width="500px">
+<div id="fcGraphDiv"> 
+<img id="fcGraph" src="{{graph2.url}}" alt="" width="500px">
 </div>
 
 {% endif %}
@@ -55,9 +55,3 @@
 
 {% endblock %}
 
-
-
-
-
-
-<!-- =============================================================== -->

@@ -47,44 +47,44 @@ var options = "";
 
 foods = "";
 
-async function getFoodList(letters) {
-  foods = await $.getJSON(
-    `https://api.spoonacular.com/food/ingredients/autocomplete?query=${letters}&number=15&apiKey=b7e7c1efd70843b7a897ec8eb3717e34&metaInformation=true`
-  );
-  console.log(foods);
-  for (var i = 0; i < foods.length; i++) {
-    options += `<option value="${foods[i].name}" />`;
-  }
-  fulllist = [];
-  lastlist = [];
+// async function getFoodList(letters) {
+//   foods = await $.getJSON(
+//     `https://api.spoonacular.com/food/ingredients/autocomplete?query=${letters}&number=15&apiKey=b7e7c1efd70843b7a897ec8eb3717e34&metaInformation=true`
+//   );
+//   console.log(foods);
+//   for (var i = 0; i < foods.length; i++) {
+//     options += `<option value="${foods[i].name}" />`;
+//   }
+//   fulllist = [];
+//   lastlist = [];
 
-  for (var i = 0; i < foods.length; i++) {
-    lastlist.push(foods[i].name);
-  }
+//   for (var i = 0; i < foods.length; i++) {
+//     lastlist.push(foods[i].name);
+//   }
 
-  document.getElementById("inputfood").innerHTML = options;
-}
+//   document.getElementById("inputfood").innerHTML = options;
+// }
 
 autoinput = $("#fieldOne");
-addbutton = $("#addButton");
-errorfood = $("#error-food");
+// addbutton = $("#addButton");
+// errorfood = $("#error-food");
 
-addbutton.on("click", function () {
-  if (lastlist.includes(autoinput.val())) {
-    value = autoinput.val();
-    for (var i = 0; i < foods.length; i++) {
-      if (foods[i].name == value) {
-        finalvalue = foods[i];
-        break;
-      }
-    }
-    console.log(finalvalue);
-    autoinput.val(JSON.stringify(finalvalue));
-  } else {
-    autoinput.val("");
-    errorfood.text("Food must be present in dropdown suggestions");
-  }
-});
+// addbutton.on("click", function () {
+//   if (lastlist.includes(autoinput.val())) {
+//     value = autoinput.val();
+//     for (var i = 0; i < foods.length; i++) {
+//       if (foods[i].name == value) {
+//         finalvalue = foods[i];
+//         break;
+//       }
+//     }
+//     console.log(finalvalue);
+//     autoinput.val(JSON.stringify(finalvalue));
+//   } else {
+//     autoinput.val("");
+//     errorfood.text("Food must be present in dropdown suggestions");
+//   }
+// });
 
 // let firstTime = '';
 // let secondTime = '';
@@ -168,22 +168,26 @@ async function getFoodList2(letters) {
 
 // toggle checkboxes
 
-let checkForm = $("#mainForm");
+let checkForm = $(".symptoms");
 let conditionsForm = $(".conditions");
 
 conditionsForm.on("click", ".checkbox", function (evt) {
-  if ($(this).css("background-color") == "rgb(0, 0, 0)") {
-    $(this).css("background-color", "rgb(32,56,100");
+  if ($(this).css("background-color") != "rgb(0, 0, 0)") {
+    $(this).css("background-color", "rgb(0,0,0");
+    $(this).css("color", "rgb(255,255,255)");
   } else {
-    $(this).css("background-color", "rgb(0,0,0)");
+    $(this).css("background-color", "rgb(255,255,255)");
+    $(this).css("color", "rgb(0,0,0)");
   }
 });
 
 checkForm.on("click", ".checkbox", function (evt) {
-  if ($(this).css("background-color") == "rgb(0, 0, 0)") {
-    $(this).css("background-color", "rgb(32,56,100");
+  if ($(this).css("background-color") != "rgb(0, 0, 0)") {
+    $(this).css("background-color", "rgb(0,0,0");
+    $(this).css("color", "rgb(255,255,255)");
   } else {
-    $(this).css("background-color", "rgb(0,0,0)");
+    $(this).css("background-color", "rgb(255,255,255)");
+    $(this).css("color", "rgb(0,0,0)");
   }
 });
 
@@ -211,27 +215,27 @@ console.log(links[0].baseURI);
 let firstLink = "https://ifeelapp.herokuapp.com/home";
 
 if (firstLink == window.location.href) {
-  links.css("background-color", "rgb(58, 58, 58)");
+  links.css("background-color", "rgb(124, 163, 108)");
 }
 let secondLink = "https://ifeelapp.herokuapp.com/food/add";
 
 if (secondLink == window.location.href) {
-  links2.css("background-color", "rgb(58, 58, 58)");
+  links2.css("background-color", "rgb(124, 163, 108)");
 }
 let thirdlink = "https://ifeelapp.herokuapp.com/search";
 
 if (thirdlink == window.location.href) {
-  links3.css("background-color", "rgb(58, 58, 58)");
+  links3.css("background-color", "rgb(124, 163, 108)");
 }
 let fourthlink = "https://ifeelapp.herokuapp.com/userfoods";
 
 if (fourthlink == window.location.href) {
-  links4.css("background-color", "rgb(58, 58, 58)");
+  links4.css("background-color", "rgb(124, 163, 108)");
 }
 let profilelink = "https://ifeelapp.herokuapp.com/user/profile";
 
 if (profilelink == window.location.href) {
-  linkProfile.css("background-color", "rgb(58, 58, 58)");
+  linkProfile.css("background-color", "rgb(124, 163, 108)");
 }
 
 let navBar = $(".fas");
@@ -242,3 +246,67 @@ if (
 ) {
   navBar.hide();
 }
+
+
+
+
+
+
+
+restOfFields = $('#restOfFields')
+chooseFields = $("#chooseFoodsList");
+foodChoiceBody = $("#foodChoiceBody");
+foodChoiceTable = $(".table");
+
+restOfFields.hide()
+
+
+
+
+async function getFoodList(letters) {
+  foods = await $.getJSON(
+    `https://api.spoonacular.com/food/ingredients/autocomplete?query=${letters}&number=15&apiKey=b7e7c1efd70843b7a897ec8eb3717e34&metaInformation=true`
+  );
+  
+  foodChoiceBody.empty();
+    for (var i = 0; i < foods.length; i++) {
+      
+      foodChoiceBody.append(
+        `<tr class="tr">
+          <td><img src="https://spoonacular.com/cdn/ingredients_100x100/${foods[i].image}" id="searchImage"></td>
+          <td>${foods[i].name}</td>
+          
+          <td>
+            <a class="fas fa-plus foodChoosen" role="button" data-value='${
+        JSON.stringify({
+          'id': foods[i].id,
+          'name': foods[i].name,
+          'image': foods[i].image
+        })
+      }'>
+      </a>
+          </td>
+          
+        </tr>`
+      );}
+
+}
+
+
+
+foodChoiceBody.on('click', '.foodChoosen', function (evt) {
+  console.log($(this).data("value"))
+  $('#fieldOne').val(JSON.stringify($(this).data("value")));
+  $('#fieldOne').prop("readonly", true);
+  foodChoiceTable.hide();
+  restOfFields.show();
+})
+
+
+
+foodSearchButton = $('#foodSearch')
+foodSearchDiv = $('#fcDiv')
+
+foodSearchButton.on('click', function(){
+  foodSearchDiv.hide()
+})

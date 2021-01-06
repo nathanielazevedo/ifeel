@@ -14,7 +14,7 @@
 
 
 {% block content %}
-<div class="menu">
+<div class="conditionsMenu">
 <h1 class="title"> Add your conditions to your profile </h1>
         <p class="title">If your interested in associating your conditions to your feelings after eating certain foods you can add them here. You can also do it later in the edit profile section.
         </p>
@@ -23,7 +23,7 @@
 
 
 
-  <form class="px-4 py-3" method="POST" action="/signup/conditions">
+  <form class="" method="POST" action="/signup/conditions" id="conditionsForm">
       <div class="conditions">
         
           {% for field in form.conditions %}

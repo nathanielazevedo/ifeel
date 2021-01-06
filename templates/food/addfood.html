@@ -5,7 +5,7 @@
 
 
 {% block content %}
-<div id="mainForm" class="container">
+<div class="formContainer">
 <form action="/food/add" method='POST' id='inputFoodForm' autocomplete="off">
     {{ form.hidden_tag() }}
 
@@ -16,13 +16,15 @@
     {% endfor %}
    
     {% if field.type == 'StringField' %}
+
+    <div id="findFoodField">
     {{ field(placeholder=field.label.text, class="form-control", list='inputfood', id='fieldOne') }}
         <datalist id='inputfood' class="datalist-polyfill"></datalist>
         <span id="error-food"></span>
-
-
+    </div>  
+    <div id="restOfFields">
     {% elif field.type != 'RadioField' %}
-    {{ field(placeholder=field.label.text, class="form-control", id='fieldTwo') }}
+    {{ field(placeholder=field.label.text, class="form-control fieldTwo") }}
     {% else %}
 
 
@@ -54,6 +56,30 @@
       
 
     <button id="addButton" type="submit" class="btn btn-secondary btn-lg btn-block">Add Food</button>
+
+    </div>
 </form>
+
+
+<div class="table">
+  <div class="tableScroll" id="chooseFoodsList">
+  <table class="table table">
+
+    <thead>
+
+      <tr>
+        <th scope="col">Image</th>
+        <th scope="col">Food</th>
+        <th scope="col">Select</th>
+      </tr>
+    </thead>
+    
+      <tbody id="foodChoiceBody">
+
+        </tbody>
+    
+  </table>
+  </div>
+</div>
 </div>
 {% endblock %}

@@ -409,6 +409,7 @@ def update_info(food_id):
         return redirect('/userfoods')
 
     else:
+        
         return render_template('/food/food-update.html', form=form, food=food, symptomslist=symptomslist)
 
 
@@ -628,7 +629,7 @@ def search_food():
 
 
 
-@app.route('/foodbycondition/search', methods=['GET', 'POST'])
+@app.route('/foodbycondition/search', methods=['GET'])
 def usersearch():
     # Search for a user by name or condition
 
@@ -641,12 +642,21 @@ def usersearch():
     conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
     form.search_by.choices = conditions
 
+
+ 
+    return render_template('/search/foodbycondition.html', form=form)
+
+
+
+
+@app.route('/foodbycondition/result', methods=['POST'])
+def usersearch2():
+    form = UserSearchForm()
+    conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
+    form.search_by.choices = conditions
     if form.validate_on_submit():
-        
-        
+         
         foodname = form.food_name_condition.data
-
-
         search_by = form.search_by.data
 
         try:
@@ -658,10 +668,9 @@ def usersearch():
         
 
         tablecondition = Condition.query.filter(Condition.id == search_by).one()
-
         foods = Food.query.filter(Food.food_id == tablefood.id).all()
-
         newfoods = []
+
         for each in foods:
             conditions = each.conditions
             for each2 in conditions:
@@ -677,14 +686,10 @@ def usersearch():
         
         foodsymptomslists = []
 
-
         for each in foods:
             foodsymptomslists.append(each.symptoms)
 
         foodsymptoms = []
-
-
-
 
         for each in foodsymptomslists:
             for each2 in each:
@@ -703,18 +708,7 @@ def usersearch():
         graph2 = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:{symptoms},datasets:[{{label:'Number of reports per symptom after eating {foodname}',data:{symptomslists}}}]}}}}")
 
     
-        return render_template('/search/foodbycondition.html', form=form, tablefood=tablefood, average=average, graph2=graph2)
-
-
-    else:
-        return render_template('/search/foodbycondition.html', form=form)
-
-
-
-
-
-
-    
+        return render_template('/search/fcsearch.html', tablefood=tablefood, average=average, graph2=graph2)
 
 ##############################################
 
@@ -825,15 +819,16 @@ def manifest():
     "name": "Feel",
     "short_name": "feel",
     "lang": "en-US",
-    "start_url": "/login",
-    "display": "standalone",
-    "theme_color": "#949494",
-    "background_color": "#949494",
+    "start_url": "/",
+    "display": "fullscreen",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
     "icons": [
         {
-            "src": "/statc/images/feellogo.png",
-            "sizes": "150/150",
+            "src": "/static/images/officiallogo.png",
+            "sizes": "144x144",
             "type": "png"
+            
         }
         ]
     }

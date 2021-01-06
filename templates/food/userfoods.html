@@ -8,7 +8,7 @@
 
 {% block content %}
 
-    <form action="/userfoods" method="POST" id="foodSearchForm" class="form">
+    <form action="/userfoods" method="POST" id="userFoodsSearchForm" class="form">
     {{ form.hidden_tag() }} 
     
     {% for field in form if field.widget.input_type != 'hidden'%} 
@@ -17,11 +17,11 @@
     <span class="text-danger">{{ error }}</span>
     {% endfor %} 
     
-    {{ field(placeholder=field.label.text, class="form-control mr-sm-2", id="foodSearchInput") }} 
+    {{ field(placeholder=field.label.text, class="form-control mr-sm-2", id="userFoodsSearchInput") }} 
     
     {% endfor %}
 
-    <button id="foodSearch" type="submit" class="btn btn-secondary btn-lg btn-block">
+    <button id="userFoodsSearchButton" type="submit" class="btn btn-secondary btn-lg btn-block">
       Search
     </button>
   </form>
@@ -29,9 +29,9 @@
 
 
 
-<div id="table">
-  <div id="tableScroll">
-  <table class="table table-striped table-dark">
+<div class="table">
+  <div class="tableScroll">
+  <table class="table table">
 
     <thead>
 
@@ -61,7 +61,7 @@
           <td>
 
 
-            <a href="/food/{{food.id}}/delete" id="tofood" class="fas fa-trash-alt" role="button" ></a>
+            <a href="/food/{{food.id}}/delete" id="deleteYourFood" class="fas fa-trash-alt" role="button" ></a>
           </td>
         </tr>
         

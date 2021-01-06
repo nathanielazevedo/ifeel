@@ -16,11 +16,11 @@
     {% endfor %}
 
     {% if field.type == 'StringField' %}
-    {{ field(placeholder=field.label.text, class="form-control", id='fieldOne') }}
+    {{ field(placeholder=field.label.text, class="form-control", id='fieldOne', readonly='true') }}
 
 
     {% elif field.type != 'RadioField' %}
-    {{ field(placeholder=field.label.text, class="form-control") }}
+    {{ field(placeholder=field.label.text, class="form-control fieldTwo" ) }}
     {% else %}
 
 
@@ -28,7 +28,7 @@
     {% for subfield in field %}
 
 
-    {{subfield.label (class="btn btn-secondary active", id='fieldTwo')}}
+    {{subfield.label (class="btn btn-secondary active")}}
     {{subfield}}
 
   
@@ -44,7 +44,7 @@
           <div hidden>
           {{field(checked=True, class='btn-check', autocomplete='off', type='checkbox')}}
           </div>
-          {{field.label (class="btn btn-outline-primary checkbox", style="background-color: black")}}
+          {{field.label (class="btn btn-outline-primary checkbox", style="background-color: black; color: white")}}
           
           {% elif field.label not in symptomslist %}
           
