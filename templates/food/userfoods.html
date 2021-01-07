@@ -8,7 +8,7 @@
 
 {% block content %}
 
-    <form action="/userfoods" method="POST" id="userFoodsSearchForm" class="form">
+    <form action="/userfoods" method="GET" id="userFoodsSearchForm" class="form">
     {{ form.hidden_tag() }} 
     
     {% for field in form if field.widget.input_type != 'hidden'%} 

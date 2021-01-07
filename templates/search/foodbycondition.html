@@ -10,8 +10,8 @@
 
 <div id="fcDiv">
 
-<form action="/foodbycondition/result" method='POST' id="foodSearchForm"  >
-          {{ form.hidden_tag() }}
+<form action="/foodbycondition/result" method='GET' id="foodSearchForm"  >
+          
 
       {% for field in form if field.widget.input_type != 'hidden'%}
 

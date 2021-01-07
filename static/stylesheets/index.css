@@ -146,6 +146,32 @@
 
   /* ------------------------ All general styles */
 
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 84px;
+  height: 84px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid rgb(151, 199, 132);
+  border-color: rgb(151, 199, 132) transparent rgb(151, 199, 132) transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
 #logo{
   position: absolute;
   right: 1%;
@@ -374,7 +400,7 @@
     font-size: 12px;
     border: solid black 1px;
     width: 100%;
-  
+    margin-bottom: 10px;
   }
 
 
@@ -483,6 +509,13 @@
 }
 
 #foodSearch{
+  background-color: rgb(131, 206, 224);
+  border: none;
+  font-size: 12px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+#foodSearchData{
   background-color: rgb(131, 206, 224);
   border: none;
   font-size: 12px;
@@ -1510,7 +1543,7 @@
 
   #userFoodsSearchInput {
 
-    margin-top: 10px;
+    margin-top: 5%;
     background-color: white;
     color: black;
     text-align: center;

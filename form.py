@@ -27,19 +27,9 @@ class FoodForm(FlaskForm):
     symptoms = MultiCheckboxField('Symptom', coerce=int)
 
 
-
-
-
-
-
-
-
-
 class SearchForm(FlaskForm):
     food_name = StringField('Search for a food', validators=[InputRequired()])
     
-
-
 
 class UpdateProfileForm(FlaskForm):
     """UpdateForm form."""
@@ -53,15 +43,6 @@ class UpdateProfileForm(FlaskForm):
 
 class SearchAddForm(FlaskForm):
     search_food_name = StringField('Search from your foods.', validators=[InputRequired()])
-    
-
-class AddSearchForm(FlaskForm):
-    add_food_name = StringField('Add a food to database.', validators = [InputRequired()])
-
-
-class UserSearchForm(FlaskForm):
-    user_name = StringField('Search for a user?', validators=[InputRequired()])
-    
 
 
 class UpdateFoodForm(FlaskForm):
@@ -71,7 +52,7 @@ class UpdateFoodForm(FlaskForm):
     symptoms = MultiCheckboxField('Symptom', coerce=int)
 
 
-class UserSearchForm(FlaskForm):
+class FCSearchForm(FlaskForm):
     food_name_condition = StringField('Search for a food by condition', validators=[InputRequired()])
     search_by = SelectField('Search By', coerce=int)
     
@@ -83,19 +64,7 @@ class InitialConditionsForm(FlaskForm):
 
 
     
-class ExampleForm(FlaskForm):
-    Condition = MultiCheckboxField('Condition', coerce=int)
-    submit = SubmitField("Set User Choices")
 
 
-class SelectMany(FlaskForm):
-
-    Condition = SelectMultipleField("Condition", coerce=int)
 
 
-class SearchSpoonacular(FlaskForm):
-    spoonacular_food_name = StringField('Search For a food to add', validators=[InputRequired()])
-
-
-class AddSpoonacular(FlaskForm):
-    spoonacular_food_name = StringField('', validators=[InputRequired()])

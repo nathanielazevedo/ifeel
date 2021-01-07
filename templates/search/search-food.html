@@ -14,8 +14,8 @@
 {% block content %}
 
 
-  <form action="/food/search" method="POST" id="foodSearchForm" class="form">
-    {{ form.hidden_tag() }} 
+  <form action="/food/search" method="GET" id="foodSearchForm" class="form">
+    
     
     {% for field in form if field.widget.input_type !=
     'hidden'%} 
@@ -28,7 +28,7 @@
     
     {% endfor %}
 
-    <button id="foodSearch" type="submit" class="btn btn-secondary btn-lg btn-block">
+    <button id="foodSearchData" type="submit" class="btn btn-secondary btn-lg btn-block">
       Search
     </button>
   </form>

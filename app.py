@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, url_for,redirect, flash, session, jsonify, request, g, abort, json
 import os
 import json
-from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, UserSearchForm, UpdateFoodForm, ExampleForm, SelectMany, SearchAddForm, AddSearchForm, SearchSpoonacular, AddSpoonacular, InitialConditionsForm
+from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, FCSearchForm, UpdateFoodForm,   SearchAddForm, InitialConditionsForm
 from models import db, connect_db, User, Food, Condition, UserConditions, Symptom, FoodSymptoms, FoodList, FoodConditions
 from sqlalchemy.exc import IntegrityError
 import requests
@@ -414,7 +414,7 @@ def update_info(food_id):
 
 
 
-@app.route('/userfoods', methods=['GET', 'POST'])
+@app.route('/userfoods', methods=['GET'])
 def user():
     """Show all food inputs from a user"""
 
@@ -424,13 +424,13 @@ def user():
         return redirect("/")
 
 
-    form = SearchAddForm()
+    form = SearchAddForm(request.args)
     foods = (Food
             .query
             .filter(Food.user_id == g.user.id, Food.feeling != 'Null')
             .all())
 
-    if form.validate_on_submit():
+    if form.search_food_name.data:
         food = form.search_food_name.data
         foodlistspot = FoodList.query.filter(FoodList.food_name == food).all()
         try:
@@ -443,6 +443,9 @@ def user():
         # return render_template('/user/user.html', foods=foods, form=form)
 
     return render_template('/food/userfoods.html', foods=foods, form=form)
+
+
+
 
 
 
@@ -487,13 +490,10 @@ def display_profile():
         flash('Please login first!')
         return redirect('/login')
 
-    
-    user = User.query.get_or_404(g.user.id)
-
 
     # Making a list of all conditions the user currently has inorder to check them in the form.
     conditionslist = []
-    for each in user.conditions:
+    for each in g.user.conditions:
         conditionslist.append(each.condition_name)
 
     form = UpdateProfileForm()
@@ -501,22 +501,6 @@ def display_profile():
     conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
     form.conditions.choices = conditions
 
-    
-
-    if form.validate_on_submit():
-        
-        user.username = form.username.data
-        user.email = form.email.data
-        user.bio = form.bio.data
-        user.image_url = form.image_url.data
-        conditions = form.conditions.data
-        user.conditions.clear()
-        for each in conditions:
-            condition = Condition.query.get_or_404(each)
-            user.conditions.append(condition)
-        db.session.add(user)
-        db.session.commit()
-        return redirect('/home')
 
     return render_template('/user/profile.html', user=user, form=form, conditionslist=conditionslist)
 
@@ -561,7 +545,7 @@ def edit_profile():
 
         db.session.add(user)
         db.session.commit()
-        return render_template('/user/profile.html', user=user, form=form, conditionslist=conditionslist)
+        return redirect('/user/profile')
 
     return render_template('/user/edit-profile.html', user=user, form=form, conditionslist=conditionslist)
 
@@ -600,15 +584,15 @@ def search_main():
 
 
 
-@app.route('/food/search', methods=['GET', 'POST'])
+@app.route('/food/search', methods=['GET'])
 def search_food():
     #Search for a food by name. Return all matches
 
 
-    form = SearchForm()
+    form = SearchForm(request.args)
     allfoods = FoodList.query.all()
 
-    if form.validate_on_submit():
+    if form.food_name.data:
         foodname = form.food_name.data
         food_list_spot = FoodList.query.filter(FoodList.food_name == foodname).all()
         try:
@@ -638,7 +622,7 @@ def usersearch():
         flash('Please login first!')
         return redirect('/login')
 
-    form = UserSearchForm()
+    form = FCSearchForm(request.args)
     conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
     form.search_by.choices = conditions
 
@@ -649,66 +633,64 @@ def usersearch():
 
 
 
-@app.route('/foodbycondition/result', methods=['POST'])
+@app.route('/foodbycondition/result', methods=['GET'])
 def usersearch2():
-    form = UserSearchForm()
-    conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
-    form.search_by.choices = conditions
-    if form.validate_on_submit():
-         
-        foodname = form.food_name_condition.data
-        search_by = form.search_by.data
+    form = FCSearchForm(request.args)
 
-        try:
-            tablefood = FoodList.query.filter(FoodList.food_name == foodname).one()
 
-        except:
-            flash("There is no data on that food")
-            return render_template('/search/foodbycondition.html', form=form)
-        
+    foodname = form.food_name_condition.data
+    search_by = form.search_by.data
 
-        tablecondition = Condition.query.filter(Condition.id == search_by).one()
-        foods = Food.query.filter(Food.food_id == tablefood.id).all()
-        newfoods = []
+    try:
+        tablefood = FoodList.query.filter(FoodList.food_name == foodname).one()
 
-        for each in foods:
-            conditions = each.conditions
-            for each2 in conditions:
-                if each2.id == tablecondition.id:
-                        newfoods.append(each)
-        
-        averagelist = []
-        for each in newfoods:
-            if each.feeling != 'Null':
-                averagelist.append(int(each.feeling))
-        
-        average = round(sum(averagelist) / len(averagelist), 1)
-        
-        foodsymptomslists = []
-
-        for each in foods:
-            foodsymptomslists.append(each.symptoms)
-
-        foodsymptoms = []
-
-        for each in foodsymptomslists:
-            for each2 in each:
-                foodsymptoms.append(each2)
-
-        symptomslists = []
-        strfoodsymptoms = []
-        for each in foodsymptoms:
-            strfoodsymptoms.append(str(each))
-        count = 0
-        
-        for each in symptoms:
-            
-            symptomslists.append(strfoodsymptoms.count(each))
-
-        graph2 = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:{symptoms},datasets:[{{label:'Number of reports per symptom after eating {foodname}',data:{symptomslists}}}]}}}}")
-
+    except:
+        flash("There is no data on that food")
+        return render_template('/search/foodbycondition.html', form=form)
     
-        return render_template('/search/fcsearch.html', tablefood=tablefood, average=average, graph2=graph2)
+
+    tablecondition = Condition.query.filter(Condition.id == search_by).one()
+    foods = Food.query.filter(Food.food_id == tablefood.id).all()
+    newfoods = []
+
+    for each in foods:
+        conditions = each.conditions
+        for each2 in conditions:
+            if each2.id == tablecondition.id:
+                    newfoods.append(each)
+    
+    averagelist = []
+    for each in newfoods:
+        if each.feeling != 'Null':
+            averagelist.append(int(each.feeling))
+    
+    average = round(sum(averagelist) / len(averagelist), 1)
+    
+    foodsymptomslists = []
+
+    for each in foods:
+        foodsymptomslists.append(each.symptoms)
+
+    foodsymptoms = []
+
+    for each in foodsymptomslists:
+        for each2 in each:
+            foodsymptoms.append(each2)
+
+    symptomslists = []
+    strfoodsymptoms = []
+    for each in foodsymptoms:
+        strfoodsymptoms.append(str(each))
+    count = 0
+    
+    for each in symptoms:
+        
+        symptomslists.append(strfoodsymptoms.count(each))
+
+    graph2 = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:{symptoms},datasets:[{{label:'Number of reports per symptom after eating {foodname}',data:{symptomslists}}}]}}}}")
+
+
+    return render_template('/search/fcsearch.html', tablefood=tablefood, average=average, graph2=graph2)
 
 ##############################################
 
@@ -827,7 +809,7 @@ def manifest():
         {
             "src": "/static/images/officiallogo.png",
             "sizes": "144x144",
-            "type": "png"
+            "type": "png",
             
         }
         ]
