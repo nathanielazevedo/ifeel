@@ -1,69 +1,56 @@
 {% extends 'base.html' %}
 
 
-<!-- =============================================================== -->
 {% block content%}
   
-<div id="mainForm" class="container">
-<form action="/food/{{food.id}}/update" method='POST' id='inputFoodForm' autocomplete="off">
-    {{ form.hidden_tag() }}
+  <form action="/food/{{food.id}}/update" method='POST' id='inputFoodForm' autocomplete="off">
+      {{ form.hidden_tag() }}
 
-    {% for field in form if field.widget.input_type != 'hidden' and field.name != 'symptoms' %}
-
-
-    {% for error in field.errors %}
-    <span class="text-danger">{{ error }}</span>
-    {% endfor %}
-
-    {% if field.type == 'StringField' %}
-    {{ field(placeholder=field.label.text, class="form-control", id='fieldOne', readonly='true') }}
+      {% for field in form if field.widget.input_type != 'hidden' and field.name != 'symptoms' %}
 
 
-    {% elif field.type != 'RadioField' %}
-    {{ field(placeholder=field.label.text, class="form-control fieldTwo" ) }}
-    {% else %}
+      {% for error in field.errors %}
+        <span class="text-danger">{{ error }}</span>
+      {% endfor %}
 
+      {% if field.type == 'StringField' %}
+        {{ field(placeholder=field.label.text, class="form-control inputCommon", id='fieldOne', readonly='true') }}
+      {% elif field.type != 'RadioField' %}
+        {{ field(placeholder=field.label.text, class="form-control fieldTwo inputCommon" ) }}
+      {% else %}
+
+      {% for subfield in field %}
+
+      {{subfield.label (class="btn btn-secondary active")}}
+      {{subfield}}
 
     
-    {% for subfield in field %}
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
 
-
-    {{subfield.label (class="btn btn-secondary active")}}
-    {{subfield}}
-
-  
-    {% endfor %}
-    {% endif %}
-    {% endfor %}
-
-      <div class="symptoms">
-            {% for field in form.symptoms %}
-        
-          {% if field.label.text in symptomslist %}
+        <div class="checkboxDiv">
+              {% for field in form.symptoms %}
           
-          <div hidden>
-          {{field(checked=True, class='btn-check', autocomplete='off', type='checkbox')}}
-          </div>
-          {{field.label (class="btn btn-outline-primary checkbox", style="background-color: black; color: white")}}
-          
-          {% elif field.label not in symptomslist %}
-          
-          <div hidden>
-          {{field (class='btn-check', autocomplete='off', type='checkbox')}}
-          </div>
-          {{field.label (class="btn btn-outline-primary checkbox")}}
-          
-          {% endif %}
-        {% endfor %}
-</div>
+            {% if field.label.text in symptomslist %}
+            
+            <div hidden>
+            {{field(checked=True, class='btn-check', autocomplete='off', type='checkbox')}}
+            </div>
+            {{field.label (class="btn btn-outline-primary checkbox", style="background-color: black; color: white")}}
+            
+            {% elif field.label not in symptomslist %}
+            
+            <div hidden>
+            {{field (class='btn-check', autocomplete='off', type='checkbox')}}
+            </div>
+            {{field.label (class="btn btn-outline-primary checkbox")}}
+            
+            {% endif %}
+          {% endfor %}
+  </div>
 
-    <button id="addButton" type="submit" class="btn btn-secondary btn-lg btn-block">Submit</button>
-</form>
-</div>
+      <button id="addButton" type="submit" class="btn btn-block buttonCommon">Submit</button>
+  </form>
+
 {% endblock %}
-
-
-
-
-
-<!-- =============================================================== -->

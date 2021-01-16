@@ -1,38 +1,11 @@
 {% extends 'base.html' %}
 
 
-
-<!-- =============================================================== -->
-
-
-
 {% block content %}
-
-
-
-
-{% if tablefood %}
-<div id="fcResultsDiv">
-<div id="fcTop">
-<!-- <img src="https://spoonacular.com/cdn/ingredients_100x100/{{tablefood.spoonacular_image}}" id='fcImage' alt=""> -->
-<h3 id="fcName">{{tablefood.food_name}}</h3>
-</div>
-
-<div id="fcInfo">
- 
- <h4 id="fcAverage"> Average feeling from people with this condition</h4>
- <h4 id="fcAverage"> {{average}} / 3</h4>
-
-</div>
-
-<div id="fcGraphDiv"> 
-<img id="fcGraph" src="{{graph2.url}}" alt="" width="500px">
-</div>
-</div>
-{% endif %}
-
-
-
-
-
+    {% if tablefood %}   
+        <h3 id="fcName">{{tablefood.food_name}}</h3>
+        <h4 id="fcAverage"> Average feeling from people with this condition</h4>
+        <h4 id="fcAverage"> {{average}} / 3</h4>
+        <img id="fcGraph" src="{{graph2.url}}" alt="" width="500px"> 
+    {% endif %}
 {% endblock %}

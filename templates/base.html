@@ -4,22 +4,17 @@
     <link rel="manifest" href="/manifest.json" crossorigin="use-credentials"/>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <meta name="msapplication-starturl" content="/" />
-    
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
       integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-      crossorigin="anonymous"
-    />
-    
+      crossorigin="anonymous"/>
     <link
       rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-    />
-
+      href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0"/>
     <link rel="stylesheet" href="/static/stylesheets/index.css" />
@@ -27,41 +22,51 @@
     <script src="https://unpkg.com/jquery"></script>
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
-    />
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"/>
   </head>
-  <body>
-    <div class="grid-container">
-      <div class="Nav">
-        <div class="links">
-          <div class="first">
-            <a href="/home" i class="fas fa-bullseye"></a>
-          </div>
-          <div class="second">
-            <a href="/food/add" class="fas fa-utensils"></a>
-          </div>
-          <div class="third">
-            <a href="/search" class="fas fa-binoculars"></a>
-          </div>
-          <div class="fourth">
-            <a href="/userfoods" class="fas fa-bars"></a>
+  <body class="flex h">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top w">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/home">FEEL</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="/food/add">Add Food</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/userfoods">My Foods</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/search">Search</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/user/profile">Profile</a>
+              </li>
+            </ul>
           </div>
         </div>
-        <div class="profile">
-          <div class="profileimage">
-            <a href="/user/profile" class="fas fa-user"></a>
-          </div>
-        </div>
-      </div>
-      <div class="body">
-        <div id="content">{% block content %} {% endblock %}</div>
-
-        {% for message in get_flashed_messages() %}
-        <div id="flash" class="alert alert-{{ category }}">{{ message }}</div>
-        {% endfor %}
-      </div>
-    </div>
-    
+      </nav>
+      <section class="flex fit win"> 
+          {% if get_flashed_messages() %}
+            <div class="toast position-absolute top-50 start-50 translate-middle " role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+              <div class="toast-header bg-dark text-white" >
+                <strong class="me-auto">FEEL</strong>
+                <button type="button" class="btn-close btn-close-white ms-auto me-2" data-bs-dismiss="toast" aria-label="Close"></button>
+              </div>
+              <div class="toast-body">
+                {% for message in get_flashed_messages() %}
+                  {{message}}
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+          {% block content %} 
+          {% endblock %}
+      </section>
     <script src="/static/feel.js"></script>
+    <script src="https://unpkg.com/jquery"></script>
   </body>
 </html>

@@ -1,168 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div id="generalFoodsGraphs">
+
 <h5 id="generalFoodsGraphsTitle">Data collected on {{foodname}}</h5>
 
 
-<div id="generalFoodsGraphOneDiv"> 
-<img src="{{graph.url}}" alt="" width="500px" id="generalFoodsGraphOne">
-</div>
-<div id="generalFoodsGraphTwoDiv">
-<img src="{{graph2.url}}" alt="" width="500px" id="generalFoodsGraphTwo">
-</div>
+
+<img src="{{graph.url}}" alt="" width="500px" class="generalFoodsGraph">
+
+
+<img src="{{graph2.url}}" alt="" width="500px" class="generalFoodsGraph">
 
 
 
-{% if nutritional_info != 'none' %}
-<section class="performance-facts" style="background-color: white;" hidden>
-  <header class="performance-facts__header">
-    <h1 class="performance-facts__title">Nutrition Facts</h1>
-    
-  </header>
-  <table class="performance-facts__table">
-    <thead>
-      <tr>
-        <th colspan="3" class="small-info">
-          Amount Per Serving
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <b>Calories</b>
-          {{nutrition['calories']['amount']}}
-          calories
-        </th>
-        <td>
-          
-        </td>
-      </tr>
-      <tr class="thick-row">
-        <td colspan="3" class="small-info">
-          <b>% Daily Value*</b>
-        </td>
-      </tr>
-      <tr>
-        <th colspan="2">
-          <b>Total Fat</b>
-          {{nutrition['fat']['amount']}}
-          {{nutrition['fat']['unit']}}
-        </th>
-        <td>
-          <b>{{nutrition['fat']['percentOfDailyNeeds']}}%</b>
-        </td>
-      </tr>
-      <tr>
-        <td class="blank-cell">
-        </td>
-        <th>
-          Saturated Fat
-          {{nutrition['saturated_fat']['amount']}}
-          {{nutrition['saturated_fat']['unit']}}
-        </th>
-        <td>
-          <b>{{nutrition['saturated_fat']['percentOfDailyNeeds']}}%</b>
-        </td>
-      </tr>
 
-      <tr>
-        <th colspan="2">
-          <b>Cholesterol</b>
-          {{nutrition['cholesterol']['amount']}}
-          {{nutrition['cholesterol']['unit']}}
-        </th>
-        <td>
-          <b>{{nutrition['cholesterol']['percentOfDailyNeeds']}}%</b>
-        </td>
-      </tr>
-      <tr>
-        <th colspan="2">
-          <b>Sodium</b>
-          {{nutrition['sodium']['amount']}}
-          {{nutrition['sodium']['unit']}}
-        </th>
-        <td>
-          <b>{{nutrition['sodium']['percentOfDailyNeeds']}}%</b>
-        </td>
-      </tr>
-      <tr>
-        <th colspan="2">
-          <b>Total Carbohydrate</b>
-          {{nutrition['carbohydrates']['amount']}}
-          {{nutrition['carbohydrates']['unit']}}
-        </th>
-        <td>
-          <b>{{nutrition['carbohydrates']['percentOfDailyNeeds']}}%</b>
-        </td>
-      </tr>
-      <tr>
-        <td class="blank-cell">
-        </td>
-        <th>
-          Fiber
-          
-          {{nutrition['fiber']['amount']}}
-          {{nutrition['fiber']['unit']}}
-          
-        </th>
-        <td>
-          <b>{{nutrition['fiber']['percentOfDailyNeeds']}}%</b>
-        </td>
-      </tr>
-      <tr>
-        <td class="blank-cell">
-        </td>
-        <th>
-          Sugars
-          {{nutrition['sugar']['amount']}}
-          {{nutrition['sugar']['unit']}}
-        </th>
-        <td>
-        </td>
-      </tr>
-      <tr class="thick-end">
-        <th colspan="2">
-          <b>Protein</b>
-          {{nutrition['protein']['amount']}}
-          {{nutrition['protein']['unit']}}
-        </th>
-        <td>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  
-  <table class="performance-facts__table--grid">
-    <tbody>
-      <tr>
-        <td colspan="2">
-          Vitamin A
-          {{nutrition['vitaminA']['percentOfDailyNeeds']}}%
-        </td>
-        <td>
-          Vitamin C
-          {{nutrition['vitaminC']['percentOfDailyNeeds']}}%
-        </td>
-      </tr>
-      <tr class="thin-end">
-        <td colspan="2">
-          Calcium
-          {{nutrition['calcium']['percentOfDailyNeeds']}}%
-        </td>
-        <td>
-          Iron
-          {{nutrition['iron']['percentOfDailyNeeds']}}%
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  
-</section>
-</div>
-{% endif %}
+
 
 {% endblock %}

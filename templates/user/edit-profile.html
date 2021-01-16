@@ -1,78 +1,38 @@
 {% extends 'base.html' %}
 
 
-
 {% block content %}
 
-<div id="mainFormEditProfile" class="container">
-<form action="/user/profile/edit" method='POST' id='inputFoodForm' autocomplete="off">
+  <form action="/user/profile/edit" method='POST' id='inputFoodForm' autocomplete="off" class="formCommon">
     {{ form.hidden_tag() }}
 
     {% for field in form if field.widget.input_type != 'hidden' and field.name != 'symptoms' %}
-
-    {% for error in field.errors %}
-    <span class="text-danger">{{ error }}</span>
-    {% endfor %}
-   
-    {% if field.type == 'StringField' %}
-    {{ field(placeholder=field.label.text, class="form-control", list='inputfood', id='fieldOneProfile') }}
-
-
-
- 
-
-
-    
-
-    {% endif %}
+      {% for error in field.errors %}
+        <span class="text-danger">{{ error }}</span>
+      {% endfor %}
+      {% if field.type == 'StringField' %}
+        {{ field(placeholder=field.label.text, class="form-control inputCommon", list='inputfood', id='fieldOneProfile') }}
+      {% endif %}
     {% endfor %}
 
-      <div class="conditions">
-        
-          {% for field in form.conditions %}
+    <div class="checkboxDiv">
+      {% for field in form.conditions %}
         {% if field.label.text in conditionslist %}
           <div hidden>
             {{field (class='btn-check', autocomplete='off', type='checkbox', checked='True' )}}
           </div>
-        
             {{field.label (class="btn btn-outline-primary checkbox", style="background-color: black; color: white")}}
-
-
-          {% elif field.label not in conditionslist %}
-
-
+        {% elif field.label not in conditionslist %}
           <div hidden>
-          {{field (class='btn-check', autocomplete='off', type='checkbox', )}}
+            {{field (class='btn-check', autocomplete='off', type='checkbox', )}}
           </div>
-        
             {{field.label (class="btn btn-outline-primary checkbox")}}
-            {% endif %}
-        {% endfor %}
-        </div>
-      
-
-    <button id="editProfileButton" type="submit" class="btn btn-secondary btn-lg btn-block ">Edit Profile</button>
-</form>
-        <a href="/users/delete" class="btn btn-secondary btn-lg btn-block" id="profileDelete">
-         
-          Delete Profile
-        
-        </a>
-</div>
-
-
-
-
-
-
-
-
-
-
-
+        {% endif %}
+      {% endfor %}
+    </div>
+    <button id="editProfileButton" type="submit" class="btn btn-secondary btn-lg btn-block buttonCommon">Edit Profile</button>
+    <a href="/users/delete" class="btn btn-secondary btn-lg btn-block buttonCommon" id="profileDelete">Delete Profile</a>
+  </form>
+    
 
 {% endblock %}
-
-
-
-<!-- =============================================================== -->

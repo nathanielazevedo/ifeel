@@ -1,41 +1,6 @@
  {% extends 'base.html' %}
- {% block content %}
- <img id="logo" src="/static/images/officiallogo.png" alt="">
-        <div class="homeInfo" id="infoOne">
-            <h3 class="infoTitle">Total Inputs</h3>
-            <h2 class="infoData">{{total}}</h2>
-        </div>
-        <div class="homeInfo" id="infoTwo">
-            <h3 class="infoTitle">Average Feeling</h3>
-            <h2 class="infoData">
-                {% if average >= 2 %}
-                <i class="fas fa-smile"></i>
-                {% elif average <=  1 %}
-                <i class="far fa-frown"></i>
-                {% else %}
-                <i class="far fa-meh"></i>
-                {% endif %}
-            </h2>
-        </div>
-        <div class="homeInfo" id="infoThree">
-            <h3 class="infoTitle">Avoid This</h3>
-            <h2 class="infoData">
-                {% if eatFood != '' %}
-                <img src="https://spoonacular.com/cdn/ingredients_100x100/{{eatFood.info.spoonacular_image}}" id="homeImage">
-                {% else %}
-                <div  id="searchimage"> - </div>
-                {% endif %}
-            </h2>            
-        </div>
-        <div class="homeInfo" id="infoFour">
-            <h3 class="infoTitle">Eat This</h3>
-            <h2 class="infoData">
-                {% if avoidFood != '' %}
-                <img src="https://spoonacular.com/cdn/ingredients_100x100/{{avoidFood.info.spoonacular_image}}" id="homeImage">
-                {% else %}
-                <div  id="searchimage"> - </div>
-                {% endif %}
-            </h2>            
-        </div>
+    {% block content %}
 
-{% endblock %}
+            <img src="{{graph}}" alt="" id="homeGraph" class="rotate">
+        
+    {% endblock %}

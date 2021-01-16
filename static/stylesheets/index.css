@@ -1,571 +1,188 @@
-/* General Styling */
+/* Color Scheme */
 
 :root {
-  --orange: #b88f38;
-  --blue: #1d344d;
-  --lightblue: #839bac;
+  --green: rgb(151, 199, 132);
+  --blue: rgb(9, 151, 188);
+  --pink: rgb(237, 139, 141);
+  --orange: rgb(243, 164, 78);
 }
 
+/* ------------------------- Icon styling */
 
-.chicken{
-  color: rgb(151, 199, 132),
-  rgb(237, 139, 141),
-  rgb(243, 164, 78),
-  rgb(9, 151, 188)
-}
 
-/* Specific to large screens */
-
-@media only screen and (min-device-width: 822px) {
-  html,
-  body,
-  .grid-container {
-    height: 100%;
-    margin: 0;
-  }
-
-  .grid-container {
-    display: grid;
-    grid-template-columns: 10% 90%;
-    grid-template-rows: 100%;
-    gap: 0px 0px;
-    grid-template-areas: "Nav body";
-  }
-
-  .body {
-    grid-area: body;
-    display: flex;
-    background-color: white;
-  }
-
-  .Nav {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 0px 0px;
-    grid-template-areas:
-      "links"
-      "profile";
-    grid-area: Nav;
-
-    background-color: rgb(151, 199, 132);
-  }
-
-  .links {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-    gap: 0px 0px;
-    grid-template-areas:
-      "first"
-      "second"
-      "fourth"
-      "third"
-      ;
-    grid-area: links;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  }
-
-  .first {
-    grid-area: first;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2em;
-  }
-
-  .second {
-    grid-area: second;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2em;
-  }
-
-  .third {
-    grid-area: third;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2em;
-  }
-
-  .fourth {
-    grid-area: fourth;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2em;
-  }
-
-  #content {
-    width: 93%;
-    height: 93%;
-    margin: auto;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border-radius: 7%;
-    flex-direction: column;
-  }
-
-  /* ------------------------- Icon styling */
 
   .fas {
     text-decoration: none;
-    color: white;
-    -webkit-text-stroke: .5px rgb(151, 199, 132);
   }
-
   .fas:hover {
     text-decoration: none;
-    color: gray;
   }
 
-  .fa-arrow-up {
-    font-size: 25px;
+  .fa-pen {
+    font-size: 20px;
+  }
+
+  .fa-plus{
+    font-size: 20px;
   }
 
   .fa-trash-alt {
-    color: rgb(194, 47, 47);
+    color: var(--pink);
     font-size: 25px;
   }
 
-  #flash {
-    position: absolute;
-    bottom: 0%;
-    left: 55%;
-    margin-left: -100px;
-    color: black;
-    font-weight: lighter;
-    font-size: 13px;
-    text-align: center;
-  }
-
-
-
   /* ------------------------ All general styles */
 
-.lds-dual-ring {
-  display: inline-block;
-  width: 80px;
-  height: 80px;
-}
-.lds-dual-ring:after {
-  content: " ";
-  display: block;
-  width: 84px;
-  height: 84px;
-  margin: 8px;
-  border-radius: 50%;
-  border: 6px solid rgb(151, 199, 132);
-  border-color: rgb(151, 199, 132) transparent rgb(151, 199, 132) transparent;
-  animation: lds-dual-ring 1.2s linear infinite;
-}
-@keyframes lds-dual-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-
-#logo{
-  position: absolute;
-  right: 1%;
-  width: 100px;
-  height: 100px;
-  top: 1%;
-  
-}
-
-#loginLogo{
-  width: 200px;
-  height: 300px;
-  margin-bottom: 40px;
-}
-
-  table {
-    border-collapse: collapse;
-    
-    
-  }
-  td {
-    text-align: center;
-  }
-  thead {
-    font-size: 12px;
-    text-align: center;
-    background-color: white;
-    color: black;
-    width: 100%;
-    font-weight: lighter;
-
-    
+  .fit{
+    flex-grow: 1;
   }
 
-  img {
-    width: 45px;
-    height: 45px;
-  }
-
-.table {
-    overflow: hidden;
-    width: 100%;
-    height: 95%;
-    font-size: 12px;
-    overflow-y: scroll;
-    background-color: white;
-    border: none;
-    color: black;
-  }
-
-  .tableScroll{
-    width: 100%;
-    background-color: white;
-
-  }
-
-  .tableScroll::-webkit-scrollbar {
-    display: none;
-  }
-
-  .table::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* ------------------------ homepage styling */
-
-
-  .homeInfo {
-    position: absolute;
-    border-radius: 0%;
-    width: 40%;
-    height: 36%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    font-size: 15px;
-  }
-
-
-
-  #infoOne {
-    top: 12%;
-    left: 21%;
-    border-bottom: solid black 1px;
-  }
-  #infoTwo {
-    top: 12%;
-    right: 11%;
-    border-bottom: solid black 1px;
-  }
-
-  #infoThree {
-    bottom: 12%;
-    left: 21%;
-    
-  }
-  #infoFour {
-    bottom: 12%;
-    right: 11%;
-  }
-
-  .infoTitle {
-    color: rgb(9, 151, 188);
-    margin-bottom: 15px;
-    font-weight: 250;
-    
-  }
-
-  .infoData {
-    color:black;
-    font-size: 35px;
-    -webkit-text-stroke: 1px white;
-  }
-
-  #homeImage {
-    width: 65px;
-    height: 65px;
-  }
-
-
-  /* -------------------- Add Foods Styling */
-
-
-  .formContainer {
-    height: 100%;
-    width: 90%;
+  .flex{
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     flex-direction: column;
-  }
-
-  #chooseFoodsList{
+    align-content: center;
+    margin: auto;
     width: 100%;
   }
 
-  #inputFoodForm{
+  img {
+    width: 40px;
+    height: 40px;
+  }
+
+  table {
+    text-align: center;
+    font-size: 12px;
+  }
+
+  .inputCommon{
+    text-align: center;
+    font-size: 12px;
+    border: solid black 1px;
+    margin-top: 2%;
+}
+
+  .w{
+    width: 100%;
+  }
+
+  .win{
+    width: 80%;
+  }
+
+  .h{
+    min-height: 100vh;
+  }
+
+  .checkboxDiv {
+    text-align: center;
+    margin-top: 4%;
+    margin-bottom: 4%;
+  }
+
+  .buttonCommon{
+    background-color: var(--blue);
+    color: white;
+    font-size: 13px;
+    font-weight: 200;
+    border: none;
+    margin-top: 1%;
+  }
+
+
+
+  .formCommon{
     width: 100%;
     margin-bottom: 10px;
   }
+  /* ------------------------ homepage styling */
 
- #findFoodField{
-   width: 100%;
- }
+#homeGraph{
+  height: 456px;
+  width: 760px;
+}
 
- #restOfFields{
-   height: 100%;
-   width: 100%;
- }
-
-  #fieldOne {
-    margin-top: 10px;
-    background-color: white;
-    color: black;
-    text-align: center;
-    font-size: 12px;
-    border: solid black 1px;
-    width: 100%;
-  }
-
-
-
-  .fieldTwo {
-    margin-top: 20px;
-    background-color: white;
-    color: black;
-    text-align: center;
-    font-size: 12px;
-    border: solid black 1px;
-    width: 100%;
-  }
-
-  .symptoms {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    text-align: center;
-    font-family: inherit;
-  }
+  /* -------------------- Add Foods Styling */
 
   .checkbox {
-    background-color: rgb(255,255,255);
-    color: black;
+    background-color: rgb(255, 255, 255);
     border: black solid 1px;
     font-size: 12px;
+    color: black;
   }
 
   .checkbox:hover {
-    background-color:rgb(0, 0, 0);
+    background-color: rgb(0, 0, 0);
     color: white;
     border: black solid 1px;
   }
 
-  #addButton {
-    background-color: rgb(9, 151, 188);
-    color: white;
-    font-size: 15px;
-    font-weight: 200;
-  }
+  /* ------------------  UserFoods Table */
 
-  #addButton:hover {
-    background-color: rgb(10, 141, 173);
-  }
-
-#chooseFoodsList{
-  width: 100%;
-}
-
-
-/* ------------------  UserFoods Table */
-
-
-
-#userFoodsSearchForm{
-  width: 90%;
-}
-
-
-  #userFoodsSearchInput {
-
-    margin-top: 10px;
-    background-color: white;
-    color: black;
-    text-align: center;
-    font-family: inherit;
-    font-size: 12px;
-    border: solid black 1px;
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-
-  #userFoodsSearchButton {
-    margin-top: 10px;
-    font-size: 12px;
-    background-color: rgb(9, 151, 188);
-    border: none;
-    margin-bottom: 10px;
-  }
-
-  #tofood
-   {
+  #tofood {
     margin: 0 auto;
-    color: rgb(9, 151, 188);
+    color: var(--blue);
   }
 
-#deleteYourFood{
-  color: red;
-}
-/* ------------------------------ Inital Search Page */
+  #deleteYourFood {
+    color: var(--pink);
+  }
 
+  /* ------------------------------ Inital Search Page */
 
   #searchQuestion {
     top: 20%;
-    font-family: inherit;
     position: absolute;
     font-size: 25px;
-    color: black;
     font-weight: 250;
   }
 
-
   .searchChoices {
-    font-family: inherit;
     position: absolute;
     border-radius: 7%;
     width: 30%;
     height: 45%;
     left: 20%;
     margin: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
     border: solid black 1px;
-    color: black;
-    
-  }
-  .searchChoices:hover {
-    background-color: rgb(131, 206, 224);
   }
 
-#searchFood {
+  #searchFood {
     bottom: 12%;
     left: 25%;
-    font-size: 10px;
-    font-weight: 200;
   }
 
-#searchCondition {
+  #searchCondition {
     bottom: 12%;
     left: 60%;
   }
 
-.searchTitle {
+  .searchTitle {
     font-size: 20px;
     color: black;
     text-align: center;
-  font-weight: 250;
+    font-weight: 250;
   }
-
-
-/* --------------------------------- Search by Food Form */
-
-  #foodSearchForm {
-    width: 90%;
-  }
-
-
-/* --------------------------------- Search by condition Form */
-
+  /* --------------------------------- Search by Food Form */
+  /* --------------------------------- Search by condition Form */
 
   #searchimage {
     width: 35px;
     height: 35px;
   }
 
-  #fcDiv{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 170px;
+  #foodSearch {
+    margin-bottom: 10px;
+    margin-top: 5px;
   }
-
-#fcTop{
-    height: 10%;
-    width: 40%;
-    display: flex;
-    justify-content: space-around;
-    margin-top: 10px;
-    color: black;
-    text-align: center;
-    font-weight: 200;
-}
-
-#foodSearch{
-  background-color: rgb(131, 206, 224);
-  border: none;
-  font-size: 12px;
-  margin-bottom: 10px;
-  margin-top: 5px;
-}
-#foodSearchData{
-  background-color: rgb(131, 206, 224);
-  border: none;
-  font-size: 12px;
-  margin-bottom: 10px;
-  margin-top: 5px;
-}
-
-  #foodSearch:hover {
-    background-color:rgb(88, 189, 214)
-    
+  #foodSearchData {
+    margin-bottom: 10px;
+    margin-top: 5px;
   }
-
-#foodSearchInput{
-
-    margin-top: 10px;
-    background-color: white;
-    color: black;
-    text-align: center;
-    font-size: 12px;
-    border: solid black 1px;
-    width: 100%;
-  
-}
-
-
-
 
   /* --------------------- Search By Condition Graph Page */
-
-
-#fcResultsDiv{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    margin-top: 10px;
-    flex-direction: column;
-    align-items: center;
-}
-
-  #fcImage {
-    width: 55px;
-    height: 55px;
-  }
-
-  #fcInfo {
-    color: black;
-    text-align: center;
-    font-weight: 200;
-  }
 
   #fcName {
     font-size: 25px;
@@ -579,15 +196,6 @@
     font-weight: 200;
   }
 
-  #fcGraphDiv {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-right: 15%;
-    margin-left: 15%;
-
-  }
   #fcGraph {
     width: 90%;
     height: 250px;
@@ -597,1605 +205,154 @@
     border-radius: 0%;
   }
 
-
-
-/* -----------------  General Foods Graphs */
-
+  /* -----------------  General Foods Graphs */
 
   #generalFoodsGraphsTitle {
     margin-bottom: 30px;
     font-size: 25px;
-    color: black;
     font-weight: 240;
     border-bottom: black 1px solid;
   }
 
-  #generalFoodsGraphs {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-direction: column;
-  }
-
-  #generalFoodsGraphs::-webkit-scrollbar {
-    display: none;
-  }
-
-
-    .tableScroll,
-  #edityourprofile {
-    overflow-y: scroll;
-  }
-
-  .tableScroll,
-  #generalFoodsGraphs {
-    overflow-y: scroll;
-  }
-
-
-
-  #generalFoodsGraphOneDiv {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-right: 15%;
-    margin-left: 15%;
-    margin-bottom: 30px;
-  }
-
-  #generalFoodsGraphOne {
-    width: 100%;
+  .generalFoodsGraph {
     height: 250px;
     width: 425px;
     text-align: center;
     margin: 0 auto;
-    border-radius: 0%;
+    margin-bottom: 10px;
   }
 
-  #generalFoodsGraphTwoDiv {
-    margin-right: 15%;
-    margin-left: 15%;
-    
-  }
-
-
-  #generalFoodsGraphTwo {
-    width: 100%;
-    height: 250px;
-    width: 425px;
-    text-align: center;
-    margin: 0 auto;
-    border-radius: 0%;
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  #inputForm {
-    top: 20%;
-    font-family: monospace;
-    position: absolute;
-    border-radius: 7%;
-    width: 50%;
-    height: 35%;
-  }
-
-
-
-  #delete {
-    background-color: none;
-    text-decoration: none;
-    border: none;
-    font-size: 25px;
-  }
-
-
-
-
-
-
-    /* ---------------------- Profile Page */
-
-
-      #profileUsername {
-    position: absolute;
-    top: 25%;
-    left: 50%;
-  }
-
+  /* ---------------------- Profile Page */
 
   #profileImage {
-    position: absolute;
-    top: 20%;
-    left: 20%;
     width: 150px;
     height: 150px;
     border-radius: 30%;
   }
-  #profileEmail {
-    position: absolute;
-    top: 35%;
-    left: 50%;
-  }
 
-
-  #editProfileButton1 {
-    background-color: rgb(74, 179, 206);
-   border: none;
-    color: white;
-    font-size: 15px;
-    font-weight: 200;
-    position: absolute;
-    bottom: 27%;
-    width: 75%;
-    border: none;
-  }
-
-  #editProfileButton1:hover {
-    background-color: rgb(11, 156, 192);
+  #profileContainer{
+    height: 100%;
+    width: fit-content;
   }
 
   #profileLogout {
-    position: absolute;
-    bottom: 20%;
-    width: 75%;
-    background-color: rgb(197, 88, 69);
-    color: white;
-    font-size: 15px;
-    font-weight: 250;
-    border: none;
+    background-color: var(--pink);
   }
-
-  #profileLogout:hover {
-    background-color: rgb(173, 74, 57);
-  }
-
-
-
-
-
-
-      #edityourprofile::-webkit-scrollbar {
-    display: none;
-  }
-
-
-
-    #edityourprofile {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-  }
-
-
-
-    .conditions {
-    margin-top: 30px;
-    margin-bottom: 50px;
-    text-align: center;
-  }
-
 
   #editProfileButton {
-    
     border: none;
-  }
-  #editProfileButton:hover {
-    background-color: rgb(122, 141, 90);
   }
 
   #profileDelete {
-     margin-top: 10px;
-    background-color: rgb(235, 65, 65);
-    color: white;
-    text-align: center;
-    font-size: 13px;
-    width: 100%;
-    border: none;
+    background-color: var(--pink);
   }
-
-  #profileDelete:hover {
-    background-color: rgb(173, 74, 57);
-  }
-
-  #editProfileButton {
-    background-color: rgb(9, 151, 188);
-    color: white;
-    font-size: 13px;
-    font-weight: 200;
-    border: none;
-  }
-
-  #editProfileButton:hover {
-    background-color: rgb(9, 128, 158);
-  }
-
-  .profile {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-    gap: 0px 0px;
-    grid-template-areas: "profileimage";
-    grid-area: profile;
-    padding-bottom: 25px;
-  }
-
-  .profileimage {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-
-    font-size: 2.5em;
-    padding-bottom: 15px;
-  }
-
 
   /* ----------------------- loginpage */
 
-  #loginform {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-    width: 80%;
+  #loginForm {
+   
   }
 
- 
+  #poweredBy {
+    color: white;
+    font-weight: 100;
+    font-size: small;
+    
+  }
 
+  #loginFooter {
+    display: flex;
+    background-color: black;
+    height: 50px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 
+  #footerLogo {
+    color: white;
+    font-weight: 100;
+    font-size: small;
+    
+  }
 
+  #introHeaderTitle {
+    color: white;
+    font-weight: 230;
+    font-size: 35px;
+    background-color: black;
+    text-align: center;
+    margin: 0 auto;
+  }
 
+  #introBanner {
+    height: 100%;
+  }
 
- 
+  .bannerTextContainer{
+    text-align: center;
+  }
+  .bannerText {
+    font-weight: 270;
+  }
+
+  .bannerTitle{
+    margin-top: 5%;
+  }
+
+  #bannerYouCan {
+    color: white;
+    font-weight: 200;
+  }
 
   /* -------------------- Official Login page */
 
   .title {
-    color: black;
-    margin-bottom: 20px;
+    color: white;
     font-weight: 245;
+    text-align: center;
+    margin-top: 10%;
   }
-
 
   .menu {
-    display: flex;
-    justify-content: space-evenly;
     align-items: center;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    margin-top: 50px;
-    
-  }
-
-#loginForm{
-  
-  width: 100%;
-  height: 100%;
-}
-
-#username{
-    margin-top: 10px;
-    background-color: white;
-    color: black;
-    text-align: center;
-    font-size: 12px;
-    border: solid black 1px;
-    width: 100%;
-}
-#password{
-    margin-top: 10px;
-    background-color: white;
-    color: black;
-    text-align: center;
-    font-size: 12px;
-    border: solid black 1px;
-    width: 100%;
-}
-#email{
-    margin-top: 10px;
-    background-color: white;
-    color: black;
-    text-align: center;
-    font-size: 12px;
-    border: solid black 1px;
-    width: 100%;
-}
-
-
-  #loginbutton {
-    background-color: rgb(9, 151, 188);
-    color: white;
-    font-size: 15px;
-    font-weight: 200;
-    width: 100%;
-    border: none;
-    margin-top: 25px;
-  }
-
- #loginbutton:hover {
-    background-color: rgb(26, 129, 155);
-  }
-
-
-  #mainFormEditProfile {
-    font-size: 10px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-direction: column;
-  }
-
-  #fieldOneProfile {
-     margin-top: 10px;
-    background-color: white;
-    color: black;
-    text-align: center;
-    font-size: 12px;
-    border: solid black 1px;
-    width: 100%;
-  }
-
-
-  #tosignup:hover {
-    background-color: rgb(209, 124, 125);
-  }
-
-  .loginInputs {
-    text-align: center;
   }
 
   #tosignup {
-    background-color: rgb(237, 139, 141);
-    color: white;
-    font-size: 15px;
-    font-weight: 200;
-    width: 100%;
-    border: none;
-    margin-top: 10px;
+    background-color: var(--pink);
   }
 
-
-
-  .conditionsMenu {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    margin-top: 50px;
-    text-align: center;
+  #doItLater {
+    background-color: var(--pink);
   }
 
-
- #doItLater {
-    font-size: 15px;
-    background-color: rgb(237, 139, 141);
-    margin-top: 10px;
-    border: none;
-  }
- #doItLater:hover {
-    background-color: rgb(209, 132, 133);
-
+  #introForm{
+    flex-grow: 1;
+    justify-content: center;
   }
 
-
-
-  /* hmmmmmm */
-
-
-
-
-  #addMeal {
-    bottom: 12%;
-    left: 15%;
-  }
-
-  #addFood {
-    bottom: 12%;
-    right: 15%;
-  }
-
-  #addFood:hover {
-    background-color: #1d2b44;
-  }
-
-  .addTitle {
-    color: white;
-    margin-bottom: 15%;
-  }
-
-  .addData {
-    color: #b88f38;
-    font-size: 1.3em;
-  }
-
-
-
-
-  /* --------------------------------------- Nutrition label  */
-
-  .performance-facts table {
-    border-radius: 0;
-    box-shadow: none;
-  }
-
-  .performance-facts {
-    border: 1px solid black;
-    margin: 20px;
-    width: 250px;
-    padding: 0.5rem;
-    text-align: center;
-    margin: 50px auto;
-    font-size: small;
-    line-height: 1;
-    position: relative;
-    left: 0;
-  }
-  .performance-facts table {
-    border-collapse: collapse;
-  }
-
-  .performance-facts__title {
-    font-weight: bold;
-    font-size: 2rem;
-    margin: 0 0 0.25rem 0;
-  }
-
-  .performance-facts__header {
-    border-bottom: 10px solid black;
-    padding: 0 0 0.25rem 0;
-    margin: 0 0 0.5rem 0;
-  }
-  .performance-facts__header p {
-    margin: 0;
-  }
-
-  .performance-facts__table,
-  .performance-facts__table--small,
-  .performance-facts__table--grid {
-    width: 100%;
-  }
-  .performance-facts__table thead tr th,
-  .performance-facts__table--small thead tr th,
-  .performance-facts__table--grid thead tr th,
-  .performance-facts__table thead tr td,
-  .performance-facts__table--small thead tr td,
-  .performance-facts__table--grid thead tr td {
-    border: 0;
-  }
-  .performance-facts__table th,
-  .performance-facts__table--small th,
-  .performance-facts__table--grid th,
-  .performance-facts__table td,
-  .performance-facts__table--small td,
-  .performance-facts__table--grid td {
-    font-weight: normal;
-    text-align: left;
-    padding: 0.25rem 0;
-    border-top: 1px solid black;
-    white-space: nowrap;
-  }
-  .performance-facts__table td:last-child,
-  .performance-facts__table--small td:last-child,
-  .performance-facts__table--grid td:last-child {
-    text-align: right;
-  }
-  .performance-facts__table .blank-cell,
-  .performance-facts__table--small .blank-cell,
-  .performance-facts__table--grid .blank-cell {
-    width: 1rem;
-    border-top: 0;
-  }
-  .performance-facts__table .thick-row th,
-  .performance-facts__table--small .thick-row th,
-  .performance-facts__table--grid .thick-row th,
-  .performance-facts__table .thick-row td,
-  .performance-facts__table--small .thick-row td,
-  .performance-facts__table--grid .thick-row td {
-    border-top-width: 5px;
-  }
-
-  .small-info {
-    font-size: 0.7rem;
-  }
-
-  .performance-facts__table--small {
-    border-bottom: 1px solid #999;
-    margin: 0 0 0.5rem 0;
-  }
-  .performance-facts__table--small thead tr {
-    border-bottom: 1px solid black;
-  }
-  .performance-facts__table--small td:last-child {
-    text-align: left;
-  }
-  .performance-facts__table--small th,
-  .performance-facts__table--small td {
-    border: 0;
-    padding: 0;
-  }
-
-  .performance-facts__table--grid {
-    margin: 0 0 0.5rem 0;
-  }
-  .performance-facts__table--grid td:last-child {
-    text-align: left;
-  }
-  .performance-facts__table--grid td:last-child::before {
-    content: "•";
-    font-weight: bold;
-    margin: 0 0.25rem 0 0;
-  }
-
-  .text-center {
-    text-align: center;
-  }
-
-  .thick-end {
-    border-bottom: 10px solid black;
-  }
-
-  .thin-end {
-    border-bottom: 1px solid black;
-  }
+#bigContainer{
+  background-color: var(--green);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Mobile Styling */
 
 @media only screen and (max-device-width: 822px) {
-  html,
-  body,
-  .grid-container {
-    height: 100%;
-    margin: 0;
-  }
 
-  .grid-container {
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 92% 8%;
-    gap: 0px 0px;
-    grid-template-areas: "body Nav";
-  }
-
-  .body {
-    grid-area: body;
-    display: flex;
-    background-color: white;
-  }
-
-  .Nav {
-    display: grid;
-    grid-template-columns: 80% 20%;
-    grid-template-rows: 1fr;
-    gap: 0px 0px;
-    grid-template-areas: "links profile";
-    grid-area: 2 / 1 / 3 / 2;
-    background-color: rgb(151, 199, 132);
-  }
-
-  .profile {
-    grid-area: profile;
-  }
-
-  .links {
-    display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
-    grid-template-rows: 1fr;
-    gap: 0px 0px;
-    grid-template-areas: " third second  first fourth";
-    grid-area: links;
-  }
-
-
-
-  /* For presentation only, no need to copy the code below */
-
-  .first {
-    grid-area: first;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 3.5em;
-  }
-  .second {
-    grid-area: second;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2.3em;
-  }
-
-  .third {
-    grid-area: third;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2.3em;
-  }
-
-  .fourth {
-    grid-area: fourth;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2.3em;
-  }
-
-  .profile {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-    gap: 0px 0px;
-    grid-template-areas: "profileimage";
-    grid-area: profile;
-  }
-
-
-  .body {
-    grid-area: body;
-    display: grid;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
-
-  #content {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-direction: column;
-  }
-
-
-
-
-  /* ------------------------- Icon styling */
-
-  .fas {
-    font-size: 20px;
-    text-decoration: none;
-    color: white;
-  }
-
-  .fas:hover {
-    text-decoration: none;
-    color: gray;
-  }
-
-  .fa-arrow-up {
-    font-size: 25px;
-  }
-
-  .fa-trash-alt {
-    color: rgb(194, 47, 47);
-    font-size: 25px;
-  }
-
-
-
-
-
-/* ------------------------ All general styles */
-
-#logo{
-  position: absolute;
-  right: 1%;
-  width: 50px;
-  height: 50px;
-  top: 1%;
-}
-#loginLogo{
-  width: 200px;
-  height: 300px;
+#homeGraph{
+  height: 304px;
+  width: 506px;
 }
 
-
-  table {
-    border-collapse: collapse;
-  }
-
-  .table {
-    overflow: hidden;
-    width: 100%;
-    height: 75%;
-    font-size: 12px;
-    overflow-y: scroll;
-    background-color: white;
-    border: none;
-    color: black;
-  }
-
-  td {
-    text-align: center;
-  }
-
-  thead {
-    font-size: 10px;
-    text-align: center;
-    background-color: white;
-    color: black;
-    width: 100%;
-    font-weight: lighter;
-  }
-
-  #error-food {
-    color: #f00;
-    font-size: 4vw;
-  }
-
-
-  #flash {
-    position: absolute;
-    bottom: 50px;
-    margin: 0 auto;
-    color: black;
-    width: 100%;
-    text-align: center;
-    font-weight: 230;
-    font-size: 12px;
-  }
-    #tableScroll,
-  #edityourprofile {
-    overflow-y: scroll;
-  }
-
-
-  img {
-    width: 35px;
-    height: 35px;
-  }
-
-    .tableScroll{
-    width: 100%;
-    background-color: white;
-
-  }
-
-  .tableScroll::-webkit-scrollbar {
-    display: none;
-  }
-
-  .table::-webkit-scrollbar {
-    display: none;
-  }
-
-
-/* ------------------------ homepage styling */
-
-
-
-  .homeInfo {
-    position: absolute;
-    width: 40%;
-    height: 30%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    
-  }
-
-  #infoOne {
-    top: 12%;
-    left: 8%;
-    
-
-  }
-  #infoTwo {
-    top: 12%;
-    left: 52%;
- 
-  }
-
-  #infoThree {
-    top: 50%;
-    left: 8%;
-  }
-  #infoFour {
-    top: 50%;
-    left: 52%;
-  }
-
-  .infoTitle {
-    color: rgb(9, 151, 188);
-    margin-bottom: 15px;
-    font-size: 19px;
-    font-weight: 210;
-  }
-
-  #homeImage {
-    width: 75px;
-    height: 75px;
-  }
-
-  .infoData {
-    color: black;
-    font-size: 55px;
-    font-weight: 230;
-    
-  }
-
-
-/* -------------------- Add Foods Styling */
-
-  .formContainer {
-    height: 100%;
-    width: 90%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 10%;
-  }
-
-  #chooseFoodsList{
-    width: 100%;
-  }
-
-  #inputFoodForm{
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
- #findFoodField{
-   width: 100%;
- }
-
- #restOfFields{
-   height: 100%;
-   width: 100%;
- }
-
-  #fieldOne {
-    margin-top: 10px;
-    background-color: white;
-    color: black;
-    text-align: center;
-    font-size: 12px;
-    border: solid black 1px;
-    width: 100%;
-  }
-
-
-  .fieldTwo {
-    margin-top: 20px;
-    background-color: white;
-    color: black;
-    text-align: center;
-    font-size: 12px;
-    border: solid black 1px;
-    width: 100%;
-  }
-
-
-  .symptoms {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    text-align: center;
-  }
-
-  .checkbox {
-    background-color: white;
-    color: black;
-    border: black solid 1px;
-    font-size: 10px;
-  }
-
-  .checkbox:hover {
-    background-color:rgb(237, 139, 141);
-    border: black solid 1px;
-  }
- 
-  #addButton {
-    background-color: rgb(9, 151, 188);
-    color: white;
-    border: none;
-    font-size: 12px;
-  }
-
-  #addButton:hover {
-    background-color: rgb(10, 141, 173);
-  }
-
-
-
-
-/* ------------------------- User Foods Table */
-
-
-
-
-
-#userFoodsSearchForm{
-  width: 90%;
+.bannerTitle{
+  margin-top: 30%;
+}
+.title{
+  margin-top: 30%;
 }
 
-
-  #userFoodsSearchInput {
-
-    margin-top: 5%;
-    background-color: white;
-    color: black;
-    text-align: center;
-    font-family: inherit;
-    font-size: 12px;
-    border: solid black 1px;
-    width: 100%;
-  
-  }
-
-
-  #userFoodsSearchButton {
-    margin-top: 10px;
-    font-size: 11px;
-    background-color: rgb(9, 151, 188);
-    border: none;
-    margin-bottom: 10px;
-  }
-
-  #tofood{
-    margin: 0 auto;
-    color: rgb(9, 151, 188);
-  }
-
-#deleteYourFood{
-  color: red;
+.win{
+  width: 98%;
 }
-
-  #tofood{
-    margin: 0 auto;
-  }
-
-
-
-  
-
-
-
-  /* ------------------------------ Inital Search Page */
-
-
-  #searchQuestion {
-    top: 15%;
-    font-family: inherit;
-    position: absolute;
-    font-size: 20px;
-    color: black;
-    font-weight: 250;
-  }
-
-
-  .searchChoices {
-    position: absolute;
-    border-radius: 10%;
-    width: 80%;
-    height: 15%;
-    left: 20%;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    /* border: solid black 1px; */
-    background-color: rgb(131, 206, 224);
-    
-  }
-
-
-  #searchFood {
-    bottom: 45%;
-    left: 10%;
-  }
-
-  #searchCondition {
-    bottom: 22%;
-    left: 10%;
-  }
-
-.searchTitle {
-    font-size: 20px;
-    color: black;
-    text-align: center;
-  font-weight: 250;
-  }
-
-
-
-
- #searchimage {
-    width: 35px;
-    height: 35px;
-  }
-
-
-
-
-
-
-
-
-
- 
-
-  /* --------------------------------- Search by Food Form */
-
-    #foodSearchForm {
-    width: 85%;
-    
-  }
-
-/* --------------------------------- Search by condition Form */
-
-
-  #foodSearchInput {
-    margin-top: 10px;
-    background-color: white;
-    color: black;
-    text-align: center;
-    font-size: 12px;
-    border: solid black 1px;
-    width: 100%;
-  }
-
-  #foodSearch {
-  background-color: rgb(131, 206, 224);
-  border: none;
-  font-size: 12px;
-  margin-bottom: 10px;
-  margin-top: 5px;
-  }
-
-  #foodSearch:hover {
-    background-color: #b5ce85;
-    color: #1d2b44;
-  }
-
-
-  /* --------------------- Search By Condition Graph Page */
-
-
-#fcDiv{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 170px;
-}
-
-#fcTop{
-    height: 10%;
-    width: 40%;
-    display: flex;
-    justify-content: space-around;
-    margin-top: 10px;
-    color: black;
-    text-align: center;
-    font-weight: 200;
-}
-
-  #fcImage {
-    width: 80px;
-    height: 80px;
-  }
-
-   #fcInfo {
-    color: black;
-    text-align: center;
-    font-weight: 200;
-  }
-
-  #fcName {
-    font-size: 25px;
-    font-weight: 200;
-    padding-top: 20px;
-    border-bottom: 1px solid black;
-  }
-
-
-  #fcAverage {
-    font-size: 15px;
-    font-weight: 200;
-  }
-
-  #fcGraphDiv {
-
-
-
-  }
-  #fcGraph {
-    width: 90%;
-    height: 250px;
-    width: 95%;
-    text-align: center;
-
-  }
-  
-
-  #fcResultsDiv{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    margin-top: 10px;
-    flex-direction: column;
-    align-items: center;
-}
-
-  /* -----------------  General Foods Graphs */
-
-  #generalFoodsGraphs {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-  }
-
-  #generalFoodsGraphs::-webkit-scrollbar {
-    display: none;
-  }
-
-  .tableScroll,
-  #generalFoodsGraphs {
-    overflow-y: scroll;
-  }
-
-  #generalFoodsGraphsTitle {
-    font-size: 25px;
-    color: black;
-    margin-bottom: 10px;
-    font-weight: 230;
-  }
-
-  #generalFoodsGraphOneDiv {
-    width: 95%;
-    margin-bottom: 40px;
-    text-align: center;
-  }
-
-  #generalFoodsGraphOne {
-    width: 100%;
-    height: 230px;
-    text-align: center;
-    margin: 0 auto;
-    border-radius: 0%;
-  }
-
-  #generalFoodsGraphTwoDiv {
-    width: 95%;
-    text-align: center;
-    
-  }
-
-
-  #generalFoodsGraphTwo {
-    width: 100%;
-    height: 230px;
-    text-align: center;
-  }
-
-
-
-  #inputForm {
-    top: 20%;
-    font-family: monospace;
-    position: absolute;
-    border-radius: 7%;
-    width: 50%;
-    height: 35%;
-  }
-
-
-
-
-  #delete {
-    background-color: none;
-    text-decoration: none;
-    border: none;
-    font-size: 12px;
-  }
-
-
-
-
-
-
-
-
-
-
-/* ------------------------ login page */
-
-
-
-  .menu {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    margin-top: 20%;
-  }
-
-  .title {
-    color: black;
-
-    font-weight: 245;
-  }
-
-#loginForm{
-  
-  width: 100%;
-  height: 100%;
-}
-
-
-  #loginbutton {
-    background-color: rgb(9, 151, 188);
-    color: white;
-    font-size: 12px;
-    font-weight: 200;
-    width: 100%;
-    border: none;
-    margin-top:  1%;
-  }
-
-
-
-
-  #username{
-    margin-top: 10%;
-    background-color: white;
-    color: black;
-    text-align: center;
-    font-size: 12px;
-    border: solid black 1px;
-    width: 100%;
-}
-#password{
-    margin-top: 5%;
-    background-color: white;
-    color: black;
-    text-align: center;
-    font-size: 12px;
-    border: solid black 1px;
-    width: 100%;
-}
-
-  #tosignup {
-    background-color: rgb(237, 139, 141);
-    color: white;
-    font-size: 12px;
-    font-weight: 200;
-    width: 100%;
-    border: none;
-    margin-top: 5%;
-  }
-
-
-
-#email{
-    margin-top: 10px;
-    background-color: white;
-    color: black;
-    text-align: center;
-    font-size: 12px;
-    border: solid black 1px;
-    width: 100%;
-}
-
-
-  .conditionsMenu {
-    display: flex;
-    justify-content:space-evenly;
-    align-items: center;
-    flex-direction: column;
-    width: 97%;
-    height: 100%;
-    margin-top: 40%;
-    text-align: center;
-  }
-
-
- #doItLater {
-    font-size: 11px;
-    background-color: rgb(237, 139, 141);
-    margin-top: 1%;
-    border: none;
-  }
- #doItLater:hover {
-    background-color: rgb(209, 132, 133);
-
-  }
-
-
-  #conditionsForm{
-    width: 100%;
-    height: 100%;
-  }
-
- /* ------------------------------- Profile Page */
-
-
-  .profileimage {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2.3em;
-  }
-
-
-  #profileUsername {
-    color: black;
-    font-weight: 230;
-  }
-  #profileImage {
-    width: 150px;
-    height: 150px;
-    border-radius: 5%;
-
-  }
-  #profileEmail {
-    color: black;
-    font-weight: 230;
-  }
-
-
-  #editProfileButton1 {
-   background-color: rgb(40, 162, 192);
-    color: white;
-    width: 80%;
-    border: none;
-  }
-
-
-  #profileLogout {
-    background-color: rgb(238, 66, 36);
-    color: white;
-    font-size: 20px;
-    width: 80%;
-    border: none;
-  }
-
-
-
-
-
-
-  #editProfileButton {
-    background-color: rgb(9, 151, 188);
-    border: none;
-    color: white;
-    margin-top: 15%;
-  }
-
-
-  #profileDelete {
-    background-color: rgb(218, 74, 49);
-    color: white;
-    font-size: 20px;
-    border: none;
-  }
-
-
-
-
-
-
-
-
-
-  .conditions {
-    text-align: center;
-    margin-top: 1%;
-    margin-bottom: 1%;
-    width: 100%;
-  }
-
-  #mainFormEditProfile {
-    font-size: 10px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-direction: column;
-    height: 100%;
-    overflow-y: scroll;
-  }
-
-  #fieldOneProfile {
-    border: black 1px solid;
-    color: black;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-
-
-  #edityourprofile {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-  }
-
-  #table::-webkit-scrollbar {
-    display: none;
-  }
-
-  #edityourprofile::-webkit-scrollbar {
-    display: none;
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /* ------------- Nutrition Label  */
-
-  .performance-facts table {
-    border-radius: 0;
-    box-shadow: none;
-  }
-
-  .performance-facts {
-    border: 1px solid black;
-    margin: 20px;
-    width: 250px;
-    padding: 0.5rem;
-    text-align: center;
-    margin: 50px auto;
-    font-size: small;
-    line-height: 1;
-    position: relative;
-    left: 0;
-  }
-  .performance-facts table {
-    border-collapse: collapse;
-  }
-
-  .performance-facts__title {
-    font-weight: bold;
-    font-size: 2rem;
-    margin: 0 0 0.25rem 0;
-  }
-
-  .performance-facts__header {
-    border-bottom: 10px solid black;
-    padding: 0 0 0.25rem 0;
-    margin: 0 0 0.5rem 0;
-  }
-  .performance-facts__header p {
-    margin: 0;
-  }
-
-  .performance-facts__table,
-  .performance-facts__table--small,
-  .performance-facts__table--grid {
-    width: 100%;
-  }
-  .performance-facts__table thead tr th,
-  .performance-facts__table--small thead tr th,
-  .performance-facts__table--grid thead tr th,
-  .performance-facts__table thead tr td,
-  .performance-facts__table--small thead tr td,
-  .performance-facts__table--grid thead tr td {
-    border: 0;
-  }
-  .performance-facts__table th,
-  .performance-facts__table--small th,
-  .performance-facts__table--grid th,
-  .performance-facts__table td,
-  .performance-facts__table--small td,
-  .performance-facts__table--grid td {
-    font-weight: normal;
-    text-align: left;
-    padding: 0.25rem 0;
-    border-top: 1px solid black;
-    white-space: nowrap;
-  }
-  .performance-facts__table td:last-child,
-  .performance-facts__table--small td:last-child,
-  .performance-facts__table--grid td:last-child {
-    text-align: right;
-  }
-  .performance-facts__table .blank-cell,
-  .performance-facts__table--small .blank-cell,
-  .performance-facts__table--grid .blank-cell {
-    width: 1rem;
-    border-top: 0;
-  }
-  .performance-facts__table .thick-row th,
-  .performance-facts__table--small .thick-row th,
-  .performance-facts__table--grid .thick-row th,
-  .performance-facts__table .thick-row td,
-  .performance-facts__table--small .thick-row td,
-  .performance-facts__table--grid .thick-row td {
-    border-top-width: 5px;
-  }
-
-  .small-info {
-    font-size: 0.7rem;
-  }
-
-  .performance-facts__table--small {
-    border-bottom: 1px solid #999;
-    margin: 0 0 0.5rem 0;
-  }
-  .performance-facts__table--small thead tr {
-    border-bottom: 1px solid black;
-  }
-  .performance-facts__table--small td:last-child {
-    text-align: left;
-  }
-  .performance-facts__table--small th,
-  .performance-facts__table--small td {
-    border: 0;
-    padding: 0;
-  }
-
-  .performance-facts__table--grid {
-    margin: 0 0 0.5rem 0;
-  }
-  .performance-facts__table--grid td:last-child {
-    text-align: left;
-  }
-  .performance-facts__table--grid td:last-child::before {
-    content: "•";
-    font-weight: bold;
-    margin: 0 0.25rem 0 0;
-  }
-
-  .text-center {
-    text-align: center;
-  }
-
-  .thick-end {
-    border-bottom: 10px solid black;
-  }
-
-  .thin-end {
-    border-bottom: 1px solid black;
-  }
-
-
 }

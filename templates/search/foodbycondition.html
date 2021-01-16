@@ -1,57 +1,42 @@
 {% extends 'base.html' %}
 
 
-
-<!-- =============================================================== -->
-
-
-
 {% block content %}
 
-<div id="fcDiv">
+  
+  <form action="/search/results" method='GET' id="foodSearchForm"  class="formCommon w " autocomplete="off">
+            
+    
 
-<form action="/foodbycondition/result" method='GET' id="foodSearchForm"  >
-          
-
-      {% for field in form if field.widget.input_type != 'hidden'%}
-
-
-        {% for error in field.errors %}
-          <span class="text-danger">{{ error }}</span>
-        {% endfor %}
+    {% for field in form if field.widget.input_type != 'hidden' %}
+    
+      {% if field.type == 'StringField' %}
+       
+          {{ field(placeholder=field.label.text, class="form-control inputCommon", list='inputfood', id='foodSearchInput') }}
         
-        {{ field(placeholder=field.label.text, class="form-control", list='inputfood2', id="foodSearchInput") }}
 
-          {% if field.type == 'StringField' %}
-      <datalist id='inputfood2'></datalist>
-      {% endif %}
-        
-      {% endfor %}
-      <button type="submit" id="foodSearch" class="btn btn-secondary btn-lg btn-block">Search</button>
-    </form>
+    <div id="restOfFields" class="">
+        {% elif field.type != 'RadioField' %}
+            {{ field(placeholder=field.label.text, class="form-control inputCommon") }}
+        {% endif %}
+    {% endfor %}
 
-</div>
+      <button id="addButton" type="submit" class="btn btn-secondary btn-lg btn-block buttonCommon">Gather Data</button>
+    </div>
+  </form>
 
-
-
-
-{% if tablefood %}
-<img src="https://spoonacular.com/cdn/ingredients_100x100/{{tablefood.spoonacular_image}}" id='fcImage' alt="">
-<div id="fcInfo">
- <h3 id="fcName">{{tablefood.food_name}}</h3>
- <h4 id="fcAverage"> Average Feeling from people with this condition - {{average}}</h4>
-
-</div>
-
-<div id="fcGraphDiv"> 
-<img id="fcGraph" src="{{graph2.url}}" alt="" width="500px">
-</div>
-
-{% endif %}
-
-
-
-
+  <div class="tableScroll w fit" id="chooseFoodsList">
+    <table class="table w">
+      <thead>
+        <tr>
+          <th scope="col">Image</th>
+          <th scope="col">Food</th>
+          <th scope="col">Select</th>
+        </tr>
+      </thead>
+      <tbody id="foodChoiceBody"></tbody>
+    </table>
+  </div>
 
 {% endblock %}
 

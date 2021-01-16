@@ -27,6 +27,11 @@ class FoodForm(FlaskForm):
     symptoms = MultiCheckboxField('Symptom', coerce=int)
 
 
+class TryItForm(FlaskForm):
+    food_name = StringField('What did you eat?', validators = [InputRequired()])
+
+
+
 class SearchForm(FlaskForm):
     food_name = StringField('Search for a food', validators=[InputRequired()])
     
@@ -37,12 +42,12 @@ class UpdateProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('E-mail', validators=[DataRequired(), Email()])
     bio = TextAreaField('(Optional) Tell us about yourself')
-    image_url = StringField('(Optional) Image URL')
     conditions = MultiCheckboxField('Condition', coerce=int)
     
 
 class SearchAddForm(FlaskForm):
     search_food_name = StringField('Search from your foods.', validators=[InputRequired()])
+
 
 
 class UpdateFoodForm(FlaskForm):
@@ -52,8 +57,8 @@ class UpdateFoodForm(FlaskForm):
     symptoms = MultiCheckboxField('Symptom', coerce=int)
 
 
-class FCSearchForm(FlaskForm):
-    food_name_condition = StringField('Search for a food by condition', validators=[InputRequired()])
+class SearchForm(FlaskForm):
+    food_name_condition = StringField('Search for food data', validators=[InputRequired()])
     search_by = SelectField('Search By', coerce=int)
     
     

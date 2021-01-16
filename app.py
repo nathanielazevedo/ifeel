@@ -1,14 +1,15 @@
 from flask import Flask, request, render_template, url_for,redirect, flash, session, jsonify, request, g, abort, json
 import os
 import json
-from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, FCSearchForm, UpdateFoodForm,   SearchAddForm, InitialConditionsForm
+from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, SearchForm, UpdateFoodForm,   SearchAddForm, InitialConditionsForm, TryItForm
 from models import db, connect_db, User, Food, Condition, UserConditions, Symptom, FoodSymptoms, FoodList, FoodConditions
 from sqlalchemy.exc import IntegrityError
 import requests
 import pdb
 from flask_debugtoolbar import DebugToolbarExtension
-from functions import cleanNutrition, symptoms
+from functions import  symptoms
 from random import randint
+from functions import makeGraph, makeEmptyGraph
 
 
 
@@ -115,6 +116,7 @@ def signup():
     #Sign a user up.
 
     form = UserAddForm()
+    form2 = TryItForm()
 
     if form.validate_on_submit():
         try:
@@ -135,7 +137,7 @@ def signup():
         return redirect("/signup/conditions")
 
     else:
-        return render_template('signup.html', form=form)
+        return render_template('signup.html', form=form, form2=form2)
 
 
 
@@ -158,8 +160,6 @@ def signupconditions():
     # Populating conditions options for form.
     conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
     form.conditions.choices = conditions
-
-     
 
     if form.validate_on_submit():
         
@@ -195,7 +195,6 @@ def login():
 
         if user:
             do_login(user)
-            flash(f"Welcome back, {user.username}!", "success")
             return redirect("/")
 
 
@@ -257,7 +256,6 @@ def homepage():
         flash("Login or signup", "danger")
         return redirect("/")
     
-
     foods = (Food
             .query
             .filter(Food.user_id == g.user.id)
@@ -265,36 +263,32 @@ def homepage():
 
     total = len(foods)
 
-    averagelist = []
-    eatlist = []
-    avoidlist = []
+    if (total == 0):
+        graph = makeEmptyGraph()
+        return render_template('home.html', graph=graph)
+        
+    
+    greatlist = []
+    okaylist = []
+    badlist = []
     for each in foods:
-        if each.feeling != 'Null':
-            averagelist.append(int(each.feeling))
-            
-
+        print(each.feeling)
+        if each.feeling == '3':
+            greatlist.append(int(each.feeling))
     for each in foods:
         if each.feeling == '2':
-            
-            eatlist.append(each)
-        elif each.feeling == '1':
-            avoidlist.append(each)
-    try:
-        eatFood = eatlist[randint(0, (len(eatlist) - 1))]
-    except:
-        eatFood = ''
+            okaylist.append(int(each.feeling))
+    for each in foods:
+        if each.feeling == '1':
+            badlist.append(int(each.feeling))
+    
+    greats = len(greatlist)
+    okays = len(okaylist)
+    bads = len(badlist)
 
-    try:
-        avoidFood = avoidlist[randint(0, (len(avoidlist) - 1))]
-    except:
-        avoidFood = ''
-
-    try:
-        average = round(sum(averagelist) / len(averagelist), 1)
-    except:
-        average = 0
-
-    return render_template('home.html', total = total, average=average, eatFood=eatFood, avoidFood = avoidFood)
+    graph = makeGraph(total, greats, okays, bads)
+    
+    return render_template('home.html', graph=graph)
 
 
 
@@ -428,7 +422,9 @@ def user():
     foods = (Food
             .query
             .filter(Food.user_id == g.user.id, Food.feeling != 'Null')
-            .all())
+            .order_by(Food.timestamp.desc())
+            .limit(10)
+            )
 
     if form.search_food_name.data:
         food = form.search_food_name.data
@@ -469,18 +465,12 @@ def food_destroy(food_id):
 
 
 
-
-
-
 #########################################
 
 
 
 
-
-
 #User Routes
-
 
 
 @app.route('/user/profile', methods=['GET', 'POST'])
@@ -535,7 +525,6 @@ def edit_profile():
         user.username = form.username.data
         user.email = form.email.data
         user.bio = form.bio.data
-        user.image_url = form.image_url.data
         conditions = form.conditions.data
         user.conditions.clear()
 
@@ -554,20 +543,7 @@ def edit_profile():
 
 
 
-
-
-    
-
-
-
-
-
-
-
 ###########################################################
-
-
-
 
 
 
@@ -576,204 +552,326 @@ def edit_profile():
 #Searching Routes
 
 
-@app.route('/search', methods=['GET', 'POST'])
+@app.route('/search', methods=['GET'])
 def search_main():
 
-    return render_template('/search/searchfood.html')
-
-
-
-
-@app.route('/food/search', methods=['GET'])
-def search_food():
-    #Search for a food by name. Return all matches
-
-
     form = SearchForm(request.args)
-    allfoods = FoodList.query.all()
-
-    if form.food_name.data:
-        foodname = form.food_name.data
-        food_list_spot = FoodList.query.filter(FoodList.food_name == foodname).all()
-        try:
-            food = food_list_spot[0]
-        except:
-            flash('Nobody has eaten that yet, maybe you should')
-            return render_template('/search/search-food.html', form=form, allfoods=allfoods)
-
-        return render_template('/search/search-food.html', food = food, form=form)
-
-    else:
-        
-        return render_template('/search/search-food.html', form=form, allfoods=allfoods)
-
-
-
-
-
-
-
-@app.route('/foodbycondition/search', methods=['GET'])
-def usersearch():
-    # Search for a user by name or condition
-
-
-    if not g.user:
-        flash('Please login first!')
-        return redirect('/login')
-
-    form = FCSearchForm(request.args)
     conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
+    conditions.insert(0, (0, 'No Condition'))
     form.search_by.choices = conditions
 
-
- 
     return render_template('/search/foodbycondition.html', form=form)
 
 
 
 
-@app.route('/foodbycondition/result', methods=['GET'])
+@app.route('/search/results', methods=['GET'])
 def usersearch2():
-    form = FCSearchForm(request.args)
-
-
-    foodname = form.food_name_condition.data
-    search_by = form.search_by.data
-
-    try:
-        tablefood = FoodList.query.filter(FoodList.food_name == foodname).one()
-
-    except:
-        flash("There is no data on that food")
-        return render_template('/search/foodbycondition.html', form=form)
+    conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
+    conditions.insert(0, (0, 'No Condition'))
+    form = SearchForm(request.args)
+    form.search_by.choices = conditions
     
-
-    tablecondition = Condition.query.filter(Condition.id == search_by).one()
-    foods = Food.query.filter(Food.food_id == tablefood.id).all()
-    newfoods = []
-
-    for each in foods:
-        conditions = each.conditions
-        for each2 in conditions:
-            if each2.id == tablecondition.id:
-                    newfoods.append(each)
-    
-    averagelist = []
-    for each in newfoods:
-        if each.feeling != 'Null':
-            averagelist.append(int(each.feeling))
-    
-    average = round(sum(averagelist) / len(averagelist), 1)
-    
-    foodsymptomslists = []
-
-    for each in foods:
-        foodsymptomslists.append(each.symptoms)
-
-    foodsymptoms = []
-
-    for each in foodsymptomslists:
-        for each2 in each:
-            foodsymptoms.append(each2)
-
-    symptomslists = []
-    strfoodsymptoms = []
-    for each in foodsymptoms:
-        strfoodsymptoms.append(str(each))
-    count = 0
-    
-    for each in symptoms:
-        
-        symptomslists.append(strfoodsymptoms.count(each))
-
-    graph2 = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:{symptoms},datasets:[{{label:'Number of reports per symptom after eating {foodname}',data:{symptomslists}}}]}}}}")
-
-
-    return render_template('/search/fcsearch.html', tablefood=tablefood, average=average, graph2=graph2)
-
-##############################################
-
-
-
-
-
-
-
-
-
-#Graph API route
-
-@app.route('/graph/<food_id>', methods=['GET'])
-def graph(food_id):
-    """Route for generating graphs. """
 
 
     if not g.user:
         flash('Please login first!')
         return redirect('/login')
-
-    alldata = Food.query.filter(Food.food_id == food_id).all()
-
-    try:
-        foodname = alldata[0].food_name
-
-
-    except:
-        form = SearchForm()
-        allfoods = FoodList.query.all()
-
-
-        flash("Sorry, we don't have any data on that food yet")
-        return render_template('/search/searchfood.html', form=form, allfoods=allfoods)
-
-    fooddata = []
-    foodsymptomslists = []
-
-    for each in alldata:
-        fooddata.append(each.feeling)
-        foodsymptomslists.append(each.symptoms)
-
-
-    length = len(fooddata)
-    bads = fooddata.count('1') 
-    goods = fooddata.count('2') 
-    greats = fooddata.count('3') 
-    fooddata.clear()
-    fooddata.append(bads)
-    fooddata.append(goods)
-    fooddata.append(greats)
-
-
-    foodsymptoms = []
-
-
-    for each in foodsymptomslists:
-        for each2 in each:
-            foodsymptoms.append(each2)
-
-    symptomslists = []
-    strfoodsymptoms = []
-    for each in foodsymptoms:
-        strfoodsymptoms.append(str(each))
-    count = 0
     
-    for each in symptoms:
-        
-        symptomslists.append(strfoodsymptoms.count(each))
 
+    food_data = form.food_name_condition.data
+    food_data2 = food_data.replace("null", "55")
+    food_data3 = eval(food_data2)
+    name, image, input_food_id = food_data3['name'], food_data3['image'], food_data3['id']
+    
+
+    search_by = form.search_by.data
+
+    if (search_by == 0):
+        foodsid = FoodList.query.filter(FoodList.spoonacular_id == input_food_id).one()
+        alldata = Food.query.filter(Food.food_id == foodsid.id).all()
+        
+        try:
+            foodname = alldata[0].food_name
+
+        except:
+            form = SearchForm()
+            allfoods = FoodList.query.all()
+
+
+            flash("Sorry, we don't have any data on that food yet")
+            return render_template('/search/foodbycondition.html', form=form, allfoods=allfoods)
+
+        fooddata = []
+        foodsymptomslists = []
+        
+        for each in alldata:
+            fooddata.append(each.feeling)
+            foodsymptomslists.append(each.symptoms)
+
+        length = len(fooddata)
+        bads = fooddata.count('1') 
+        goods = fooddata.count('2') 
+        greats = fooddata.count('3') 
+        fooddata.clear()
+        fooddata.append(bads)
+        fooddata.append(goods)
+        fooddata.append(greats)
+
+        foodsymptoms = []
+        
+        for each in foodsymptomslists:
+            for each2 in each:
+                foodsymptoms.append(each2)
+
+        symptomslists = []
+        strfoodsymptoms = []
+        for each in foodsymptoms:
+            strfoodsymptoms.append(str(each))
+        count = 0
+        
+        for each in symptoms:
+            
+            symptomslists.append(strfoodsymptoms.count(each))
+                
+        
+        graph = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:['Bad','Good','Great'],datasets:[{{label:'Number of reports per feeling (1-3) after eating {foodname}',data:{fooddata}}}]}}}}")
+
+
+        graph2 = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:{symptoms},datasets:[{{label:'Number of reports per symptom after eating {foodname}',data:{symptomslists}}}]}}}}")
+
+        
+        return render_template('food/graph.html', graph=graph, graph2=graph2, foodname=foodname)
+    
+
+    else:
+        try:
+            tablefood = FoodList.query.filter(FoodList.spoonacular_id == input_food_id).one()
+
+        except:
+            flash("There is no data on that food")
+            return render_template('/search/foodbycondition.html', form=form)
+        
+        foodname = tablefood.food_name
+        tablecondition = Condition.query.filter(Condition.id == search_by).one()
+        foods = Food.query.filter(Food.food_id == tablefood.id).all()
+        newfoods = []
+
+        for each in foods:
+            conditions = each.conditions
+            for each2 in conditions:
+                if each2.id == tablecondition.id:
+                        newfoods.append(each)
+        
+        averagelist = []
+        for each in newfoods:
+            if each.feeling != 'Null':
+                averagelist.append(int(each.feeling))
+        
+        average = round(sum(averagelist) / len(averagelist), 1)
+        
+        foodsymptomslists = []
+
+        for each in foods:
+            foodsymptomslists.append(each.symptoms)
+
+        foodsymptoms = []
+
+        for each in foodsymptomslists:
+            for each2 in each:
+                foodsymptoms.append(each2)
+
+        symptomslists = []
+        strfoodsymptoms = []
+        for each in foodsymptoms:
+            strfoodsymptoms.append(str(each))
+        count = 0
+        
+        for each in symptoms:
+            
+            symptomslists.append(strfoodsymptoms.count(each))
+
+        graph2 = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:{symptoms},datasets:[{{label:'Number of reports per symptom after eating {foodname}',data:{symptomslists}}}]}}}}")
+
+        return render_template('/search/fcsearch.html', tablefood=tablefood, average=average, graph2=graph2)
+
+
+
+
+
+
+
+
+
+
+
+# @app.route('/food/search', methods=['GET'])
+# def search_food():
+#     #Search for a food by name. Return all matches
+
+
+#     form = SearchForm(request.args)
+#     allfoods = FoodList.query.all()
+
+#     if form.food_name.data:
+#         foodname = form.food_name.data
+#         food_list_spot = FoodList.query.filter(FoodList.food_name == foodname).all()
+#         try:
+#             food = food_list_spot[0]
+#         except:
+#             flash('Nobody has eaten that yet, maybe you should')
+#             return render_template('/search/search-food.html', form=form, allfoods=allfoods)
+
+#         return render_template('/search/search-food.html', food = food, form=form)
+
+#     else:
+        
+#         return render_template('/search/search-food.html', form=form, allfoods=allfoods)
+
+
+
+# @app.route('/foodbycondition/search', methods=['GET'])
+# def usersearch():
+#     # Search for a user by name or condition
+
+#     if not g.user:
+#         flash('Please login first!')
+#         return redirect('/login')
+
+#     form = FCSearchForm(request.args)
+#     conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
+#     form.search_by.choices = conditions
+
+#     return render_template('/search/foodbycondition.html', form=form)
+
+
+
+# @app.route('/foodbycondition/result', methods=['GET'])
+# def usersearch2():
+#     form = FCSearchForm(request.args)
+
+
+#     foodname = form.food_name_condition.data
+#     search_by = form.search_by.data
+
+#     try:
+#         tablefood = FoodList.query.filter(FoodList.food_name == foodname).one()
+
+#     except:
+#         flash("There is no data on that food")
+#         return render_template('/search/foodbycondition.html', form=form)
+    
+
+#     tablecondition = Condition.query.filter(Condition.id == search_by).one()
+#     foods = Food.query.filter(Food.food_id == tablefood.id).all()
+#     newfoods = []
+
+#     for each in foods:
+#         conditions = each.conditions
+#         for each2 in conditions:
+#             if each2.id == tablecondition.id:
+#                     newfoods.append(each)
+    
+#     averagelist = []
+#     for each in newfoods:
+#         if each.feeling != 'Null':
+#             averagelist.append(int(each.feeling))
+    
+#     average = round(sum(averagelist) / len(averagelist), 1)
+    
+#     foodsymptomslists = []
+
+#     for each in foods:
+#         foodsymptomslists.append(each.symptoms)
+
+#     foodsymptoms = []
+
+#     for each in foodsymptomslists:
+#         for each2 in each:
+#             foodsymptoms.append(each2)
+
+#     symptomslists = []
+#     strfoodsymptoms = []
+#     for each in foodsymptoms:
+#         strfoodsymptoms.append(str(each))
+#     count = 0
+    
+#     for each in symptoms:
+        
+#         symptomslists.append(strfoodsymptoms.count(each))
+
+#     graph2 = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:{symptoms},datasets:[{{label:'Number of reports per symptom after eating {foodname}',data:{symptomslists}}}]}}}}")
+
+#     return render_template('/search/fcsearch.html', tablefood=tablefood, average=average, graph2=graph2)
+
+# ##############################################
+
+
+
+# #Graph API route
+
+# @app.route('/graph/<food_id>', methods=['GET'])
+# def graph(food_id):
+#     """Route for generating graphs. """
+
+
+#     if not g.user:
+#         flash('Please login first!')
+#         return redirect('/login')
+
+#     alldata = Food.query.filter(Food.food_id == food_id).all()
+
+#     try:
+#         foodname = alldata[0].food_name
+
+#     except:
+#         form = SearchForm()
+#         allfoods = FoodList.query.all()
+
+
+#         flash("Sorry, we don't have any data on that food yet")
+#         return render_template('/search/searchfood.html', form=form, allfoods=allfoods)
+
+#     fooddata = []
+#     foodsymptomslists = []
+
+#     for each in alldata:
+#         fooddata.append(each.feeling)
+#         foodsymptomslists.append(each.symptoms)
+
+#     length = len(fooddata)
+#     bads = fooddata.count('1') 
+#     goods = fooddata.count('2') 
+#     greats = fooddata.count('3') 
+#     fooddata.clear()
+#     fooddata.append(bads)
+#     fooddata.append(goods)
+#     fooddata.append(greats)
+
+#     foodsymptoms = []
+
+#     for each in foodsymptomslists:
+#         for each2 in each:
+#             foodsymptoms.append(each2)
+
+#     symptomslists = []
+#     strfoodsymptoms = []
+#     for each in foodsymptoms:
+#         strfoodsymptoms.append(str(each))
+#     count = 0
+    
+#     for each in symptoms:
+        
+#         symptomslists.append(strfoodsymptoms.count(each))
             
     
-    graph = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:['Bad','Good','Great'],datasets:[{{label:'Number of reports per feeling (1-3) after eating {foodname}',data:{fooddata}}}]}}}}")
+#     graph = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:['Bad','Good','Great'],datasets:[{{label:'Number of reports per feeling (1-3) after eating {foodname}',data:{fooddata}}}]}}}}")
 
 
-    graph2 = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:{symptoms},datasets:[{{label:'Number of reports per symptom after eating {foodname}',data:{symptomslists}}}]}}}}")
+#     graph2 = requests.get(f"https://quickchart.io/chart?c={{type:'bar',data:{{labels:{symptoms},datasets:[{{label:'Number of reports per symptom after eating {foodname}',data:{symptomslists}}}]}}}}")
 
     
-    nutritional_info = requests.get(f"https://api.spoonacular.com/food/ingredients/{alldata[0].info.spoonacular_id}/information?amount=1&apiKey=b7e7c1efd70843b7a897ec8eb3717e34&unit=serving").json()
-
-    nutrition = cleanNutrition(nutritional_info)
-    return render_template('food/graph.html', graph=graph, graph2=graph2, foodname=foodname, nutrition=nutrition)
+#     return render_template('food/graph.html', graph=graph, graph2=graph2, foodname=foodname)
 
 
 
