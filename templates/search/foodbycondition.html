@@ -4,9 +4,7 @@
 {% block content %}
 
   
-  <form action="/search/results" method='GET' id="foodSearchForm"  class="formCommon w " autocomplete="off">
-            
-    
+  <form action="/search/results" method='GET' id="foodSearchForm"  class="formCommon w" autocomplete="off">
 
     {% for field in form if field.widget.input_type != 'hidden' %}
     
@@ -15,13 +13,13 @@
           {{ field(placeholder=field.label.text, class="form-control inputCommon", list='inputfood', id='foodSearchInput') }}
         
 
-    <div id="restOfFields" class="">
+    <div id="restOfFields" class="fit">
         {% elif field.type != 'RadioField' %}
             {{ field(placeholder=field.label.text, class="form-control inputCommon") }}
         {% endif %}
     {% endfor %}
 
-      <button id="addButton" type="submit" class="btn btn-secondary btn-lg btn-block buttonCommon">Gather Data</button>
+      <button id="foodSearchButton" type="submit" class="btn btn-secondary btn-lg btn-block buttonCommon spin">Gather Data</button>
     </div>
   </form>
 

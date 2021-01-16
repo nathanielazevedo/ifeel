@@ -3,13 +3,15 @@
 :root {
   --green: rgb(151, 199, 132);
   --blue: rgb(9, 151, 188);
-  --pink: rgb(237, 139, 141);
+  --pink: rgb(255, 99, 132);
   --orange: rgb(243, 164, 78);
 }
 
 /* ------------------------- Icon styling */
 
-
+#foodSearchForm{
+  align-self: flex-start;
+}
 
   .fas {
     text-decoration: none;
@@ -91,7 +93,13 @@
     margin-top: 1%;
   }
 
-
+#profileDiv{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-content: center;
+  height: 210px;
+}
 
   .formCommon{
     width: 100%;
@@ -304,14 +312,14 @@
   }
 
   #bannerYouCan {
-    color: white;
+    color: black;
     font-weight: 200;
   }
 
   /* -------------------- Official Login page */
 
   .title {
-    color: white;
+    color: black;
     font-weight: 245;
     text-align: center;
     margin-top: 10%;
@@ -335,7 +343,7 @@
   }
 
 #bigContainer{
-  background-color: var(--green);
+  background-color: rgb(211, 211, 211);
 }
 
 @media only screen and (max-device-width: 822px) {

@@ -72,63 +72,42 @@ foodChoiceBody.on("click", ".foodChoosen", function (evt) {
   $('#restOfFields').show();
 });
 
-// Fix this to autofill table body with what the person is typing in
 
-  condition_input.keypress(function () {
-    if (condition_input.val().length >= 1) {
-      getFoodList2(autoinput.val());
-    } else {
-      return;
-    }
-  });
+ const navlink = $('.navbar-nav')
+let firstLink = "/home";
+const baseUrl = "http://127.0.0.1:5000";
 
-  async function getFoodList2(letters) {
-    foodlist = await $.getJSON("https://ifeelapp.herokuapp.com/foodlist");
-    options = "";
-    for (var i = 0; i < foodlist.length; i++) {
-      options += `<option value="${foodlist[i]}" />`;
-    }
-    document.getElementById("inputfood2").innerHTML = options;
+  // if (baseUrl + firstLink == window.location.href) {
+  //   $('.first').css("color", "rgb(255, 255, 255)");
+  // }
+  let secondLink = "/food/add";
+
+  if (baseUrl + secondLink == window.location.href) {
+    $(".first").css("color", "rgb(255, 255, 255)");
+  }
+  let thirdlink = "/search";
+
+  if (baseUrl + thirdlink == window.location.href) {
+    $(".third").css("color", "rgb(255, 255, 255)");
+  }
+  let fourthlink = "/userfoods";
+
+  if (baseUrl + fourthlink == window.location.href) {
+    $(".second").css("color", "rgb(255, 255, 255)");
+  }
+  let profilelink = "/user/profile";
+
+  if (baseUrl + profilelink == window.location.href) {
+    $(".fourth").css("color", "rgb(255, 255, 255)");
   }
 
+restOfFields = $('#restOfFields')
+spin = $('.spin')
+section = $('#section')
+total = $('.total')
 
-  let firstLink = "https://ifeelapp.herokuapp.com/home";
-
-  if (firstLink == window.location.href) {
-    links.css("background-color", "rgb(124, 163, 108)");
-  }
-  let secondLink = "https://ifeelapp.herokuapp.com/food/add";
-
-  if (secondLink == window.location.href) {
-    links2.css("background-color", "rgb(124, 163, 108)");
-  }
-  let thirdlink = "https://ifeelapp.herokuapp.com/search";
-
-  if (thirdlink == window.location.href) {
-    links3.css("background-color", "rgb(124, 163, 108)");
-  }
-  let fourthlink = "https://ifeelapp.herokuapp.com/userfoods";
-
-  if (fourthlink == window.location.href) {
-    links4.css("background-color", "rgb(124, 163, 108)");
-  }
-  let profilelink = "https://ifeelapp.herokuapp.com/user/profile";
-
-  if (profilelink == window.location.href) {
-    linkProfile.css("background-color", "rgb(124, 163, 108)");
-  }
-
-
-foodSearchButton.on('click', function(){
-  searchForm.hide();
-  content.append(`<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>`);
+total.on('click', '.spin', function () {
+  section.children().hide();
+  section.append(`<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>`);
 })
 
-toFood.on('click', function () {
-  table.hide();
-  searchForm.hide();
-  content.html(`<div class="d-flex justify-content-center">
-  <div class="spinner-border" role="status">
-  </div>
-</div>`);
-})

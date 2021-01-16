@@ -2,12 +2,12 @@
 
 
 {% block content %}
-
+    <div id="profileDiv" class="win">
     <h3 id="profileUsername">{{g.user.username}}</h3>
     <h4 id="profileEmail">{{g.user.email}}</h4>
     <a id="editProfileButton1" class="btn btn-secondary w buttonCommon" href='/user/profile/edit'>Edit Profile</a>
     <a id="profileLogout" href="/logout" class="btn btn-secondary w buttonCommon">Logout</a>
-
+    </div>
 {% endblock %}
 
     
