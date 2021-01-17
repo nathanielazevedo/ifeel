@@ -75,13 +75,11 @@ foodChoiceBody.on("click", ".foodChoosen", function (evt) {
 
  const navlink = $('.navbar-nav')
 let firstLink = "/home";
-const baseUrl = "http://127.0.0.1:5000";
+const baseUrl = "https://ifeelapp.herokuapp.com";
 
   if (baseUrl + firstLink == window.location.href) {
     $('section').removeClass('win');
   }
-
-
 
   let secondLink = "/food/add";
 
