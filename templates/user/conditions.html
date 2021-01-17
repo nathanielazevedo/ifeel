@@ -1,76 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <link rel="manifest" href="/manifest.json" crossorigin="use-credentials"/>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+ {% extends 'base.html' %}
+    {% block content %}
 
-
-    <meta name="msapplication-starturl" content="/" />
-    
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-      crossorigin="anonymous"
-    />
-    
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-    />
-
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0"/>
-    <link rel="stylesheet" href="/static/stylesheets/index.css" />
-    <title>Feel</title>
-    <script src="https://unpkg.com/jquery"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
-    />
-  </head>
-
-
-  <body>
-
-    <div id="bigContainer" class="h flex">
-      <h2 id="introHeaderTitle" class="w">FEEL</h2>
-      <div id="bigContainer" class="flex  ">
-      <h1 class="win"> Add your conditions to your profile </h1>
-          <p class="win">If your interested in associating your conditions to your feelings after eating certain foods you can add them here. You can also do it later in the edit profile section.</p>
-        <form class="flex" method="POST" action="/signup/conditions" id="conditionsForm">
-          <div class="checkboxDiv win">          
-              {% for field in form.conditions %}
-                <div hidden>
-                  {{field (class='btn-check', autocomplete='off', type='checkbox', )}}
-                </div>
-                {{field.label (class="btn btn-outline-primary checkbox")}}
-            {% endfor %}
-          </div>
-          <button type="submit" class="btn btn-primary buttonCommon win" id="loginbutton">Add Conditions</button>
-          <a href="/home" class="btn btn-secondary buttonCommon win" id="doItLater">Do it later</a>
-        </form> 
+  <h1 class="w mt-5"> Add your conditions to your profile </h1>
+      <p class="w  mb-0">If your interested in associating your conditions to your feelings after eating certain foods you can add them here. You can also do it later in the edit profile section.</p>
+    <form class="flex" method="POST" action="/signup/conditions" id="conditionsForm">
+      {{ form.hidden_tag() }}
+      <div class="checkboxDiv w mt-0">          
+          {% for field in form.conditions %}
+            <div hidden>
+              {{field (class='btn-check', autocomplete='off', type='checkbox', )}}
+            </div>
+            {{field.label (class="btn btn-outline-primary checkbox")}}
+        {% endfor %}
       </div>
-    
+      <button type="submit" class="btn buttonCommon w" id="loginbutton">Add Conditions</button>
+      <a href="/home" class="btn buttonCommon w" id="doItLater">Do it later</a>
+    </form> 
+  
 
-      {% if get_flashed_messages() %}
-        <div class="toast position-absolute top-50 start-50 translate-middle " role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
-          <div class="toast-header bg-dark text-white" >
-            <strong class="me-auto">FEEL</strong>
-            <button type="button" class="btn-close btn-close-white ms-auto me-2" data-bs-dismiss="toast" aria-label="Close"></button>
-          </div>
-          <div class="toast-body">
-            {% for message in get_flashed_messages() %}
-              {{message}}
-            {% endfor %}
-          </div>
-        </div>
-      {% endif %}
+
+  {% if get_flashed_messages() %}
+    <div class="toast position-absolute top-50 start-50 translate-middle " role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+      <div class="toast-header bg-dark text-white" >
+        <strong class="me-auto">FEEL</strong>
+        <button type="button" class="btn-close btn-close-white ms-auto me-2" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        {% for message in get_flashed_messages() %}
+          {{message}}
+        {% endfor %}
+      </div>
     </div>
-   
-    <script src="/static/feel.js"></script>
-  </body>
-</html>
+  {% endif %}
 
 
+{% endblock %}

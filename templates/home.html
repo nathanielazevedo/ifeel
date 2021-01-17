@@ -1,6 +1,14 @@
  {% extends 'base.html' %}
     {% block content %}
-
-            <img src="{{graph}}" alt="" id="homeGraph" class="rotate">
-        
+        <div class="graphsContainer fit">
+            <div class="graphCropper th ">
+                <img src="{{graph3}}" alt="" class="homeGraph" class="rotate" id="graphThree">
+            </div>
+            <div class="graphCropper t">
+                <img src='{{graph2}}' alt="" class="" class="rotate" id="graphTwo">
+            </div>
+            <div class="graphCropper o">
+                <img src="{{graph}}" alt="" class="homeGraph" class="rotate" id="graphOne">
+            </div>
+        </div>
     {% endblock %}

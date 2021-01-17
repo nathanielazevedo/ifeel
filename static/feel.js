@@ -77,9 +77,12 @@ foodChoiceBody.on("click", ".foodChoosen", function (evt) {
 let firstLink = "/home";
 const baseUrl = "http://127.0.0.1:5000";
 
-  // if (baseUrl + firstLink == window.location.href) {
-  //   $('.first').css("color", "rgb(255, 255, 255)");
-  // }
+  if (baseUrl + firstLink == window.location.href) {
+    $('section').removeClass('win');
+  }
+
+
+
   let secondLink = "/food/add";
 
   if (baseUrl + secondLink == window.location.href) {
@@ -101,8 +104,7 @@ const baseUrl = "http://127.0.0.1:5000";
     $(".fourth").css("color", "rgb(255, 255, 255)");
   }
 
-restOfFields = $('#restOfFields')
-spin = $('.spin')
+
 section = $('#section')
 total = $('.total')
 
@@ -111,3 +113,19 @@ total.on('click', '.spin', function () {
   section.append(`<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>`);
 })
 
+
+section.on('click', '.foodChoosen', function () {
+  $('#foodSearchForm').addClass('fit')
+})
+
+
+amount = $('#amount')
+
+amount.prepend(
+  `<option value="" disabled selected>How much did you eat?</option>`
+);
+feeling = $('#feeling')
+
+feeling.prepend(
+  `<option value="" disabled selected>How do you feel?</option>`
+);

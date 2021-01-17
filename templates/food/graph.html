@@ -2,18 +2,11 @@
 
 {% block content %}
 
-<h5 id="generalFoodsGraphsTitle">Data collected on {{foodname}}</h5>
 
 
-
-<img src="{{graph.url}}" alt="" width="500px" class="generalFoodsGraph">
-
-
-<img src="{{graph2.url}}" alt="" width="500px" class="generalFoodsGraph">
-
-
-
-
+    <h5 id="generalFoodsGraphsTitle">Data on {{foodname}} from users with {{condition}}</h5>
+    <img src="{{graph}}" alt=""  class="generalFoodsGraph">
+    <img src="{{graph2}}" alt=""  class="generalFoodsGraph">
 
 
 {% endblock %}

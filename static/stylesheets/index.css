@@ -1,97 +1,88 @@
-/* Color Scheme */
-
 :root {
-  --green: rgb(151, 199, 132);
-  --blue: rgb(9, 151, 188);
-  --pink: rgb(255, 99, 132);
-  --orange: rgb(243, 164, 78);
+--green: rgb(151, 199, 132);
+--blue: rgb(9, 151, 188);
+--pink: rgb(255, 99, 132);
+--orange: rgb(243, 164, 78);
+--red: rgb(194, 24, 7);
 }
 
-/* ------------------------- Icon styling */
-
-#foodSearchForm{
-  align-self: flex-start;
+.fas {
+  text-decoration: none;
+}
+.fas:hover {
+  text-decoration: none;
 }
 
-  .fas {
-    text-decoration: none;
-  }
-  .fas:hover {
-    text-decoration: none;
-  }
-
-  .fa-pen {
-    font-size: 20px;
-  }
-
-  .fa-plus{
-    font-size: 20px;
-  }
-
-  .fa-trash-alt {
-    color: var(--pink);
-    font-size: 25px;
-  }
-
-  /* ------------------------ All general styles */
-
-  .fit{
-    flex-grow: 1;
-  }
-
-  .flex{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-direction: column;
-    align-content: center;
-    margin: auto;
-    width: 100%;
-  }
-
-  img {
-    width: 40px;
-    height: 40px;
-  }
-
-  table {
-    text-align: center;
-    font-size: 12px;
-  }
-
-  .inputCommon{
-    text-align: center;
-    font-size: 12px;
-    border: solid black 1px;
-    margin-top: 2%;
+.fa-pen {
+  font-size: 20px;
 }
 
-  .w{
-    width: 100%;
-  }
+.fa-plus{
+  font-size: 20px;
+}
 
-  .win{
-    width: 80%;
-  }
+.fa-trash-alt {
+  color: var(--red);
+  font-size: 25px;
+}
 
-  .h{
-    min-height: 100vh;
-  }
+.fit{
+  flex-grow: 1;
+}
 
-  .checkboxDiv {
-    text-align: center;
-    margin-top: 4%;
-    margin-bottom: 4%;
-  }
+.flex{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  align-content: center;
+  margin: auto;
+  width: 100%;
+}
 
-  .buttonCommon{
-    background-color: var(--blue);
-    color: white;
-    font-size: 13px;
-    font-weight: 200;
-    border: none;
-    margin-top: 1%;
-  }
+img {
+  width: 40px;
+  height: 40px;
+}
+
+table {
+  text-align: center;
+  font-size: 12px;
+}
+
+.inputCommon{
+  text-align: center;
+  font-size: 12px;
+  border: solid black 1px;
+  margin-top: 2%;
+}
+
+.w{
+  width: 100%;
+}
+
+.win{
+  width: 80%;
+}
+
+.h{
+  min-height: 100vh;
+}
+
+.checkboxDiv {
+  text-align: center;
+  margin-top: 4%;
+  margin-bottom: 4%;
+}
+
+.buttonCommon{
+  background-color: var(--blue);
+  color: white;
+  font-size: 13px;
+  font-weight: 200;
+  border: none;
+  margin-top: 1%;
+}
 
 #profileDiv{
   display: flex;
@@ -101,266 +92,242 @@
   height: 210px;
 }
 
-  .formCommon{
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  /* ------------------------ homepage styling */
-
-#homeGraph{
-  height: 456px;
-  width: 760px;
+.formCommon{
+  width: 100%;
+  margin-bottom: 10px;
 }
 
-  /* -------------------- Add Foods Styling */
-
-  .checkbox {
-    background-color: rgb(255, 255, 255);
-    border: black solid 1px;
-    font-size: 12px;
-    color: black;
-  }
-
-  .checkbox:hover {
-    background-color: rgb(0, 0, 0);
-    color: white;
-    border: black solid 1px;
-  }
-
-  /* ------------------  UserFoods Table */
-
-  #tofood {
-    margin: 0 auto;
-    color: var(--blue);
-  }
-
-  #deleteYourFood {
-    color: var(--pink);
-  }
-
-  /* ------------------------------ Inital Search Page */
-
-  #searchQuestion {
-    top: 20%;
-    position: absolute;
-    font-size: 25px;
-    font-weight: 250;
-  }
-
-  .searchChoices {
-    position: absolute;
-    border-radius: 7%;
-    width: 30%;
-    height: 45%;
-    left: 20%;
-    margin: auto;
-    border: solid black 1px;
-  }
-
-  #searchFood {
-    bottom: 12%;
-    left: 25%;
-  }
-
-  #searchCondition {
-    bottom: 12%;
-    left: 60%;
-  }
-
-  .searchTitle {
-    font-size: 20px;
-    color: black;
-    text-align: center;
-    font-weight: 250;
-  }
-  /* --------------------------------- Search by Food Form */
-  /* --------------------------------- Search by condition Form */
-
-  #searchimage {
-    width: 35px;
-    height: 35px;
-  }
-
-  #foodSearch {
-    margin-bottom: 10px;
-    margin-top: 5px;
-  }
-  #foodSearchData {
-    margin-bottom: 10px;
-    margin-top: 5px;
-  }
-
-  /* --------------------- Search By Condition Graph Page */
-
-  #fcName {
-    font-size: 25px;
-    font-weight: 200;
-    padding-top: 20px;
-    border-bottom: 1px solid black;
-  }
-
-  #fcAverage {
-    font-size: 15px;
-    font-weight: 200;
-  }
-
-  #fcGraph {
-    width: 90%;
-    height: 250px;
-    width: 425px;
-    text-align: center;
-    margin: 0 auto;
-    border-radius: 0%;
-  }
-
-  /* -----------------  General Foods Graphs */
-
-  #generalFoodsGraphsTitle {
-    margin-bottom: 30px;
-    font-size: 25px;
-    font-weight: 240;
-    border-bottom: black 1px solid;
-  }
-
-  .generalFoodsGraph {
-    height: 250px;
-    width: 425px;
-    text-align: center;
-    margin: 0 auto;
-    margin-bottom: 10px;
-  }
-
-  /* ---------------------- Profile Page */
-
-  #profileImage {
-    width: 150px;
-    height: 150px;
-    border-radius: 30%;
-  }
-
-  #profileContainer{
-    height: 100%;
-    width: fit-content;
-  }
-
-  #profileLogout {
-    background-color: var(--pink);
-  }
-
-  #editProfileButton {
-    border: none;
-  }
-
-  #profileDelete {
-    background-color: var(--pink);
-  }
-
-  /* ----------------------- loginpage */
-
-  #loginForm {
-   
-  }
-
-  #poweredBy {
-    color: white;
-    font-weight: 100;
-    font-size: small;
-    
-  }
-
-  #loginFooter {
-    display: flex;
-    background-color: black;
-    height: 50px;
-    flex-direction: row;
-    justify-content: space-between;
-    align-content: center;
-    align-items: center;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  #footerLogo {
-    color: white;
-    font-weight: 100;
-    font-size: small;
-    
-  }
-
-  #introHeaderTitle {
-    color: white;
-    font-weight: 230;
-    font-size: 35px;
-    background-color: black;
-    text-align: center;
-    margin: 0 auto;
-  }
-
-  #introBanner {
-    height: 100%;
-  }
-
-  .bannerTextContainer{
-    text-align: center;
-  }
-  .bannerText {
-    font-weight: 270;
-  }
-
-  .bannerTitle{
-    margin-top: 5%;
-  }
-
-  #bannerYouCan {
-    color: black;
-    font-weight: 200;
-  }
-
-  /* -------------------- Official Login page */
-
-  .title {
-    color: black;
-    font-weight: 245;
-    text-align: center;
-    margin-top: 10%;
-  }
-
-  .menu {
-    align-items: center;
-  }
-
-  #tosignup {
-    background-color: var(--pink);
-  }
-
-  #doItLater {
-    background-color: var(--pink);
-  }
-
-  #introForm{
-    flex-grow: 1;
-    justify-content: center;
-  }
-
-#bigContainer{
-  background-color: rgb(211, 211, 211);
+.checkbox {
+  background-color: rgb(255, 255, 255);
+  border: black solid 1px;
+  font-size: 12px;
+  color: black;
 }
 
-@media only screen and (max-device-width: 822px) {
+.checkbox:hover {
+  background-color: rgb(0, 0, 0);
+  color: white;
+  border: black solid 1px;
+}
 
-#homeGraph{
-  height: 304px;
-  width: 506px;
+#tofood {
+  margin: 0 auto;
+  color: var(--blue);
+}
+
+#deleteYourFood {
+  color: var(--red);
+}
+
+#green{
+  color: var(--green);
+  display: inline;
+}
+
+#yellow{
+  color: var(--yellow);
+  display: inline;
+}
+
+#red{
+  color: var(--pink);
+  display: inline;
+}
+
+#generalFoodsGraphsTitle {
+  font-size: 25px;
+  font-weight: 240;
+  align-self: baseline;
+}
+
+.generalFoodsGraph {
+  height: 250px;
+  width: 425px;
+}
+
+#profileLogout {
+  background-color: var(--red);
+}
+
+#profileDelete {
+  background-color: var(--red);
+}
+
+
+.bannerText {
+  font-weight: 270;
 }
 
 .bannerTitle{
-  margin-top: 30%;
-}
-.title{
-  margin-top: 30%;
+  margin-top: 13%;
 }
 
-.win{
-  width: 98%;
+#bannerYouCan {
+  font-weight: 200;
 }
+
+.title {
+  font-weight: 245;
+  margin-top: 20%;
+}
+
+.menu {
+  align-items: center;
+}
+
+#tosignup {
+  background-color: var(--green);
+}
+
+#doItLater {
+  background-color: var(--green);
+}
+
+#foodSearchForm{
+  align-self: flex-start;
+}
+
+#homeGraphs{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100vw;
+}
+
+#graphOne{
+  width: auto;
+  height: 250px;
+  display: inline;
+  margin: 0 auto;
+}
+
+#graphTwo{
+  width: auto;
+  height: 400px;
+  display: inline;
+  margin: 0 auto;
+}
+
+#graphThree{
+  width: auto;
+  height: 300px;
+  display: inline;
+  margin: 0 auto;
+}
+
+.o{
+  align-self: flex-end;
+  width: 250px;
+  height: 250px;
+  margin-bottom: 5%;
+  margin-right: 10%;
+}
+
+.t{
+  width: 400px;
+  height: 400px;
+  align-self: flex-start;
+  margin-left: 0%;
+}
+
+.th{
+  width: 300px;
+  height: 300px;
+  align-self: flex-end;
+  margin-bottom: 5%;
+  margin-left: 10%;
+}
+
+.graphsContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+}
+
+.graphCropper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+#conditionsForm{
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+
+@media only screen and (max-device-width: 721px) {
+
+  .homeGraph{
+    height: 300px;
+    width: 480px;
+  }
+
+  .title{
+    margin-top: 30%;
+  }
+
+  .win{
+    width: 98%;
+  }
+
+  .graphsContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 100%;
+  }
+
+  #graphOne{
+    width: auto;
+    height: 250px;
+    display: inline;
+    margin: 0 auto;
+  }
+
+  #graphTwo{
+    width: auto;
+    height: 250px;
+    display: inline;
+    margin: 0 auto;
+  }
+
+  #graphThree{
+    width: auto;
+    height: 250px;
+    display: inline;
+    margin: 0 auto;
+  }
+
+  .o{
+    margin: 0;
+    width: 250px;
+    height: 250px;
+    align-self: center;
+  }
+
+  .t{
+    width: 250px;
+    height: 250px;
+    margin: 0;
+    align-self: center;
+  }
+
+  .th{
+    width: 250px;
+    height: 250px;
+    margin: 0;
+    align-self: center;
+  }
+
+  .generalFoodsGraph {
+    height: 200px;
+    width: 320px;
+  }
 }

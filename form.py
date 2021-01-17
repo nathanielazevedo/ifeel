@@ -22,8 +22,8 @@ class MultiCheckboxField(SelectMultipleField):
 
 class FoodForm(FlaskForm):
     food_name = StringField('What did you eat?', validators = [InputRequired()])
-    amount = SelectField('How much did you eat?', choices=[('', 'How much did you eat?'),('1', 'a little'), ('2', 'some'), ('3', 'a lot')])
-    feeling = SelectField('choose one', choices=[('0', 'How do you feel?'),('1', 'bad'), ('2', 'okay'), ('3', 'great')])
+    amount = SelectField('How much did you eat?', choices=[('1', 'a little'), ('2', 'some'), ('3', 'a lot')], validators = [InputRequired()])
+    feeling = SelectField('choose one', choices=[('1', 'bad'), ('2', 'okay'), ('3', 'great')], validators = [InputRequired()])
     symptoms = MultiCheckboxField('Symptom', coerce=int)
 
 

@@ -25,6 +25,7 @@
     {% endfor %}
 
       <div class="checkboxDiv">
+
         {% for field in form.symptoms %}
           <div hidden>
             {{field (class='btn-check', autocomplete='off', type='checkbox')}}

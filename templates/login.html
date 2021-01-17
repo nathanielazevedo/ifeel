@@ -1,62 +1,19 @@
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <link rel="manifest" href="/manifest.json" crossorigin="use-credentials"/>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-
-    <meta name="msapplication-starturl" content="/" />
-    
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-      crossorigin="anonymous"
-    />
-    
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-    />
-
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0"/>
-    <link rel="stylesheet" href="/static/stylesheets/index.css" />
-    <title>Feel</title>
-    <script src="https://unpkg.com/jquery"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
-    />
-  </head>
-
-
-  <body>
-
-    <div id="bigContainer" class="h flex">
-      <h2 id="introHeaderTitle" class="w">FEEL</h2>
+ {% extends 'base.html' %}
+    {% block content %}
       <h1 class="title w "> Welcome back!</h1>
 
-      <form  method="POST" class="w fit flex" id="introForm">
+      <form  method="POST" class="w  flex" id="introForm">
         {{ form.hidden_tag() }}
         {% for field in form if field.widget.input_type != 'hidden' %}
           {% for error in field.errors %}
             <span class="text-danger">{{ error }}</span>
           {% endfor %}
-          {{ field(placeholder=field.label.text, class="form-control inputCommon win") }}
+          {{ field(placeholder=field.label.text, class="form-control inputCommon w") }}
         {% endfor %}
-        <button type="submit" class="btn btn-primary buttonCommon win" id="loginbutton">Login</button>
-        <a id="tosignup" class="btn btn-info buttonCommon win" href="/signup" >New to FEEL? Sign Up!</a>
+        <button type="submit" class="btn buttonCommon w" id="loginbutton">Login</button>
+        <a id="tosignup" class="btn buttonCommon w" href="/signup" >New to FEEL? Sign Up!</a>
       </form>
         
-      <div id="loginFooter" class="w">
-        <h5 id="footerLogo">let's FEEL better</h5>
-        <h5 id="poweredBy">Powered by the SpoonacularAPI</h5>
-      </div>
-    
-
       {% if get_flashed_messages() %}
         <div class="toast position-absolute top-50 start-50 translate-middle " role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
           <div class="toast-header bg-dark text-white" >
@@ -70,27 +27,4 @@
           </div>
         </div>
       {% endif %}
-    </div>
-   
-    <script src="/static/feel.js"></script>
-  </body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    {% endblock %}
