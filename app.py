@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, url_for,redirect, flash, session, jsonify, request, g, abort, json
+from flask import Flask, request, render_template, url_for, redirect, flash, session, jsonify, request, g, abort, json
 import os
 import json
 from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, SearchForm, UpdateFoodForm,   SearchAddForm, InitialConditionsForm, TryItForm
@@ -7,40 +7,27 @@ from sqlalchemy.exc import IntegrityError
 import requests
 import pdb
 from flask_debugtoolbar import DebugToolbarExtension
-from functions import  symptoms
 from random import randint
-from functions import makeGraph, makeEmptyGraph, genFoodGraph, makeBarGraph
+from functions import makeGraph, makeEmptyGraph, genFoodGraph, makeBarGraph, symptoms
 import datetime
-
-
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "verysecret"
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///feel')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'DATABASE_URL', 'postgresql:///feel')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 debug = DebugToolbarExtension(app)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 
-
-
 connect_db(app)
 db.create_all()
-
-
 
 CURR_USER_KEY = "curr_user"
 
 
-
-
-
-
-
 #############################################
-
-
 
 
 @app.before_request
@@ -67,7 +54,6 @@ def do_logout():
         del session[CURR_USER_KEY]
 
 
-
 @app.after_request
 def add_header(req):
     """Add non-caching headers on every request."""
@@ -79,42 +65,29 @@ def add_header(req):
     return req
 
 
-
-
-
 #####################################################
-
-
 
 
 @app.route('/')
 def main():
     """Show homepage or signup page"""
 
-    if g.user:   
+    if g.user:
         return redirect('/home')
 
     else:
         return redirect('/signup')
 
 
-
-
-
 ##########################################
 
 
-
-
-
-
-
-#Sigup Route
+# Sigup Route
 
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
-    #Sign a user up.
+    # Sign a user up.
 
     form = UserAddForm()
     form2 = TryItForm()
@@ -127,7 +100,6 @@ def signup():
                 email=form.email.data,
             )
             db.session.commit()
-            
 
         except IntegrityError:
             flash("Username and/or email already taken", 'danger')
@@ -141,29 +113,26 @@ def signup():
         return render_template('signup.html', form=form, form2=form2)
 
 
-
 @app.route('/signup/conditions', methods=["GET", "POST"])
 def signupconditions():
     """Show user conditions upon signup"""
-
 
     if not g.user:
         flash('Please login first!')
         return redirect('/login')
 
-    
     user = User.query.get_or_404(g.user.id)
 
     # Making a list of all conditions the user currently has inorder to check them in the form.
 
     form = InitialConditionsForm()
-    
+
     # Populating conditions options for form.
     conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
     form.conditions.choices = conditions
 
     if form.validate_on_submit():
-        
+
         conditions = form.conditions.data
 
         for each in conditions:
@@ -178,10 +147,16 @@ def signupconditions():
     return render_template('/user/conditions.html', user=user, form=form)
 
 
+@app.route('/generic', methods=["GET", "POST"])
+def generic():
+    """Signup as generic user"""
+    
+    user = User.authenticate('test', 'password')
+    
+    do_login(user)
+    return redirect('/')
 
-
-
-#Login Route
+# Login Route
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -198,14 +173,9 @@ def login():
             do_login(user)
             return redirect("/")
 
-
         flash("Invalid credentials.", 'danger')
 
     return render_template('login.html', form=form)
-
-
-
-
 
 
 @app.route('/logout')
@@ -215,10 +185,6 @@ def logout():
     do_logout()
     flash("You've been signed out", 'success')
     return redirect("/login")
-
-
-
-
 
 
 @app.route('/users/delete')
@@ -237,16 +203,7 @@ def delete_user():
     return redirect("/signup")
 
 
-
-
-
-
 ######################################
-
-
-
-
-
 
 
 @app.route("/home")
@@ -256,37 +213,35 @@ def homepage():
     if not g.user:
         flash("Login or signup", "danger")
         return redirect("/")
-    
+
     foods = (Food
-            .query
-            .filter(Food.user_id == g.user.id)
-            .all())
+             .query
+             .filter(Food.user_id == g.user.id)
+             .all())
 
     total = len(foods)
 
-    
     if (total == 0):
         graph = makeEmptyGraph()
         return render_template('home.html', graph2=graph, graph=graph, graph3=graph)
-        
+
     greatlist = []
     okaylist = []
     badlist = []
     today = []
     week = []
     month = []
-    todaysDate = datetime.datetime.now()
     monthAgo = datetime.datetime.now() - datetime.timedelta(30)
     weekAgo = datetime.datetime.now() - datetime.timedelta(7)
     dayAgo = datetime.datetime.now() - datetime.timedelta(1)
     for each in foods:
-        
+
         if (each.timestamp > monthAgo):
             month.append(each)
-        
+
         if (each.timestamp > weekAgo):
             week.append(each)
-        
+
         if (each.timestamp > dayAgo):
             today.append(each)
 
@@ -341,19 +296,10 @@ def homepage():
     timeFrame = "Past Day"
     graph2 = makeGraph(total, greats, okays, bads, timeFrame)
 
-    
-    return render_template('home.html', graph=graph, graph2=graph2,graph3=graph3)
+    return render_template('home.html', graph=graph, graph2=graph2, graph3=graph3)
 
 
-
-
-
-
-
-#Food Routes
-
-
-
+# Food Routes
 
 
 @app.route('/food/add', methods=['POST', 'GET'])
@@ -365,14 +311,14 @@ def post_info():
         return redirect("/")
 
     form = FoodForm()
-    
+
     # Filling in form checkbox choices with database info.
     symptoms = [(c.id, c.symptom_name) for c in Symptom.query.all()]
     form.symptoms.choices = symptoms
 
     if form.validate_on_submit():
-        
-        # Getting food information 
+
+        # Getting food information
         food_data = form.food_name.data
         food_data2 = food_data.replace("null", "55")
         food_data3 = eval(food_data2)
@@ -382,25 +328,27 @@ def post_info():
         user = g.user.id
         amount = form.amount.data
         feeling = form.feeling.data
-        
+
         try:
             # Does this food already exist in our database?
-            existing_food = FoodList.query.filter(FoodList.spoonacular_id == input_food_id).one()
+            existing_food = FoodList.query.filter(
+                FoodList.spoonacular_id == input_food_id).one()
 
         except:
             # If no, add it to the database.
-            existing_food = FoodList(food_name=name, spoonacular_id=input_food_id, spoonacular_image= image)
+            existing_food = FoodList(
+                food_name=name, spoonacular_id=input_food_id, spoonacular_image=image)
             db.session.add(existing_food)
             db.session.commit()
 
-        new_food = Food(food_id=existing_food.id, user_id=user, amount=amount, feeling=feeling)
+        new_food = Food(food_id=existing_food.id, user_id=user,
+                        amount=amount, feeling=feeling)
         db.session.add(new_food)
         db.session.commit()
 
-
         # Appending symptoms to this consumption instance.
         symptoms = form.symptoms.data
-        
+
         for each in symptoms:
             symptom = Symptom.query.get_or_404(each)
             new_food.symptoms.append(symptom)
@@ -413,16 +361,12 @@ def post_info():
         flash(f'{name} has been added to your foods.')
         return redirect('/userfoods')
 
-    
     return render_template('/food/addfood.html', form=form)
-
-
 
 
 @app.route('/food/<food_id>/update', methods=['POST', 'GET'])
 def update_info(food_id):
-    #Update a food 
-
+    # Update a food
 
     if not g.user:
         flash("Access unauthorized.", "danger")
@@ -433,15 +377,15 @@ def update_info(food_id):
     symptomslist = []
     for each in food.symptoms:
         symptomslist.append(each.symptom_name)
-        
-    
+
     symptoms = [(c.id, c.symptom_name) for c in Symptom.query.all()]
     form.symptoms.choices = symptoms
 
     if form.validate_on_submit():
-        
+
         food_name = form.food_name.data
-        food_list_spot = FoodList.query.filter(FoodList.food_name == food_name).all()
+        food_list_spot = FoodList.query.filter(
+            FoodList.food_name == food_name).all()
         food.food_id = food_list_spot[0].id
         food.amount = form.amount.data
         food.feeling = form.feeling.data
@@ -450,35 +394,32 @@ def update_info(food_id):
         for each in symptoms:
             symptom = Symptom.query.get_or_404(each)
             food.symptoms.append(symptom)
-        
+
         db.session.add(food)
         db.session.commit()
         flash('That input has been updated.')
         return redirect('/userfoods')
 
     else:
-        
-        return render_template('/food/food-update.html', form=form, food=food, symptomslist=symptomslist)
 
+        return render_template('/food/food-update.html', form=form, food=food, symptomslist=symptomslist)
 
 
 @app.route('/userfoods', methods=['GET'])
 def user():
     """Show all food inputs from a user"""
 
-
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
-
     form = SearchAddForm(request.args)
     foods = (Food
-            .query
-            .filter(Food.user_id == g.user.id, Food.feeling != 'Null')
-            .order_by(Food.timestamp.desc())
-            
-            )
+             .query
+             .filter(Food.user_id == g.user.id, Food.feeling != 'Null')
+             .order_by(Food.timestamp.desc())
+
+             )
 
     if form.search_food_name.data:
         food = form.search_food_name.data
@@ -488,15 +429,12 @@ def user():
         except:
             flash("You haven't inputed that food")
             return render_template('/food/userfoods.html', foods=foods, form=form)
-        foods = (Food.query.filter(Food.user_id == g.user.id, Food.food_id == food_id).all())
-        
+        foods = (Food.query.filter(Food.user_id ==
+                                   g.user.id, Food.food_id == food_id).all())
+
         # return render_template('/user/user.html', foods=foods, form=form)
 
     return render_template('/food/userfoods.html', foods=foods, form=form)
-
-
-
-
 
 
 @app.route('/food/<int:food_id>/delete')
@@ -516,15 +454,10 @@ def food_destroy(food_id):
     return redirect("/userfoods")
 
 
-
-
-
 #########################################
 
 
-
-
-#User Routes
+# User Routes
 
 
 @app.route('/user/profile', methods=['GET', 'POST'])
@@ -534,22 +467,17 @@ def display_profile():
         flash('Please login first!')
         return redirect('/login')
 
-
     # Making a list of all conditions the user currently has inorder to check them in the form.
     conditionslist = []
     for each in g.user.conditions:
         conditionslist.append(each.condition_name)
 
     form = UpdateProfileForm()
-    
+
     conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
     form.conditions.choices = conditions
 
-
     return render_template('/user/profile.html', user=user, form=form, conditionslist=conditionslist)
-
-
-
 
 
 @app.route('/user/profile/edit', methods=['GET', 'POST'])
@@ -559,7 +487,6 @@ def edit_profile():
         flash('Please login first!')
         return redirect('/login')
 
-    
     user = User.query.get_or_404(g.user.id)
 
     # Making a list of all conditions the user currently has inorder to check them in the form.
@@ -567,15 +494,13 @@ def edit_profile():
     for each in user.conditions:
         conditionslist.append(each.condition_name)
     form = UpdateProfileForm(obj=user)
-    
+
     # Populating conditions options for form.
     conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
     form.conditions.choices = conditions
 
-     
-
     if form.validate_on_submit():
-        
+
         user.username = form.username.data
         user.email = form.email.data
         user.bio = form.bio.data
@@ -593,17 +518,10 @@ def edit_profile():
     return render_template('/user/edit-profile.html', user=user, form=form, conditionslist=conditionslist)
 
 
-
-
-
-
 ###########################################################
 
 
-
-
-
-#Searching Routes
+# Searching Routes
 
 
 @app.route('/search', methods=['GET'])
@@ -617,32 +535,29 @@ def search_main():
     return render_template('/search/foodbycondition.html', form=form)
 
 
-
-
 @app.route('/search/results', methods=['GET'])
 def usersearch2():
     conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
     conditions.insert(0, (0, 'No Condition'))
     form = SearchForm(request.args)
     form.search_by.choices = conditions
-    
+
     if not g.user:
         flash('Please login first!')
         return redirect('/login')
-    
 
     food_data = form.food_name_condition.data
     food_data2 = food_data.replace("null", "55")
     food_data3 = eval(food_data2)
     name, image, input_food_id = food_data3['name'], food_data3['image'], food_data3['id']
-    
 
     search_by = form.search_by.data
 
     if (search_by == 0):
-        foodsid = FoodList.query.filter(FoodList.spoonacular_id == input_food_id).one()
+        foodsid = FoodList.query.filter(
+            FoodList.spoonacular_id == input_food_id).one()
         alldata = Food.query.filter(Food.food_id == foodsid.id).all()
-        
+
         try:
             foodname = alldata[0].food_name
 
@@ -650,28 +565,27 @@ def usersearch2():
             form = SearchForm()
             allfoods = FoodList.query.all()
 
-
             flash("Sorry, we don't have any data on that food yet")
             return render_template('/search/foodbycondition.html', form=form, allfoods=allfoods)
 
         fooddata = []
         foodsymptomslists = []
-        
+
         for each in alldata:
             fooddata.append(each.feeling)
             foodsymptomslists.append(each.symptoms)
 
         length = len(fooddata)
-        bads = fooddata.count('1') 
-        goods = fooddata.count('2') 
-        greats = fooddata.count('3') 
+        bads = fooddata.count('1')
+        goods = fooddata.count('2')
+        greats = fooddata.count('3')
         fooddata.clear()
         fooddata.append(bads)
         fooddata.append(goods)
         fooddata.append(greats)
 
         foodsymptoms = []
-        
+
         for each in foodsymptomslists:
             for each2 in each:
                 foodsymptoms.append(each2)
@@ -681,55 +595,54 @@ def usersearch2():
         for each in foodsymptoms:
             strfoodsymptoms.append(str(each))
         count = 0
-        
+
         for each in symptoms:
-            
+
             symptomslists.append(strfoodsymptoms.count(each))
-                   
+
         graph = genFoodGraph(fooddata)
-        
+
         graph2 = makeBarGraph(symptoms, symptomslists)
 
         condition = "no condition"
         return render_template('food/graph.html', graph=graph, graph2=graph2, foodname=foodname, condition=condition)
-    
 
     else:
         try:
-            tablefood = FoodList.query.filter(FoodList.spoonacular_id == input_food_id).one()
+            tablefood = FoodList.query.filter(
+                FoodList.spoonacular_id == input_food_id).one()
 
         except:
             flash("There is no data on that food")
             return render_template('/search/foodbycondition.html', form=form)
-        
+
         foodname = tablefood.food_name
-        tablecondition = Condition.query.filter(Condition.id == search_by).one()
-        
+        tablecondition = Condition.query.filter(
+            Condition.id == search_by).one()
+
         foods = Food.query.filter(Food.food_id == tablefood.id).all()
         newfoods = []
-        
+
         for each in foods:
             conditions = each.conditions
             for each2 in conditions:
                 if each2.id == tablecondition.id:
-                        newfoods.append(each)
-        
+                    newfoods.append(each)
+
         fooddata = []
         for each in newfoods:
             if each.feeling != 'Null':
                 fooddata.append(int(each.feeling))
 
-        
-        bads = fooddata.count(1) 
-        goods = fooddata.count(2) 
+        bads = fooddata.count(1)
+        goods = fooddata.count(2)
         greats = fooddata.count(3)
-        
+
         fooddata.clear()
         fooddata.append(bads)
         fooddata.append(goods)
-        fooddata.append(greats)        
-        
-        
+        fooddata.append(greats)
+
         foodsymptomslists = []
 
         for each in foods:
@@ -746,19 +659,17 @@ def usersearch2():
         for each in foodsymptoms:
             strfoodsymptoms.append(str(each))
         count = 0
-        
-        for each in symptoms:
-            
-            symptomslists.append(strfoodsymptoms.count(each))
 
+        for each in symptoms:
+
+            symptomslists.append(strfoodsymptoms.count(each))
 
         graph = genFoodGraph(fooddata)
         graph2 = makeBarGraph(symptoms, symptomslists)
-        
+
         condition = tablecondition.condition_name
 
         return render_template('/food/graph.html', graph=graph, graph2=graph2, condition=condition, foodname=foodname)
-
 
 
 @app.route('/foodlist', methods=['GET'])
@@ -776,24 +687,23 @@ def foodlist():
     return jsonify(foodnamelist)
 
 
-
 @app.route('/manifest.json')
 def manifest():
     manifest_python_object = {
-    "name": "Feel",
-    "short_name": "feel",
-    "lang": "en-US",
-    "start_url": "/",
-    "display": "fullscreen",
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
-    "icons": [
-        {
-            "src": "/static/images/officiallogo.png",
-            "sizes": "144x144",
-            "type": "png",
-            
-        }
+        "name": "Feel",
+        "short_name": "feel",
+        "lang": "en-US",
+        "start_url": "/",
+        "display": "fullscreen",
+        "theme_color": "#ffffff",
+        "background_color": "#ffffff",
+        "icons": [
+            {
+                "src": "/static/images/officiallogo.png",
+                "sizes": "144x144",
+                "type": "png",
+
+            }
         ]
     }
     return jsonify(manifest_python_object)
@@ -802,5 +712,5 @@ def manifest():
 @app.errorhandler(404)
 def page_not_found(e):
     """404 NOT FOUND page."""
-    
+
     return render_template('404.html'), 404

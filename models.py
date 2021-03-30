@@ -4,7 +4,6 @@ import datetime
 from datetime import datetime, timedelta, date
 
 
-
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 
@@ -14,7 +13,6 @@ def connect_db(app):
 
     db.app = app
     db.init_app(app)
-
 
 
 class User(db.Model):
@@ -56,14 +54,11 @@ class User(db.Model):
     foods = db.relationship('Food', cascade='all, delete')
 
     conditions = db.relationship('Condition',
-                               secondary='users_conditions',
-                               backref='users')
-
+                                 secondary='users_conditions',
+                                 backref='users')
 
     def __repr__(self):
         return f"<User #{self.id}: {self.username}, {self.email}>"
-
-
 
     @classmethod
     def signup(cls, username, email, password):
@@ -94,24 +89,22 @@ class User(db.Model):
         return False
 
 
-
 class Food(db.Model):
     from datetime import date, datetime
     import datetime
-    
 
     __tablename__ = "foods"
 
-    id = db.Column(db.Integer, 
-                primary_key=True, 
-                autoincrement=True)
+    id = db.Column(db.Integer,
+                   primary_key=True,
+                   autoincrement=True)
 
-    food_id = db.Column(db.Integer, 
+    food_id = db.Column(db.Integer,
                         db.ForeignKey('foodslist.id'))
 
     amount = db.Column(db.Text, nullable=True)
 
-    feeling = db.Column(db.Text, nullable = True, default = 'Null')
+    feeling = db.Column(db.Text, nullable=True, default='Null')
 
     timestamp = db.Column(
         db.DateTime,
@@ -128,17 +121,16 @@ class Food(db.Model):
                                backref='foods')
 
     conditions = db.relationship('Condition',
-                               secondary='foods_conditions',
-                               backref='foods')
+                                 secondary='foods_conditions',
+                                 backref='foods')
 
     food_name = db.relationship('FoodList',
-                               backref='foods')
-    
+                                backref='foods')
+
     info = db.relationship('FoodList')
 
     def __repr__(self):
         return f"{self.food_name}"
-
 
 
 class UserConditions(db.Model):
@@ -159,23 +151,19 @@ class UserConditions(db.Model):
     )
 
 
-
 class Condition(db.Model):
-
 
     __tablename__ = 'conditions'
 
-    id = db.Column(db.Integer, 
-                primary_key=True, 
-                autoincrement=True)
+    id = db.Column(db.Integer,
+                   primary_key=True,
+                   autoincrement=True)
 
     condition_name = db.Column(db.Text)
-
 
     # user = db.relationship('User',
     #                            secondary='users_conditions',
     #                            backref='conditions')
-
 
 
 class FoodConditions(db.Model):
@@ -215,12 +203,11 @@ class FoodSymptoms(db.Model):
 
 class Symptom(db.Model):
 
-
     __tablename__ = 'symptoms'
 
-    id = db.Column(db.Integer, 
-                primary_key=True, 
-                autoincrement=True)
+    id = db.Column(db.Integer,
+                   primary_key=True,
+                   autoincrement=True)
 
     symptom_name = db.Column(db.Text)
 
@@ -230,20 +217,17 @@ class Symptom(db.Model):
 
 class FoodList(db.Model):
 
-
     __tablename__ = 'foodslist'
 
-    id = db.Column(db.Integer, 
-                primary_key=True, 
-                autoincrement=True)
+    id = db.Column(db.Integer,
+                   primary_key=True,
+                   autoincrement=True)
 
     food_name = db.Column(db.Text, unique=True)
 
     spoonacular_id = db.Column(db.Integer, unique=True)
-    
+
     spoonacular_image = db.Column(db.Text, nullable=True)
 
     def __repr__(self):
         return f"{self.food_name}"
-
-

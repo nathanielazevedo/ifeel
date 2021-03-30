@@ -1,14 +1,13 @@
+/** @format */
 
 const path = window.location.href;
 const foodChoiceBody = $("#foodChoiceBody");
 const checkboxDiv = $(".checkboxDiv");
 const foodSearchInput = $("#foodSearchInput");
 
-
 $(document).ready(function () {
   $(".toast").toast("show");
 });
-
 
 // toggle checkboxes
 
@@ -21,8 +20,6 @@ checkboxDiv.on("click", ".checkbox", function (evt) {
     $(this).css("color", "rgb(0,0,0)");
   }
 });
-
-
 
 // Filling search field on keypress
 
@@ -44,16 +41,18 @@ async function getFoodList(letters) {
   for (var i = 0; i < foods.length; i++) {
     foodChoiceBody.append(
       `<tr class="tr">
-          <td><img src="https://spoonacular.com/cdn/ingredients_100x100/${foods[i].image}" id="searchImage"></td>
+          <td><img src="https://spoonacular.com/cdn/ingredients_100x100/${
+            foods[i].image
+          }" id="searchImage"></td>
           <td>${foods[i].name}</td>
           <td>
             <a class="fas fa-plus foodChoosen" role="button" data-value='${JSON.stringify(
-                {
-                  id: foods[i].id,
-                  name: foods[i].name,
-                  image: foods[i].image,
-                }
-              )}'>
+              {
+                id: foods[i].id,
+                name: foods[i].name,
+                image: foods[i].image,
+              }
+            )}'>
             </a>
           </td>
       </tr>`
@@ -68,62 +67,58 @@ foodChoiceBody.on("click", ".foodChoosen", function (evt) {
   $("#foodSearchInput").prop("hidden", true);
   $("#inputFoodForm").prepend(`<h2 class="pageTitle w">${data.name}</h2>`);
 
-  $('.tableScroll').hide();
-  $('#restOfFields').show();
+  $(".tableScroll").hide();
+  $("#restOfFields").show();
 });
 
-
- const navlink = $('.navbar-nav')
+const navlink = $(".navbar-nav");
 let firstLink = "/home";
 const baseUrl = "https://ifeelapp.herokuapp.com";
 
-  if (baseUrl + firstLink == window.location.href) {
-    $('section').removeClass('win');
-  }
+if (baseUrl + firstLink == window.location.href) {
+  $("section").removeClass("win");
+}
 
-  let secondLink = "/food/add";
+let secondLink = "/food/add";
 
-  if (baseUrl + secondLink == window.location.href) {
-    $(".first").css("color", "rgb(255, 255, 255)");
-  }
-  let thirdlink = "/search";
+if (baseUrl + secondLink == window.location.href) {
+  $(".first").css("color", "rgb(255, 255, 255)");
+}
+let thirdlink = "/search";
 
-  if (baseUrl + thirdlink == window.location.href) {
-    $(".third").css("color", "rgb(255, 255, 255)");
-  }
-  let fourthlink = "/userfoods";
+if (baseUrl + thirdlink == window.location.href) {
+  $(".third").css("color", "rgb(255, 255, 255)");
+}
+let fourthlink = "/userfoods";
 
-  if (baseUrl + fourthlink == window.location.href) {
-    $(".second").css("color", "rgb(255, 255, 255)");
-  }
-  let profilelink = "/user/profile";
+if (baseUrl + fourthlink == window.location.href) {
+  $(".second").css("color", "rgb(255, 255, 255)");
+}
+let profilelink = "/user/profile";
 
-  if (baseUrl + profilelink == window.location.href) {
-    $(".fourth").css("color", "rgb(255, 255, 255)");
-  }
+if (baseUrl + profilelink == window.location.href) {
+  $(".fourth").css("color", "rgb(255, 255, 255)");
+}
 
+section = $("#section");
+total = $(".total");
 
-section = $('#section')
-total = $('.total')
-
-total.on('click', '.spin', function () {
+total.on("click", ".spin", function () {
   section.children().hide();
-  section.append(`<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>`);
-})
+  section.append(
+    `<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>`
+  );
+});
 
+section.on("click", ".foodChoosen", function () {
+  $("#foodSearchForm").addClass("fit");
+});
 
-section.on('click', '.foodChoosen', function () {
-  $('#foodSearchForm').addClass('fit')
-})
-
-
-amount = $('#amount')
+amount = $("#amount");
 
 amount.prepend(
   `<option value="" disabled selected>How much did you eat?</option>`
 );
-feeling = $('#feeling')
+feeling = $("#feeling");
 
-feeling.prepend(
-  `<option value="" disabled selected>How do you feel?</option>`
-);
+feeling.prepend(`<option value="" disabled selected>How do you feel?</option>`);
