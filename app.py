@@ -147,7 +147,7 @@ def signupconditions():
     return render_template('/user/conditions.html', user=user, form=form)
 
 
-@app.route('/generic', methods=["GET", "POST"])
+@app.route('/generic', methods=["GET"])
 def generic():
     """Signup as generic user"""
     
