@@ -8,8 +8,8 @@ import requests
 import pdb
 from flask_debugtoolbar import DebugToolbarExtension
 from random import randint
-from functions import makeGraph, makeEmptyGraph, genFoodGraph, makeBarGraph, symptoms
-import datetime
+from functions import makeGraph, makeEmptyGraph, genFoodGraph, makeBarGraph, symptoms, analyzeUserFoods
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "verysecret"
@@ -27,7 +27,7 @@ db.create_all()
 CURR_USER_KEY = "curr_user"
 
 
-#############################################
+############################################# Do Before and After every request
 
 
 @app.before_request
@@ -40,18 +40,6 @@ def add_user_to_g():
     else:
         g.user = None
 
-
-def do_login(user):
-    """Log in user."""
-
-    session[CURR_USER_KEY] = user.id
-
-
-def do_logout():
-    """Logout user."""
-
-    if CURR_USER_KEY in session:
-        del session[CURR_USER_KEY]
 
 
 @app.after_request
@@ -70,7 +58,7 @@ def add_header(req):
 
 @app.route('/')
 def main():
-    """Show homepage or signup page"""
+    """Show homepage or signup page depending on global user variable"""
 
     if g.user:
         return redirect('/home')
@@ -79,15 +67,24 @@ def main():
         return redirect('/signup')
 
 
-##########################################
+########################################## Authorization and Authentication routes
+
+def do_login(user):
+    """Log in user."""
+
+    session[CURR_USER_KEY] = user.id
 
 
-# Sigup Route
+def do_logout():
+    """Logout user."""
+
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
 
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
-    # Sign a user up.
+    """Sign a user in"""
 
     form = UserAddForm()
     form2 = TryItForm()
@@ -115,7 +112,7 @@ def signup():
 
 @app.route('/signup/conditions', methods=["GET", "POST"])
 def signupconditions():
-    """Show user conditions upon signup"""
+    """Allow user to add conditions after signup"""
 
     if not g.user:
         flash('Please login first!')
@@ -135,6 +132,7 @@ def signupconditions():
 
         conditions = form.conditions.data
 
+        # Add each submitted condition to the user_conditions table
         for each in conditions:
             condition = Condition.query.get_or_404(each)
             user.conditions.append(condition)
@@ -149,14 +147,13 @@ def signupconditions():
 
 @app.route('/generic', methods=["GET"])
 def generic():
-    """Signup as generic user"""
+    """Signup as generic user, for users that want to see app but not signup"""
     
     user = User.authenticate('test', 'password')
     
     do_login(user)
     return redirect('/')
 
-# Login Route
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -180,7 +177,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    """Handle logout of user."""
+    """Log a user out"""
 
     do_logout()
     flash("You've been signed out", 'success')
@@ -189,7 +186,7 @@ def logout():
 
 @app.route('/users/delete')
 def delete_user():
-    """Delete user."""
+    """Delete user"""
 
     if not g.user:
         flash("Access unauthorized.", "danger")
@@ -203,12 +200,10 @@ def delete_user():
     return redirect("/signup")
 
 
-######################################
-
 
 @app.route("/home")
 def homepage():
-    """Show homepage."""
+    """Show homepage. Generate day, week, month graphs from user foods"""
 
     if not g.user:
         flash("Login or signup", "danger")
@@ -221,80 +216,17 @@ def homepage():
 
     total = len(foods)
 
+    # If user has no foods inputed, show generic graphs on homepage.
     if (total == 0):
         graph = makeEmptyGraph()
         return render_template('home.html', graph2=graph, graph=graph, graph3=graph)
 
-    greatlist = []
-    okaylist = []
-    badlist = []
-    today = []
-    week = []
-    month = []
-    monthAgo = datetime.datetime.now() - datetime.timedelta(30)
-    weekAgo = datetime.datetime.now() - datetime.timedelta(7)
-    dayAgo = datetime.datetime.now() - datetime.timedelta(1)
-    for each in foods:
 
-        if (each.timestamp > monthAgo):
-            month.append(each)
-
-        if (each.timestamp > weekAgo):
-            week.append(each)
-
-        if (each.timestamp > dayAgo):
-            today.append(each)
-
-    for each in month:
-        if each.feeling == '3':
-            greatlist.append(int(each.feeling))
-        if each.feeling == '2':
-            okaylist.append(int(each.feeling))
-        if each.feeling == '1':
-            badlist.append(int(each.feeling))
-
-    total = len(month)
-    greats = len(greatlist)
-    okays = len(okaylist)
-    bads = len(badlist)
-    timeFrame = "Past Month"
-    graph = makeGraph(total, greats, okays, bads, timeFrame)
-
-    greatlist.clear()
-    okaylist.clear()
-    badlist.clear()
-
-    for each in week:
-        if each.feeling == '3':
-            greatlist.append(int(each.feeling))
-        if each.feeling == '2':
-            okaylist.append(int(each.feeling))
-        if each.feeling == '1':
-            badlist.append(int(each.feeling))
-    total = len(week)
-    greats = len(greatlist)
-    okays = len(okaylist)
-    bads = len(badlist)
-    timeFrame = "Past Week"
-    graph3 = makeGraph(total, greats, okays, bads, timeFrame)
-
-    greatlist.clear()
-    okaylist.clear()
-    badlist.clear()
-
-    for each in today:
-        if each.feeling == '3':
-            greatlist.append(int(each.feeling))
-        if each.feeling == '2':
-            okaylist.append(int(each.feeling))
-        if each.feeling == '1':
-            badlist.append(int(each.feeling))
-    total = len(today)
-    greats = len(greatlist)
-    okays = len(okaylist)
-    bads = len(badlist)
-    timeFrame = "Past Day"
-    graph2 = makeGraph(total, greats, okays, bads, timeFrame)
+    # Generate user foods graphs.
+    result = analyzeUserFoods(foods)
+    graph=result[0]
+    graph2=result[1]
+    graph3=result[2]
 
     return render_template('home.html', graph=graph, graph2=graph2, graph3=graph3)
 
@@ -454,10 +386,7 @@ def food_destroy(food_id):
     return redirect("/userfoods")
 
 
-#########################################
-
-
-# User Routes
+######################################### User Profile Routes
 
 
 @app.route('/user/profile', methods=['GET', 'POST'])
@@ -685,6 +614,10 @@ def foodlist():
         name = each.food_name
         foodnamelist.append(name)
     return jsonify(foodnamelist)
+
+
+
+########################################### Manifest and 404
 
 
 @app.route('/manifest.json')

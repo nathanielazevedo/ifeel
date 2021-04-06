@@ -1,4 +1,5 @@
 from quickchart import QuickChart
+import datetime
 
 
 symptoms = ['acid reflux', 'diarrhea', 'constipation', 'heart burn', 'bloating',
@@ -118,3 +119,77 @@ def genFoodGraph(fooddata):
         },
     }
     return qc.get_short_url()
+
+
+def analyzeUserFoods(foods):
+    greatlist = []
+    okaylist = []
+    badlist = []
+    today = []
+    week = []
+    month = []
+    monthAgo = datetime.datetime.now() - datetime.timedelta(30)
+    weekAgo = datetime.datetime.now() - datetime.timedelta(7)
+    dayAgo = datetime.datetime.now() - datetime.timedelta(1)
+    for each in foods:
+
+        if (each.timestamp > monthAgo):
+            month.append(each)
+
+        if (each.timestamp > weekAgo):
+            week.append(each)
+
+        if (each.timestamp > dayAgo):
+            today.append(each)
+
+    for each in month:
+        if each.feeling == '3':
+            greatlist.append(int(each.feeling))
+        if each.feeling == '2':
+            okaylist.append(int(each.feeling))
+        if each.feeling == '1':
+            badlist.append(int(each.feeling))
+
+    total = len(month)
+    greats = len(greatlist)
+    okays = len(okaylist)
+    bads = len(badlist)
+    timeFrame = "Past Month"
+    graph = makeGraph(total, greats, okays, bads, timeFrame)
+
+    greatlist.clear()
+    okaylist.clear()
+    badlist.clear()
+
+    for each in week:
+        if each.feeling == '3':
+            greatlist.append(int(each.feeling))
+        if each.feeling == '2':
+            okaylist.append(int(each.feeling))
+        if each.feeling == '1':
+            badlist.append(int(each.feeling))
+    total = len(week)
+    greats = len(greatlist)
+    okays = len(okaylist)
+    bads = len(badlist)
+    timeFrame = "Past Week"
+    graph3 = makeGraph(total, greats, okays, bads, timeFrame)
+
+    greatlist.clear()
+    okaylist.clear()
+    badlist.clear()
+
+    for each in today:
+        if each.feeling == '3':
+            greatlist.append(int(each.feeling))
+        if each.feeling == '2':
+            okaylist.append(int(each.feeling))
+        if each.feeling == '1':
+            badlist.append(int(each.feeling))
+    total = len(today)
+    greats = len(greatlist)
+    okays = len(okaylist)
+    bads = len(badlist)
+    timeFrame = "Past Day"
+    graph2 = makeGraph(total, greats, okays, bads, timeFrame)
+    return graph, graph2, graph3
