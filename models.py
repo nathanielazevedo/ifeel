@@ -161,9 +161,6 @@ class Condition(db.Model):
 
     condition_name = db.Column(db.Text)
 
-    # user = db.relationship('User',
-    #                            secondary='users_conditions',
-    #                            backref='conditions')
 
 
 class FoodConditions(db.Model):
@@ -216,7 +213,7 @@ class Symptom(db.Model):
 
 
 class FoodList(db.Model):
-
+    """A list of foods that have already been inputted form spoonacular"""
     __tablename__ = 'foodslist'
 
     id = db.Column(db.Integer,
@@ -228,6 +225,12 @@ class FoodList(db.Model):
     spoonacular_id = db.Column(db.Integer, unique=True)
 
     spoonacular_image = db.Column(db.Text, nullable=True)
+    
+    @classmethod
+    def checkFor(cls, id):
+        return cls.query.filter(cls.spoonacular_id == id).one()
+
+        
 
     def __repr__(self):
         return f"{self.food_name}"

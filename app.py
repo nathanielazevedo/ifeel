@@ -27,8 +27,6 @@ db.create_all()
 CURR_USER_KEY = "curr_user"
 
 
-############################################# Do Before and After every request
-
 
 @app.before_request
 def add_user_to_g():
@@ -39,7 +37,6 @@ def add_user_to_g():
 
     else:
         g.user = None
-
 
 
 @app.after_request
@@ -67,7 +64,6 @@ def main():
         return redirect('/signup')
 
 
-########################################## Authorization and Authentication routes
 
 def do_login(user):
     """Log in user."""
@@ -76,7 +72,7 @@ def do_login(user):
 
 
 def do_logout():
-    """Logout user."""
+    """Logout user by delete user info from session"""
 
     if CURR_USER_KEY in session:
         del session[CURR_USER_KEY]
@@ -148,12 +144,11 @@ def signupconditions():
 @app.route('/generic', methods=["GET"])
 def generic():
     """Signup as generic user, for users that want to see app but not signup"""
-    
+
     user = User.authenticate('test', 'password')
-    
+
     do_login(user)
     return redirect('/')
-
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -163,8 +158,7 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
-        user = User.authenticate(form.username.data,
-                                 form.password.data)
+        user = User.authenticate(form.username.data, form.password.data)
 
         if user:
             do_login(user)
@@ -200,7 +194,6 @@ def delete_user():
     return redirect("/signup")
 
 
-
 @app.route("/home")
 def homepage():
     """Show homepage. Generate day, week, month graphs from user foods"""
@@ -209,10 +202,7 @@ def homepage():
         flash("Login or signup", "danger")
         return redirect("/")
 
-    foods = (Food
-             .query
-             .filter(Food.user_id == g.user.id)
-             .all())
+    foods = (Food.query.filter(Food.user_id == g.user.id).all())
 
     total = len(foods)
 
@@ -221,12 +211,9 @@ def homepage():
         graph = makeEmptyGraph()
         return render_template('home.html', graph2=graph, graph=graph, graph3=graph)
 
-
     # Generate user foods graphs.
     result = analyzeUserFoods(foods)
-    graph=result[0]
-    graph2=result[1]
-    graph3=result[2]
+    graph, graph2, graph3 = result
 
     return render_template('home.html', graph=graph, graph2=graph2, graph3=graph3)
 
@@ -251,10 +238,8 @@ def post_info():
     if form.validate_on_submit():
 
         # Getting food information
-        food_data = form.food_name.data
-        food_data2 = food_data.replace("null", "55")
-        food_data3 = eval(food_data2)
-        name, image, input_food_id = food_data3['name'], food_data3['image'], food_data3['id']
+        food_data = json.loads(form.food_name.data)
+        name, image, input_food_id = food_data['name'], food_data['image'], food_data['id']
 
         # Getting the rest of the info
         user = g.user.id
@@ -263,18 +248,15 @@ def post_info():
 
         try:
             # Does this food already exist in our database?
-            existing_food = FoodList.query.filter(
-                FoodList.spoonacular_id == input_food_id).one()
-
+            existing_food = FoodList.checkFor(input_food_id)
+            
         except:
             # If no, add it to the database.
-            existing_food = FoodList(
-                food_name=name, spoonacular_id=input_food_id, spoonacular_image=image)
+            existing_food = FoodList(food_name = name, spoonacular_id = input_food_id, spoonacular_image = image)
             db.session.add(existing_food)
             db.session.commit()
 
-        new_food = Food(food_id=existing_food.id, user_id=user,
-                        amount=amount, feeling=feeling)
+        new_food = Food(food_id = existing_food.id, user_id = user, amount = amount, feeling = feeling)
         db.session.add(new_food)
         db.session.commit()
 
@@ -298,7 +280,7 @@ def post_info():
 
 @app.route('/food/<food_id>/update', methods=['POST', 'GET'])
 def update_info(food_id):
-    # Update a food
+    """Update a food consumption instance"""
 
     if not g.user:
         flash("Access unauthorized.", "danger")
@@ -350,7 +332,6 @@ def user():
              .query
              .filter(Food.user_id == g.user.id, Food.feeling != 'Null')
              .order_by(Food.timestamp.desc())
-
              )
 
     if form.search_food_name.data:
@@ -386,7 +367,7 @@ def food_destroy(food_id):
     return redirect("/userfoods")
 
 
-######################################### User Profile Routes
+
 
 
 @app.route('/user/profile', methods=['GET', 'POST'])
@@ -446,8 +427,6 @@ def edit_profile():
 
     return render_template('/user/edit-profile.html', user=user, form=form, conditionslist=conditionslist)
 
-
-###########################################################
 
 
 # Searching Routes
@@ -614,7 +593,6 @@ def foodlist():
         name = each.food_name
         foodnamelist.append(name)
     return jsonify(foodnamelist)
-
 
 
 ########################################### Manifest and 404
