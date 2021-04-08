@@ -10,7 +10,6 @@ import requests
 import pdb
 
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "verysecret"
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
@@ -25,7 +24,7 @@ db.create_all()
 
 CURR_USER_KEY = "curr_user"
 
-#####################################################
+##################################################### Before and After
 
 @app.before_request
 def add_user_to_g():
@@ -49,7 +48,7 @@ def add_header(req):
     return req
 
 
-#####################################################
+##################################################### Routes
 
 
 @app.route('/')
@@ -219,7 +218,7 @@ def homepage():
 
 @app.route('/food/add', methods=['POST', 'GET'])
 def post_info():
-    '''Add a food '''
+    """Add a food """
 
     if not g.user:
         flash("Please login or signup.", "danger")
@@ -380,7 +379,7 @@ def display_profile():
 
 @app.route('/user/profile/edit', methods=['GET', 'POST'])
 def edit_profile():
-
+    """Edit a users profile"""
     if not g.user:
         flash('Please login first!')
         return redirect('/login')
