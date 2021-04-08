@@ -1,21 +1,20 @@
 from flask import Flask, request, render_template, url_for, redirect, flash, session, jsonify, request, g, abort, json
-import os
-import json
+from functions import makeGraph, makeEmptyGraph, genFoodGraph, makeBarGraph, symptoms, analyzeUserFoods, populateSearchConditions, analyzeFoodData, analyzeFoodDataCondition
 from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, SearchForm, UpdateFoodForm,   SearchAddForm, InitialConditionsForm, TryItForm
 from models import db, connect_db, User, Food, Condition, UserConditions, Symptom, FoodSymptoms, FoodList, FoodConditions
 from sqlalchemy.exc import IntegrityError
+from flask_debugtoolbar import DebugToolbarExtension
+import os
+import json
 import requests
 import pdb
-from flask_debugtoolbar import DebugToolbarExtension
-from random import randint
-from functions import makeGraph, makeEmptyGraph, genFoodGraph, makeBarGraph, symptoms, analyzeUserFoods
+
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "verysecret"
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    'DATABASE_URL', 'postgresql:///feel')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///feel')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 debug = DebugToolbarExtension(app)
@@ -26,7 +25,7 @@ db.create_all()
 
 CURR_USER_KEY = "curr_user"
 
-
+#####################################################
 
 @app.before_request
 def add_user_to_g():
@@ -64,7 +63,6 @@ def main():
         return redirect('/signup')
 
 
-
 def do_login(user):
     """Log in user."""
 
@@ -80,7 +78,7 @@ def do_logout():
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
-    """Sign a user in"""
+    """Sign a user in or take them to signup page"""
 
     form = UserAddForm()
     form2 = TryItForm()
@@ -153,7 +151,7 @@ def generic():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    """Handle user login."""
+    """Login a user or take them to login page"""
 
     form = LoginForm()
 
@@ -180,7 +178,7 @@ def logout():
 
 @app.route('/users/delete')
 def delete_user():
-    """Delete user"""
+    """Delete a users profile"""
 
     if not g.user:
         flash("Access unauthorized.", "danger")
@@ -211,14 +209,12 @@ def homepage():
         graph = makeEmptyGraph()
         return render_template('home.html', graph2=graph, graph=graph, graph3=graph)
 
-    # Generate user foods graphs.
+    # Generate user homepage graphs.
     result = analyzeUserFoods(foods)
     graph, graph2, graph3 = result
 
     return render_template('home.html', graph=graph, graph2=graph2, graph3=graph3)
 
-
-# Food Routes
 
 
 @app.route('/food/add', methods=['POST', 'GET'])
@@ -240,9 +236,6 @@ def post_info():
         # Getting food information
         food_data = json.loads(form.food_name.data)
         name, image, input_food_id = food_data['name'], food_data['image'], food_data['id']
-
-        # Getting the rest of the info
-        user = g.user.id
         amount = form.amount.data
         feeling = form.feeling.data
 
@@ -256,7 +249,7 @@ def post_info():
             db.session.add(existing_food)
             db.session.commit()
 
-        new_food = Food(food_id = existing_food.id, user_id = user, amount = amount, feeling = feeling)
+        new_food = Food(food_id = existing_food.id, user_id = g.user.id, amount = amount, feeling = feeling)
         db.session.add(new_food)
         db.session.commit()
 
@@ -315,7 +308,6 @@ def update_info(food_id):
         return redirect('/userfoods')
 
     else:
-
         return render_template('/food/food-update.html', form=form, food=food, symptomslist=symptomslist)
 
 
@@ -345,8 +337,6 @@ def user():
         foods = (Food.query.filter(Food.user_id ==
                                    g.user.id, Food.food_id == food_id).all())
 
-        # return render_template('/user/user.html', foods=foods, form=form)
-
     return render_template('/food/userfoods.html', foods=foods, form=form)
 
 
@@ -367,11 +357,9 @@ def food_destroy(food_id):
     return redirect("/userfoods")
 
 
-
-
-
 @app.route('/user/profile', methods=['GET', 'POST'])
 def display_profile():
+    """Display the users profile"""
 
     if not g.user:
         flash('Please login first!')
@@ -428,153 +416,63 @@ def edit_profile():
     return render_template('/user/edit-profile.html', user=user, form=form, conditionslist=conditionslist)
 
 
-
-# Searching Routes
-
-
 @app.route('/search', methods=['GET'])
-def search_main():
+def foodDataSearchForm():
 
     form = SearchForm(request.args)
-    conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
-    conditions.insert(0, (0, 'No Condition'))
+    conditions = populateSearchConditions()
     form.search_by.choices = conditions
 
     return render_template('/search/foodbycondition.html', form=form)
 
 
 @app.route('/search/results', methods=['GET'])
-def usersearch2():
-    conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
-    conditions.insert(0, (0, 'No Condition'))
-    form = SearchForm(request.args)
-    form.search_by.choices = conditions
+def foodDataSearch():
 
     if not g.user:
         flash('Please login first!')
         return redirect('/login')
+    
+    conditions = populateSearchConditions()
+    
+    #Populate form with params and condition info
+    form = SearchForm(request.args)
+    form.search_by.choices = conditions
 
-    food_data = form.food_name_condition.data
-    food_data2 = food_data.replace("null", "55")
-    food_data3 = eval(food_data2)
-    name, image, input_food_id = food_data3['name'], food_data3['image'], food_data3['id']
+    food_data = json.loads(form.food_name_condition.data)
+    name, image, input_food_id = food_data['name'], food_data['image'], food_data['id']
 
+    #What condition are we filtering by.
     search_by = form.search_by.data
+    
+    try:
+        foodFromList = FoodList.query.filter(FoodList.spoonacular_id == input_food_id).one()
+        foodname = foodFromList.food_name
 
+    except:
+        flash("Sorry, we don't have any data on that food yet")
+        return redirect('/search')
+    
+    #if no condition to filter by
     if (search_by == 0):
-        foodsid = FoodList.query.filter(
-            FoodList.spoonacular_id == input_food_id).one()
-        alldata = Food.query.filter(Food.food_id == foodsid.id).all()
-
-        try:
-            foodname = alldata[0].food_name
-
-        except:
-            form = SearchForm()
-            allfoods = FoodList.query.all()
-
-            flash("Sorry, we don't have any data on that food yet")
-            return render_template('/search/foodbycondition.html', form=form, allfoods=allfoods)
-
-        fooddata = []
-        foodsymptomslists = []
-
-        for each in alldata:
-            fooddata.append(each.feeling)
-            foodsymptomslists.append(each.symptoms)
-
-        length = len(fooddata)
-        bads = fooddata.count('1')
-        goods = fooddata.count('2')
-        greats = fooddata.count('3')
-        fooddata.clear()
-        fooddata.append(bads)
-        fooddata.append(goods)
-        fooddata.append(greats)
-
-        foodsymptoms = []
-
-        for each in foodsymptomslists:
-            for each2 in each:
-                foodsymptoms.append(each2)
-
-        symptomslists = []
-        strfoodsymptoms = []
-        for each in foodsymptoms:
-            strfoodsymptoms.append(str(each))
-        count = 0
-
-        for each in symptoms:
-
-            symptomslists.append(strfoodsymptoms.count(each))
-
+        alldata = Food.query.filter(Food.food_id == foodFromList.id).all()
+        fooddata, symptoms, symptomslists = analyzeFoodData(alldata)
         graph = genFoodGraph(fooddata)
-
         graph2 = makeBarGraph(symptoms, symptomslists)
-
         condition = "no condition"
+        
         return render_template('food/graph.html', graph=graph, graph2=graph2, foodname=foodname, condition=condition)
 
+    #if we are searching by a condition
     else:
-        try:
-            tablefood = FoodList.query.filter(
-                FoodList.spoonacular_id == input_food_id).one()
+        tablecondition = Condition.query.filter(Condition.id == search_by).one()
+        
+        foods = Food.query.filter(Food.food_id == foodFromList.id).all()
 
-        except:
-            flash("There is no data on that food")
-            return render_template('/search/foodbycondition.html', form=form)
-
-        foodname = tablefood.food_name
-        tablecondition = Condition.query.filter(
-            Condition.id == search_by).one()
-
-        foods = Food.query.filter(Food.food_id == tablefood.id).all()
-        newfoods = []
-
-        for each in foods:
-            conditions = each.conditions
-            for each2 in conditions:
-                if each2.id == tablecondition.id:
-                    newfoods.append(each)
-
-        fooddata = []
-        for each in newfoods:
-            if each.feeling != 'Null':
-                fooddata.append(int(each.feeling))
-
-        bads = fooddata.count(1)
-        goods = fooddata.count(2)
-        greats = fooddata.count(3)
-
-        fooddata.clear()
-        fooddata.append(bads)
-        fooddata.append(goods)
-        fooddata.append(greats)
-
-        foodsymptomslists = []
-
-        for each in foods:
-            foodsymptomslists.append(each.symptoms)
-
-        foodsymptoms = []
-
-        for each in foodsymptomslists:
-            for each2 in each:
-                foodsymptoms.append(each2)
-
-        symptomslists = []
-        strfoodsymptoms = []
-        for each in foodsymptoms:
-            strfoodsymptoms.append(str(each))
-        count = 0
-
-        for each in symptoms:
-
-            symptomslists.append(strfoodsymptoms.count(each))
-
+        fooddata, symptoms, symptomslists = analyzeFoodDataCondition(tablecondition, foods)
+        
         graph = genFoodGraph(fooddata)
         graph2 = makeBarGraph(symptoms, symptomslists)
-
         condition = tablecondition.condition_name
 
         return render_template('/food/graph.html', graph=graph, graph2=graph2, condition=condition, foodname=foodname)
@@ -582,6 +480,8 @@ def usersearch2():
 
 @app.route('/foodlist', methods=['GET'])
 def foodlist():
+    """API route for getting all foods we have"""
+    
     foodlist = FoodList.query.all()
 
     if not g.user:

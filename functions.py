@@ -1,5 +1,7 @@
 from quickchart import QuickChart
 import datetime
+from models import db, connect_db, User, Food, Condition, UserConditions, Symptom, FoodSymptoms, FoodList, FoodConditions
+import pdb
 
 
 symptoms = ['acid reflux', 'diarrhea', 'constipation', 'heart burn', 'bloating',
@@ -193,3 +195,91 @@ def analyzeUserFoods(foods):
     timeFrame = "Past Day"
     graph2 = makeGraph(total, greats, okays, bads, timeFrame)
     return graph, graph2, graph3
+
+
+def populateSearchConditions():
+    conditions = [(c.id, c.condition_name) for c in Condition.query.all()]
+    
+    conditions.insert(0, (0, 'No Condition'))
+    
+    return conditions
+
+def analyzeFoodData(alldata):
+    fooddata = []
+    foodsymptomslists = []
+
+    for each in alldata:
+        fooddata.append(each.feeling)
+        foodsymptomslists.append(each.symptoms)
+
+    length = len(fooddata)
+    bads = fooddata.count('1')
+    goods = fooddata.count('2')
+    greats = fooddata.count('3')
+    fooddata.clear()
+    fooddata.append(bads)
+    fooddata.append(goods)
+    fooddata.append(greats)
+    
+    foodsymptoms = []
+
+    for each in foodsymptomslists:
+        for each2 in each:
+            foodsymptoms.append(each2)
+
+    symptomslists = []
+    strfoodsymptoms = []
+    for each in foodsymptoms:
+        strfoodsymptoms.append(str(each))
+    count = 0
+
+    for each in symptoms:
+
+        symptomslists.append(strfoodsymptoms.count(each))
+        
+    return([fooddata, symptoms, symptomslists])
+
+def analyzeFoodDataCondition(tablecondition, foods):
+    newfoods = []
+    for each in foods:
+        conditions = each.conditions
+        for each2 in conditions:
+            if each2.id == tablecondition.id:
+                newfoods.append(each)
+
+    fooddata = []
+    for each in newfoods:
+        fooddata.append(int(each.feeling))
+
+    bads = fooddata.count(1)
+    goods = fooddata.count(2)
+    greats = fooddata.count(3)
+
+    fooddata.clear()
+    fooddata.append(bads)
+    fooddata.append(goods)
+    fooddata.append(greats)
+
+    foodsymptomslists = []
+
+    for each in foods:
+        foodsymptomslists.append(each.symptoms)
+
+    foodsymptoms = []
+
+    for each in foodsymptomslists:
+        for each2 in each:
+            foodsymptoms.append(each2)
+
+    symptomslists = []
+    strfoodsymptoms = []
+    for each in foodsymptoms:
+        strfoodsymptoms.append(str(each))
+    count = 0
+
+    symptoms = ['acid reflux', 'diarrhea', 'constipation', 'heart burn',    'bloating','naseau', 'gas', 'upset stomach', 'abdominal pain', 'cramps', 'vomitting']
+    
+    for each in symptoms:
+        symptomslists.append(strfoodsymptoms.count(each))
+        
+    return([fooddata, symptoms, symptomslists])
