@@ -1,4 +1,4 @@
-# Feel ![GitHub language count](https://img.shields.io/github/languages/count/nathanielazevedo/feelapp)
+# Feel ![GitHub language count](https://img.shields.io/github/languages/count/nathanielazevedo/ifeel)
 > How does food make you feel?
 
 
