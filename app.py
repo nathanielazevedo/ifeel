@@ -8,6 +8,7 @@ import os
 import json
 import requests
 import pdb
+import datetime
 
 
 app = Flask(__name__)
@@ -199,12 +200,13 @@ def homepage():
         flash("Login or signup", "danger")
         return redirect("/")
 
-    foods = (Food.query.filter(Food.user_id == g.user.id).all())
+    foods = (Food.query.filter(Food.user_id == g.user.id).order_by(Food.timestamp.desc()).all())
 
     total = len(foods)
-
+    monthAgo = datetime.datetime.now() - datetime.timedelta(30)
+    lastDate = foods[0].timestamp > monthAgo
     # If user has no foods inputed, show generic graphs on homepage.
-    if (total == 0):
+    if (total == 0 or not lastDate):
         graph = makeEmptyGraph()
         return render_template('home.html', graph2=graph, graph=graph, graph3=graph)
 
@@ -215,7 +217,7 @@ def homepage():
     return render_template('home.html', graph=graph, graph2=graph2, graph3=graph3)
 
 
-
+#notes
 @app.route('/food/add', methods=['POST', 'GET'])
 def post_info():
     """Add a food """
