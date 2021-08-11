@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, url_for, redirect, flash, session, jsonify, request, g, abort, json
+from flask import Flask, request, render_template, url_for, redirect, flash, session, jsonify, request, g, abort, json, send_from_directory
 from functions import makeGraph, makeEmptyGraph, genFoodGraph, makeBarGraph, symptoms, analyzeUserFoods, populateSearchConditions, analyzeFoodData, analyzeFoodDataCondition
 from form import UserAddForm, LoginForm, FoodForm, SearchForm, UpdateProfileForm, SearchForm, UpdateFoodForm,   SearchAddForm, InitialConditionsForm, TryItForm
 from models import db, connect_db, User, Food, Condition, UserConditions, Symptom, FoodSymptoms, FoodList, FoodConditions
@@ -523,7 +523,8 @@ def manifest():
 @app.route('/favicon.ico')
 def favicon():
 
-    return ('./favicon.ico')
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                          'favicon.ico',mimetype='image/vnd.microsoft.icon')
 
 
 @app.errorhandler(404)
