@@ -520,6 +520,11 @@ def manifest():
     }
     return jsonify(manifest_python_object)
 
+@app.route('/favicon.ico')
+def favicon():
+
+    return ('./favicon.ico')
+
 
 @app.errorhandler(404)
 def page_not_found(e):
